@@ -56,7 +56,6 @@ export default function MahinPortfolio() {
         "Explored defensive tooling, service exposure, and validation through controlled testing",
         "Strengthened understanding of attacker-defender interaction and hardening"
       ],
-      href: "https://github.com/Xirro9/purple-networks-documentation-team-9",
       badge: "Featured"
     },
     {
@@ -70,7 +69,6 @@ export default function MahinPortfolio() {
         "Explored alerting logic and detection workflows based on real-world security scenarios",
         "Gained hands-on experience with log aggregation, event correlation, and security monitoring pipelines"
       ],
-      href: "https://github.com/Xirro9/purple-networks-documentation-team-9/tree/main/Lab3",
       badge: "SIEM"
     },
     {
@@ -83,7 +81,6 @@ export default function MahinPortfolio() {
         "Tested accessibility, behavior, and security posture from internal and external perspectives",
         "Documented troubleshooting and deployment steps in a workflow-oriented format"
       ],
-      href: "https://github.com/Xirro9/purple-networks-documentation-team-9/tree/main/Lab2",
       badge: "Infrastructure"
     },
     {
