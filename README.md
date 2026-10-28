@@ -38,7 +38,7 @@ Edit canonical records, run checks and preview the build. Omit missing media rat
 
 Preserves `/Portfolio/` and the existing Actions deployment model. Each known route is a directory with `index.html`; no router rewrites are needed. Unknown URLs use generated `404.html`. Page-specific metadata is prerendered. Content is readable before hydration; JavaScript enables filters and mobile disclosure navigation. Main deployment validates first; branch/PR validation does not deploy.
 
-**This branch has not been pushed, merged, or deployed.** Publication requires the owner’s explicit permission.
+Production publishing follows the owner’s approved merge into `main`. Branch validation never deploys.
 
 ## Claude’s next phase
 

@@ -55,3 +55,7 @@ Initial browser verification caught multiline meta-description replacement and T
 ## Next phase
 
 Read `CLAUDE_VISUAL_HANDOFF.md` for Arcane Tech art direction, CSS/component entry points and twelve functional contracts. Resolve content verification items only with evidence and permitted wording. Continue on a review branch; preserve static routing and tests. Deployment remains the owner’s decision.
+
+## Publication follow-up
+
+After Phase 1 delivery, the owner explicitly authorized pushing and merging this branch. The branch was pushed, and a pull request is used to verify remote checks before merging into main. The earlier no-push/no-deploy statements describe the initial Phase 1 delivery snapshot.
