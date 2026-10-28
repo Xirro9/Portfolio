@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="400" viewBox="0 0 1280 400" role="img" aria-labelledby="t d">
+<title id="t">Portfolio: Mahin Moon’s cybersecurity portfolio site</title>
+<desc id="d">Violet and fuchsia glow behind a grid of glassy project tiles, beside the title Portfolio and the line: security work that connects policy, evidence and technical reality.</desc>
+<style>.tile{animation:tile 6s ease-in-out infinite}@keyframes tile{50%{stroke-opacity:.6}}@media (prefers-reduced-motion: reduce){*{animation:none!important;}}</style>
+<defs><radialGradient id="g1" cx=".15" cy=".2" r=".6"><stop offset="0" stop-color="#7C3AED" stop-opacity=".45"/><stop offset="1" stop-color="#7C3AED" stop-opacity="0"/></radialGradient>
+  <radialGradient id="g2" cx=".9" cy=".9" r=".6"><stop offset="0" stop-color="#C026D3" stop-opacity=".35"/><stop offset="1" stop-color="#C026D3" stop-opacity="0"/></radialGradient>
+  <linearGradient id="tg" x1="0" x2="1"><stop offset="0" stop-color="#FAFAFA"/><stop offset="1" stop-color="#E879F9"/></linearGradient>
+  <clipPath id="c"><rect width="1280" height="400" rx="24"/></clipPath></defs>
+<g clip-path="url(#c)"><rect width="1280" height="400" fill="#09090B"/><rect width="1280" height="400" fill="url(#g1)"/><rect width="1280" height="400" fill="url(#g2)"/>
+<rect x="720" y="60" width="156" height="84" rx="16" fill="#FFFFFF" fill-opacity=".04" stroke="#A78BFA" stroke-opacity="0.15" class="tile" style="animation-delay:0s"/>
+  <rect x="736" y="80" width="50" height="6" rx="3" fill="#E879F9" opacity=".8"/>
+  <rect x="736" y="96" width="80" height="5" rx="2.5" fill="#52525B"/><rect x="736" y="108" width="60" height="5" rx="2.5" fill="#3F3F46"/><rect x="892" y="60" width="156" height="84" rx="16" fill="#FFFFFF" fill-opacity=".04" stroke="#A78BFA" stroke-opacity="0.22999999999999998" class="tile" style="animation-delay:0.4s"/>
+  <rect x="908" y="80" width="73" height="6" rx="3" fill="#A78BFA" opacity=".8"/>
+  <rect x="908" y="96" width="97" height="5" rx="2.5" fill="#52525B"/><rect x="908" y="108" width="73" height="5" rx="2.5" fill="#3F3F46"/><rect x="1064" y="60" width="156" height="84" rx="16" fill="#FFFFFF" fill-opacity=".04" stroke="#A78BFA" stroke-opacity="0.31" class="tile" style="animation-delay:0.8s"/>
+  <rect x="1080" y="80" width="96" height="6" rx="3" fill="#22D3EE" opacity=".8"/>
+  <rect x="1080" y="96" width="114" height="5" rx="2.5" fill="#52525B"/><rect x="1080" y="108" width="86" height="5" rx="2.5" fill="#3F3F46"/><rect x="720" y="160" width="156" height="84" rx="16" fill="#FFFFFF" fill-opacity=".04" stroke="#A78BFA" stroke-opacity="0.39" class="tile" style="animation-delay:1.2000000000000002s"/>
+  <rect x="736" y="180" width="119" height="6" rx="3" fill="#E879F9" opacity=".8"/>
+  <rect x="736" y="196" width="91" height="5" rx="2.5" fill="#52525B"/><rect x="736" y="208" width="99" height="5" rx="2.5" fill="#3F3F46"/><rect x="892" y="160" width="156" height="84" rx="16" fill="#FFFFFF" fill-opacity=".04" stroke="#A78BFA" stroke-opacity="0.15" class="tile" style="animation-delay:1.6s"/>
+  <rect x="908" y="180" width="72" height="6" rx="3" fill="#A78BFA" opacity=".8"/>
+  <rect x="908" y="196" width="108" height="5" rx="2.5" fill="#52525B"/><rect x="908" y="208" width="62" height="5" rx="2.5" fill="#3F3F46"/><rect x="1064" y="160" width="156" height="84" rx="16" fill="#FFFFFF" fill-opacity=".04" stroke="#A78BFA" stroke-opacity="0.22999999999999998" class="tile" style="animation-delay:2s"/>
+  <rect x="1080" y="180" width="95" height="6" rx="3" fill="#22D3EE" opacity=".8"/>
+  <rect x="1080" y="196" width="85" height="5" rx="2.5" fill="#52525B"/><rect x="1080" y="208" width="75" height="5" rx="2.5" fill="#3F3F46"/><rect x="720" y="260" width="156" height="84" rx="16" fill="#FFFFFF" fill-opacity=".04" stroke="#A78BFA" stroke-opacity="0.31" class="tile" style="animation-delay:2.4000000000000004s"/>
+  <rect x="736" y="280" width="118" height="6" rx="3" fill="#E879F9" opacity=".8"/>
+  <rect x="736" y="296" width="102" height="5" rx="2.5" fill="#52525B"/><rect x="736" y="308" width="88" height="5" rx="2.5" fill="#3F3F46"/><rect x="892" y="260" width="156" height="84" rx="16" fill="#FFFFFF" fill-opacity=".04" stroke="#A78BFA" stroke-opacity="0.39" class="tile" style="animation-delay:2.8000000000000003s"/>
+  <rect x="908" y="280" width="71" height="6" rx="3" fill="#A78BFA" opacity=".8"/>
+  <rect x="908" y="296" width="119" height="5" rx="2.5" fill="#52525B"/><rect x="908" y="308" width="101" height="5" rx="2.5" fill="#3F3F46"/><rect x="1064" y="260" width="156" height="84" rx="16" fill="#FFFFFF" fill-opacity=".04" stroke="#A78BFA" stroke-opacity="0.15" class="tile" style="animation-delay:3.2s"/>
+  <rect x="1080" y="280" width="94" height="6" rx="3" fill="#22D3EE" opacity=".8"/>
+  <rect x="1080" y="296" width="96" height="5" rx="2.5" fill="#52525B"/><rect x="1080" y="308" width="64" height="5" rx="2.5" fill="#3F3F46"/>
+</g>
+<text x="64" y="96" style="font-family:'JetBrains Mono','Cascadia Code','SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace;font-size:14px;letter-spacing:4px" fill="#C084FC">XIRRO9.GITHUB.IO/PORTFOLIO</text>
+<text x="60" y="180" style="font-family:'Inter','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:84px;font-weight:800;letter-spacing:-3px" fill="url(#tg)">Portfolio</text>
+<text x="64" y="230" style="font-family:'Inter','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:22px" fill="#E4E4E7">Security work that connects policy,</text>
+<text x="64" y="260" style="font-family:'Inter','Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:22px" fill="#E4E4E7">evidence and technical reality.</text>
+<text x="64" y="320" style="font-family:'JetBrains Mono','Cascadia Code','SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace;font-size:14px" fill="#A1A1AA">React 19 · Vite · Tailwind CSS · GitHub Pages</text>
+</svg>
