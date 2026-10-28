@@ -2,6 +2,9 @@ import { useState } from "react";
 import { filterProjects, projectPath } from "../content/projects";
 import type { Project, ProjectStatus } from "../content/types";
 import { href } from "../routes";
+import { ExternalLink } from "./Content";
+import { StaticProjectOverview } from "./media/ProjectMedia";
+import { ProjectPreview } from "./media/ProjectPreview";
 const labels: Record<ProjectStatus, string> = {
   active: "Active development",
   prototype: "Prototype",
@@ -14,7 +17,12 @@ export function StatusIndicator({ status }: { status: ProjectStatus }) {
 }
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="project-card">
+    <article
+      className="project-card"
+      data-project={project.slug}
+      data-motion-slot="project-card"
+    >
+      <ProjectVisual project={project} />
       <div className="project-meta">
         <StatusIndicator status={project.status} />
         <span>
@@ -38,26 +46,47 @@ export function ProjectCard({ project }: { project: Project }) {
       <a className="text-link" href={href(projectPath(project))}>
         Read {project.title} case study <span aria-hidden="true">→</span>
       </a>
+      <ProjectEvidenceLinks project={project} />
     </article>
   );
 }
-export function ProjectGrid({ projects }: { projects: Project[] }) {
+export function ProjectGrid({
+  projects,
+  creative = false,
+}: {
+  projects: Project[];
+  creative?: boolean;
+}) {
   return (
-    <div className="project-grid">
-      {projects.map((project) => (
-        <ProjectCard key={project.slug} project={project} />
-      ))}
+    <div
+      className={`project-grid${creative ? " project-grid-workshop" : " project-grid-editorial"}`}
+    >
+      {projects.map((project) =>
+        creative ? (
+          <WorkshopProjectCard key={project.slug} project={project} />
+        ) : (
+          <ProjectCard key={project.slug} project={project} />
+        ),
+      )}
     </div>
   );
 }
-export function ProjectExplorer({ projects }: { projects: Project[] }) {
+export function ProjectExplorer({
+  projects,
+  creative = false,
+  title = "Projects",
+}: {
+  projects: Project[];
+  creative?: boolean;
+  title?: string;
+}) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
   const categories = [...new Set(projects.map((project) => project.category))];
   const filtered = filterProjects(projects, query, category);
   return (
     <>
-      <h2>Projects</h2>
+      <h2>{title}</h2>
       <search className="project-filter" aria-label="Filter projects">
         <div>
           <label htmlFor="project-search">Search projects</label>
@@ -98,7 +127,7 @@ export function ProjectExplorer({ projects }: { projects: Project[] }) {
         {filtered.length} {filtered.length === 1 ? "project" : "projects"} shown
       </p>
       {filtered.length ? (
-        <ProjectGrid projects={filtered} />
+        <ProjectGrid projects={filtered} creative={creative} />
       ) : (
         <p className="empty-state">
           No projects match these filters. Try another topic or reset the
@@ -106,5 +135,73 @@ export function ProjectExplorer({ projects }: { projects: Project[] }) {
         </p>
       )}
     </>
+  );
+}
+
+export function ProjectVisual({
+  project,
+  priority = false,
+}: {
+  project: Project;
+  priority?: boolean;
+}) {
+  return project.media ? (
+    <ProjectPreview
+      title={project.title}
+      cover={project.media.cover}
+      video={project.media.preview}
+      priority={priority}
+    />
+  ) : (
+    <StaticProjectOverview project={project} />
+  );
+}
+export function ProjectEvidenceLinks({ project }: { project: Project }) {
+  return (
+    <div className="project-evidence-links">
+      {project.repositoryUrl && (
+        <ExternalLink url={project.repositoryUrl}>
+          Repository for {project.title}
+        </ExternalLink>
+      )}
+      {project.liveUrl && (
+        <ExternalLink url={project.liveUrl}>
+          Demo of {project.title}
+        </ExternalLink>
+      )}
+    </div>
+  );
+}
+export function WorkshopProjectCard({ project }: { project: Project }) {
+  return (
+    <article
+      className="workshop-project-card"
+      data-project={project.slug}
+      data-motion-slot="workshop-portal"
+    >
+      <div className="workshop-project-visual">
+        <ProjectVisual project={project} />
+      </div>
+      <div className="workshop-project-description">
+        <StatusIndicator status={project.status} />
+        <h3>
+          <a href={href(projectPath(project))}>{project.title}</a>
+        </h3>
+        <p>{project.summary}</p>
+        <ul className="tag-list" aria-label="Technologies and topics">
+          {project.tags.map((tag) => (
+            <li key={tag}>{tag}</li>
+          ))}
+        </ul>
+        <p className="project-status-detail">{project.statusDetail}</p>
+        <p className="caption">
+          Evidence basis: {project.verification.replaceAll("-", " ")}
+        </p>
+        <a className="text-link" href={href(projectPath(project))}>
+          Read {project.title} case study <span aria-hidden="true">→</span>
+        </a>
+        <ProjectEvidenceLinks project={project} />
+      </div>
+    </article>
   );
 }

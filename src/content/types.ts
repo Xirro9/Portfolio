@@ -10,6 +10,34 @@ export interface Evidence {
   label: string;
   url: string;
 }
+export interface MediaImage {
+  path: string;
+  alt: string;
+  caption: string;
+  width: number;
+  height: number;
+  sourceUrl?: string;
+  srcSet?: { path: string; width: number }[];
+  sizes?: string;
+  variants?: { lightPath?: string; darkPath?: string };
+}
+export interface MediaVideo {
+  path: string;
+  type: "video/webm" | "video/mp4";
+  poster: MediaImage;
+  width: number;
+  height: number;
+  caption: string;
+  description: string;
+  captionsPath?: string;
+  sourceUrl?: string;
+}
+export interface ProjectMediaSet {
+  cover: MediaImage;
+  preview?: MediaVideo;
+  screenshots?: MediaImage[];
+  diagram?: MediaImage;
+}
 export interface Project {
   slug: string;
   title: string;
@@ -20,6 +48,8 @@ export interface Project {
   statusDetail: string;
   featured?: boolean;
   professionalSpotlight?: boolean;
+  workshopFeatured?: boolean;
+  liveUrl?: string;
   verification:
     "repository-documented" | "owner-reported" | "local-documentation";
   summary: string;
@@ -35,13 +65,7 @@ export interface Project {
   lessons: string[];
   evidence: Evidence[];
   repositoryUrl?: string;
-  media?: {
-    path: string;
-    alt: string;
-    caption: string;
-    width: number;
-    height: number;
-  };
+  media?: ProjectMediaSet;
   related: string[];
   notice?: string;
 }

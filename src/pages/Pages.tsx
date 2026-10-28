@@ -1,5 +1,4 @@
 import { projects } from "../content/projects";
-import { notes, site } from "../content/site";
 import { href } from "../routes";
 import {
   ContactPanel,
@@ -14,57 +13,43 @@ import {
   MilestoneTimeline,
 } from "../components/Timelines";
 import { EducationSection } from "../components/EducationSection";
+import { ObservatoryHero } from "../components/heroes/ObservatoryHero";
+import { WorkshopHero } from "../components/heroes/WorkshopHero";
+import { ArchiveHero } from "../components/heroes/ArchiveHero";
+import { FeaturedProjectShowcase } from "../components/FeaturedProjectShowcase";
+import {
+  CaseStudyIndex,
+  EngineeringNotes,
+  FeaturedWriting,
+  ProfessionalIntroduction,
+} from "../components/EngineeringSections";
 export function HomePage() {
   return (
     <>
-      <PageHeading
-        eyebrow="Mahin Moon · Cybersecurity & engineering"
-        title="Security requirements. Working systems. Clear evidence."
-      >
-        <p>{site.positioning}</p>
-        <p>
-          I’m a Security Compliance Analyst at the Oklahoma Cyber Innovation
-          Institute, a cybersecurity graduate, and a current graduate student at
-          The University of Tulsa.
-        </p>
-        <div className="actions">
-          <a className="button-link" href={href("/work")}>
-            Explore professional work
-          </a>
-          <a href={href("/experience")}>Experience & education</a>
-          <a href="#education">
-            Education highlights <span aria-hidden="true">↓</span>
-          </a>
-        </div>
-      </PageHeading>
-      <section>
+      <ObservatoryHero />
+      <ProfessionalIntroduction />
+      <section data-section="featured-professional-work">
         <SectionHeading title="Featured professional work">
           Local-first security software and observability, with implementation
           status and supporting sources.
         </SectionHeading>
-        <ProjectGrid
-          projects={projects.filter((project) => project.featured)}
-        />
+        <div className="featured-project-list">
+          {projects
+            .filter((project) => project.featured)
+            .map((project, index) => (
+              <FeaturedProjectShowcase
+                key={project.slug}
+                project={project}
+                index={index}
+              />
+            ))}
+        </div>
       </section>
+      <TechnicalSkills />
       <ExperienceTimeline currentOnly />
       <EducationSection />
-      <TechnicalSkills />
-      <section>
-        <SectionHeading title="Systems beyond the interface" />
-        <article className="feature-note">
-          <p className="eyebrow">Applied AI · Experimental</p>
-          <h3>Local AI workbench</h3>
-          <p>
-            Model serving, specialized agents, and resource boundaries explored
-            as a practical development environment. Performance claims await
-            repeatable measurements.
-          </p>
-          <a href={href("/work/local-ai-workbench")}>
-            Read the infrastructure case study
-          </a>
-        </article>
-      </section>
       <MilestoneTimeline />
+      <FeaturedWriting />
       <aside className="workshop-invitation">
         <h2>A different kind of engineering practice</h2>
         <p>
@@ -79,15 +64,30 @@ export function HomePage() {
 export function WorkPage() {
   return (
     <>
-      <PageHeading eyebrow="Professional portfolio" title="Work">
-        <p>
-          Cybersecurity applications, observability, and local infrastructure.
-          Each case study distinguishes current behavior from future work.
-        </p>
-      </PageHeading>
-      <ProjectExplorer
-        projects={projects.filter((project) => project.home === "work")}
-      />
+      <ArchiveHero />
+      <section data-section="featured-engineering">
+        <SectionHeading title="Featured engineering projects">
+          Start with the system, then inspect the evidence.
+        </SectionHeading>
+        <div className="featured-project-list">
+          {projects
+            .filter((project) => project.featured)
+            .map((project, index) => (
+              <FeaturedProjectShowcase
+                key={project.slug}
+                project={project}
+                index={index}
+              />
+            ))}
+        </div>
+      </section>
+      <section data-section="project-collection">
+        <ProjectExplorer
+          title="Categorized project collection"
+          projects={projects.filter((project) => project.home === "work")}
+        />
+      </section>
+      <CaseStudyIndex />
       <section>
         <SectionHeading title="Creative work with an engineering spotlight">
           These projects retain one canonical home in The Workshop.
@@ -96,6 +96,26 @@ export function WorkPage() {
           projects={projects.filter((project) => project.professionalSpotlight)}
         />
       </section>
+      <section data-section="labs-foundations">
+        <SectionHeading title="Security labs & foundational work">
+          Contained validation, security scripting, and earlier systems
+          programming.
+        </SectionHeading>
+        <ProjectGrid
+          projects={projects.filter((project) =>
+            [
+              "purple-team-lab",
+              "security-scripting",
+              "memory-allocator",
+            ].includes(project.slug),
+          )}
+        />
+        <p>
+          <a href={href("/labs")}>Explore all security labs & notes</a>
+        </p>
+      </section>
+      <EngineeringNotes />
+      <ContactPanel />
     </>
   );
 }
@@ -114,39 +134,79 @@ export function LabsPage() {
       <ProjectExplorer
         projects={projects.filter((project) => project.home === "labs")}
       />
-      <section>
-        <SectionHeading title="Engineering notes" />
-        <div className="notes-list">
-          {notes.map((note) => (
-            <article key={note.title}>
-              <p className="eyebrow">{note.status}</p>
-              <h3>{note.title}</h3>
-              <p>{note.body}</p>
-              <a href={href(`/work/${note.projectSlug}`)}>
-                Related infrastructure case study
-              </a>
-            </article>
-          ))}
-        </div>
-      </section>
+      <EngineeringNotes />
     </>
   );
 }
 export function WorkshopPage() {
   return (
     <>
-      <PageHeading
-        eyebrow="Creative projects & experiments"
-        title="The Workshop"
+      <WorkshopHero />
+      <section
+        className="workshop-introduction"
+        data-section="creative-introduction"
       >
+        <SectionHeading title="Built for curiosity">
+          This is where I turn programming questions into little worlds and
+          shared experiences.
+        </SectionHeading>
         <p>
-          A space for coding adventures, local game nights, and recreational
-          systems. Prototypes and concepts carry explicit evidence labels.
+          I enjoy the point where an interface becomes something you can play
+          with: a quest that responds to code, a phone that becomes a private
+          hand, or a simulation with rules worth testing. The creative setting
+          stays playful; the implementation claims stay precise.
         </p>
-      </PageHeading>
-      <ProjectExplorer
-        projects={projects.filter((project) => project.home === "workshop")}
-      />
+      </section>
+      <section data-section="featured-creative">
+        <SectionHeading title="Featured creative projects" />
+        <div className="featured-project-list">
+          {projects
+            .filter((project) => project.workshopFeatured)
+            .map((project, index) => (
+              <FeaturedProjectShowcase
+                key={project.slug}
+                project={project}
+                index={index}
+                creative
+              />
+            ))}
+        </div>
+      </section>
+      <section id="creative-gallery" data-section="creative-gallery">
+        <ProjectExplorer
+          title="Project gallery"
+          creative
+          projects={projects.filter((project) => project.home === "workshop")}
+        />
+      </section>
+      <section data-section="smaller-experiments">
+        <SectionHeading title="Smaller experiments & prototypes">
+          Unfinished ideas belong here too, with their current scope clearly
+          stated.
+        </SectionHeading>
+        <ProjectGrid
+          creative
+          projects={projects.filter(
+            (project) =>
+              project.home === "workshop" &&
+              !project.workshopFeatured &&
+              (project.status === "prototype" || project.status === "concept"),
+          )}
+        />
+      </section>
+      <aside className="workshop-return">
+        <h2>Back to professional ground</h2>
+        <p>
+          Explore the cybersecurity, local-first software, and infrastructure
+          work behind the experiments.
+        </p>
+        <div className="actions">
+          <a className="button-link" href={href("/work")}>
+            Visit the Engineering Archive
+          </a>
+          <a href={href("/")}>Return to the Observatory</a>
+        </div>
+      </aside>
     </>
   );
 }

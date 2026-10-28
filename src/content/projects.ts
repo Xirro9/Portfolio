@@ -1,8 +1,36 @@
-import type { Project } from "./types";
+import type { MediaImage, Project } from "./types";
 
 const gh = (repo: string) => `https://github.com/${repo}`;
 const cg = gh("MoonPhase-LLC/ControlGauge");
 const hq = gh("Xirro9/AgentHQ");
+const agentHqOffice: MediaImage = {
+  path: "media/agenthq-night.png",
+  width: 1280,
+  height: 720,
+  alt: "AgentHQ pixel-art office with agent desks in night lighting and activity controls.",
+  caption:
+    "Real application capture in DEMO mode from AgentHQ’s public evidence set, e2e-04-night.png. Demonstrates night ambience and settings, not a live telemetry connection.",
+  sourceUrl: `${hq}/blob/main/docs/evidence/e2e-04-night.png`,
+  srcSet: [
+    { path: "media/agenthq-night-640.png", width: 640 },
+    { path: "media/agenthq-night-960.png", width: 960 },
+    { path: "media/agenthq-night.png", width: 1280 },
+  ],
+};
+const agentHqTaskboard: MediaImage = {
+  path: "media/agenthq-taskboard.png",
+  width: 1280,
+  height: 720,
+  alt: "AgentHQ task board with queued, planning, in-progress, testing, review, done and blocked columns in DEMO mode.",
+  caption:
+    "Real AgentHQ task-board capture, e2e-03-taskboard.png. The visible DEMO fixture illustrates the interface; task text is simulated, not a claim about current agent activity.",
+  sourceUrl: `${hq}/blob/main/docs/evidence/e2e-03-taskboard.png`,
+  srcSet: [
+    { path: "media/agenthq-taskboard-640.png", width: 640 },
+    { path: "media/agenthq-taskboard-960.png", width: 960 },
+    { path: "media/agenthq-taskboard.png", width: 1280 },
+  ],
+};
 const role =
   "Personal project developed with AI coding assistance. This case study describes the system and its documented behavior; it does not claim sole manual authorship of the implementation.";
 
@@ -154,12 +182,8 @@ export const projects: Project[] = [
     repositoryUrl: hq,
     related: ["local-ai-workbench", "controlgauge"],
     media: {
-      path: "media/agenthq-night.png",
-      alt: "AgentHQ pixel-art office with agent desks in night lighting and activity controls.",
-      caption:
-        "Real application capture in DEMO mode from AgentHQ’s public evidence set, e2e-04-night.png. Demonstrates night ambience and settings, not a live telemetry connection.",
-      width: 1280,
-      height: 720,
+      cover: agentHqOffice,
+      screenshots: [agentHqOffice, agentHqTaskboard],
     },
   },
   {
@@ -533,6 +557,7 @@ export const projects: Project[] = [
     home: "workshop",
     category: "creative",
     professionalSpotlight: true,
+    workshopFeatured: true,
     tags: ["TypeScript", "Vite", "Phaser 3", "CodeMirror 6", "Pyodide"],
     status: "prototype",
     verification: "owner-reported",
@@ -617,6 +642,7 @@ export const projects: Project[] = [
     slug: "mtg-game-night",
     title: "MTG Game Night",
     home: "workshop",
+    workshopFeatured: true,
     category: "creative",
     tags: ["JavaScript", "Node.js", "WebSocket", "XMage", "Mobile browsers"],
     status: "prototype",

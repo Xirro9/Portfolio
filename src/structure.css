@@ -1,0 +1,464 @@
+/* Phase 1 scopes: deliberately neutral defaults, shared application and branding.
+   Claude can override semantic values per scope without changing the components. */
+.portfolio-shell[data-theme="observatory"],
+.portfolio-shell[data-theme="engineering-archive"],
+.portfolio-shell[data-theme="technomancer-workshop"] {
+  --theme-background: #111827;
+  --theme-surface: #182233;
+  --theme-text: #f2f4f7;
+  --theme-muted: #bec8d6;
+  --theme-accent: #a5cafa;
+  --theme-border: #43536b;
+  --theme-effect-accent: #a5cafa;
+  --theme-focus: #f7d78b;
+}
+.portfolio-shell {
+  --font-body: var(
+    --theme-font-body,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif
+  );
+  --font-display: var(--theme-font-display, var(--font-body));
+  --type-display: var(--theme-type-display, clamp(2.2rem, 4.7vw, 3.8rem));
+  --type-section: var(--theme-type-section, clamp(1.5rem, 2.6vw, 2rem));
+  --type-subheading: var(--theme-type-subheading, 1.25rem);
+  --type-body: var(--theme-type-body, 1rem);
+  --type-caption: var(--theme-type-caption, 0.85rem);
+  --space-section: var(--theme-space-section, clamp(3rem, 6vw, 5rem));
+  --space-grid: var(--theme-space-grid, 1.5rem);
+  --space-page-inline: var(--theme-space-page-inline, 1.5rem);
+  --motion-duration-short: var(--theme-motion-short, 160ms);
+  --motion-duration-base: var(--theme-motion-base, 320ms);
+  --motion-easing: var(--theme-motion-easing, cubic-bezier(0.2, 0.65, 0.35, 1));
+  --color-background: var(--theme-background);
+  --color-surface: var(--theme-surface);
+  --color-text: var(--theme-text);
+  --color-muted: var(--theme-muted);
+  --color-accent: var(--theme-accent);
+  --color-border: var(--theme-border);
+  --color-effect: var(--theme-effect-accent);
+  --color-focus: var(--theme-focus);
+  min-height: 100vh;
+  color: var(--color-text);
+  background: var(--color-background);
+  font-family: var(--font-body);
+  font-size: var(--type-body);
+}
+.observatory-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: 3rem;
+  min-height: 35rem;
+  padding-block: var(--space-section);
+  isolation: isolate;
+}
+.observatory-foreground {
+  position: relative;
+  z-index: 1;
+}
+.hero-description {
+  color: var(--color-muted);
+  font-size: 1.15rem;
+  max-width: 48ch;
+}
+.observatory-visual,
+.workshop-scene {
+  position: relative;
+  margin: 0;
+  min-width: 0;
+}
+.hero-scene-mount {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+[data-scene-fallback] {
+  position: relative;
+  z-index: 1;
+}
+.observatory-static-scene {
+  padding: 2rem 1.5rem;
+  border-left: 1px solid var(--color-border);
+}
+.observatory-static-scene ol {
+  list-style: none;
+  padding: 0;
+}
+.observatory-static-scene li {
+  padding-block: 0.8rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.observatory-static-scene strong {
+  display: block;
+  font-size: 1.25rem;
+}
+.observatory-static-scene span {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+.professional-introduction {
+  border-block: 1px solid var(--color-border);
+  padding-block: 1.5rem;
+  max-width: 56rem;
+}
+.professional-introduction h2 {
+  font-size: 1.4rem;
+}
+.professional-introduction p {
+  max-width: 70ch;
+}
+.workshop-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 2rem 3rem;
+  padding-block: var(--space-section) 1rem;
+}
+.workshop-hero-introduction > p {
+  max-width: 46ch;
+}
+.workshop-hero .button-link {
+  margin-top: 1rem;
+}
+.workshop-static-scene {
+  border: 1px solid var(--color-border);
+  padding: 1.5rem;
+}
+.workshop-static-scene ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.workshop-static-scene li {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: 1rem;
+  padding-block: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+.workshop-static-scene li p {
+  margin: 0;
+  color: var(--color-muted);
+}
+.workshop-static-scene li span {
+  font-weight: 650;
+}
+.workshop-hero-transitions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  padding-block: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.workshop-introduction {
+  max-width: 52rem;
+}
+.workshop-return {
+  border-top: 1px solid var(--color-border);
+  padding-top: 2rem;
+}
+#creative-gallery {
+  scroll-margin-top: 2rem;
+}
+.featured-project-list {
+  display: grid;
+  gap: 2.5rem;
+}
+.featured-project-showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 2rem;
+  align-items: center;
+  padding-block: 2rem;
+  border-block: 1px solid var(--color-border);
+}
+.featured-project-showcase.feature-reversed {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+}
+.featured-project-copy h3 {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+}
+.featured-project-copy h3 a {
+  color: var(--color-text);
+}
+.featured-project-copy .button-link {
+  margin-top: 1rem;
+}
+.featured-project-media {
+  min-width: 0;
+}
+.project-evidence-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  font-size: 0.85rem;
+  margin-top: 1rem;
+}
+.project-evidence-links:empty {
+  display: none;
+}
+.project-media {
+  margin: 0;
+  width: 100%;
+  min-width: 0;
+}
+.project-media-frame {
+  aspect-ratio: var(--media-ratio, 16 / 9);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  display: grid;
+  align-items: center;
+}
+.project-media picture {
+  display: contents;
+}
+.project-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  min-width: 0;
+}
+.project-media figcaption {
+  font-size: var(--type-caption);
+  line-height: 1.6;
+}
+.project-overview-art {
+  aspect-ratio: 16 / 10;
+  min-height: 13rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1rem, 3vw, 2rem);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+.project-overview-title {
+  font-size: clamp(1.5rem, 3vw, 2.3rem);
+  font-weight: 650;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  margin: 0.5rem 0 1.25rem;
+}
+.project-overview-art .eyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+}
+.project-overview-art ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+.project-overview-art li {
+  margin: 0;
+}
+.project-card > .project-media,
+.project-card > .project-preview {
+  margin-bottom: 1.5rem;
+}
+.project-card > .project-media .project-overview-title {
+  font-size: 1.5rem;
+}
+.project-card > .project-media .project-overview-art {
+  min-height: 11rem;
+}
+.project-card .text-link {
+  margin-top: 0;
+}
+.project-card > .project-evidence-links {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+.project-preview {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+.preview-player {
+  position: absolute;
+  inset: 0 0 auto;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  pointer-events: none;
+}
+.project-preview.has-preview .preview-player {
+  opacity: 1;
+  pointer-events: auto;
+}
+.preview-controls {
+  display: none;
+  margin-top: 0.75rem;
+}
+.js .preview-controls {
+  display: flex;
+  flex-wrap: wrap;
+}
+.preview-description {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+.media-error {
+  padding: 1.5rem;
+  color: var(--color-muted);
+}
+.gallery-selectors {
+  display: none;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.js .gallery-selectors {
+  display: flex;
+}
+.gallery-selectors button[aria-pressed="true"] {
+  border-color: var(--color-accent);
+}
+.project-gallery h2 {
+  font-size: 1.5rem;
+}
+.workshop-project-card {
+  min-width: 0;
+  border-top: 2px solid var(--color-border);
+  padding-top: 1rem;
+}
+.workshop-project-description {
+  padding: 1rem 0.5rem 0.5rem;
+}
+.workshop-project-description h3 {
+  font-size: 1.6rem;
+}
+.workshop-project-description h3 a {
+  color: var(--color-text);
+}
+.project-grid-workshop {
+  gap: 3rem 2rem;
+}
+.case-study-index {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+}
+.case-study-index li {
+  margin: 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+.case-study > section {
+  margin-top: var(--space-section);
+}
+.case-study .architecture-diagram {
+  margin-inline: 0;
+}
+.case-study-creative .case-study-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+.case-study-creative .case-study-aside {
+  border-left: 0;
+  border-top: 1px solid var(--color-border);
+  padding: 1.5rem 0 0;
+}
+.case-study-creative .case-study-body {
+  max-width: 52rem;
+}
+.case-study-creative > .case-study-media {
+  max-width: 60rem;
+}
+.architecture-connector {
+  display: none;
+}
+@media (min-width: 1000px) {
+  .project-grid-editorial > .project-card:first-child:nth-last-child(odd) {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0.5rem 2rem;
+  }
+  .project-grid-editorial
+    > .project-card:first-child:nth-last-child(odd)
+    > :first-child {
+    grid-row: span 7;
+    margin-bottom: 0;
+  }
+}
+@media (max-width: 900px) {
+  .observatory-hero,
+  .workshop-hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    min-height: auto;
+  }
+  .observatory-static-scene {
+    border-left: 0;
+    border-top: 1px solid var(--color-border);
+    padding: 1.25rem 0;
+  }
+  .observatory-static-scene ol {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .featured-project-showcase,
+  .featured-project-showcase.feature-reversed {
+    grid-template-columns: 1fr;
+  }
+  .case-study-index {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .observatory-static-scene ol {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .observatory-hero,
+  .workshop-hero {
+    padding-top: 2.5rem;
+  }
+  .workshop-static-scene {
+    padding: 1rem;
+  }
+  .workshop-static-scene li {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+  .workshop-hero-transitions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .workshop-hero-transitions a {
+    min-height: 44px;
+    padding-block: 0.5rem;
+  }
+  .featured-project-showcase {
+    gap: 1.25rem;
+    padding-block: 1.5rem;
+  }
+  .project-overview-art {
+    min-height: 12rem;
+    aspect-ratio: auto;
+  }
+  .project-grid-workshop {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-shell {
+    --motion-enabled: 0;
+    --motion-duration-short: 0ms;
+    --motion-duration-base: 0ms;
+  }
+}

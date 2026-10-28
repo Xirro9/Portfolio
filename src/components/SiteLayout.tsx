@@ -1,6 +1,6 @@
 import { useRef, useState, type ReactNode } from "react";
 import { navigation, site } from "../content/site";
-import { href } from "../routes";
+import { href, themeForPath } from "../routes";
 export function SiteHeader({ path }: { path: string }) {
   const [open, setOpen] = useState(false);
   const trigger = useRef<HTMLButtonElement>(null);
@@ -68,9 +68,18 @@ export function SiteLayout({
   children: ReactNode;
 }) {
   return (
-    <>
+    <div
+      className="portfolio-shell"
+      data-theme={themeForPath(path)}
+      data-route={path}
+    >
       <SiteHeader path={path} />
-      <main id="main-content" tabIndex={-1} className="page-shell">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="page-shell"
+        data-motion-slot="route-content"
+      >
         {children}
       </main>
       <footer className="site-footer">
@@ -83,6 +92,6 @@ export function SiteLayout({
           <a href={href("/contact")}>Get in touch</a>
         </p>
       </footer>
-    </>
+    </div>
   );
 }
