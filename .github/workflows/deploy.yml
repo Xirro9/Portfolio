@@ -27,14 +27,20 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
-        run: npm run build
+      - name: Validate and build
+        run: npm run check
+
+      - name: Install test browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Browser validation
+        run: npm run test:e2e
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

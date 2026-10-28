@@ -1,69 +1,47 @@
-<p align="center">
-  <img src=".github/readme/hero.svg" width="100%" alt="Portfolio banner: violet and fuchsia glow behind a grid of glassy project tiles, with the line: security work that connects policy, evidence and technical reality." />
-</p>
+# Mahin Moon — Portfolio V2 foundation
 
-<p align="center">
-  <a href="https://xirro9.github.io/Portfolio/"><b>🌐 Visit the live site → xirro9.github.io/Portfolio</b></a>
-</p>
+A professional-first cybersecurity and engineering portfolio, with a separate creative space called **The Workshop**. Content snapshot: October 28, 2026. Phase 1 covers information architecture, verified/qualified case studies, accessible interactions, maintainability and GitHub Pages readiness. Claude’s Phase 2 visual redesign remains separate.
 
----
+## Run locally
 
-## About
+Node 24 recommended (see `.nvmrc`).
 
-A personal cybersecurity portfolio showcasing my experience, projects and technical work.
-
-I'm a cybersecurity student at The University of Tulsa and a Security Compliance Analyst at the Oklahoma Cyber
-Innovation Institute. My work sits where compliance, technical validation and hands-on security environments meet.
-
-<table>
-  <tr>
-    <td width="72%"><img src=".github/readme/screenshot-desktop.png" alt="Real screenshot of the live site on desktop: the hero headline 'Cybersecurity, compliance, and technical depth.' with a Snapshot card on the right." /></td>
-    <td width="28%"><img src=".github/readme/screenshot-mobile.png" alt="Real screenshot of the live site at phone width." /></td>
-  </tr>
-</table>
-<p align="center"><sub><b>Real screenshots</b> of the deployed site, desktop and mobile</sub></p>
-
-## What's on the site
-
-| Section | Contents |
-|---|---|
-| **Featured** | A spotlight project at the top of the page |
-| **Projects** | Adversary simulation and detection environment, centralised logging and SIEM (Wazuh), segmented network lab, LifeDash (Hacklahoma), custom memory allocator, CLI text editor, incident response scripting, Docker WordPress deployment |
-| **Experience** | Roles and education |
-| **What I do** | How I approach security work: requirements → real controls → evidence |
-| **Skills** | Frameworks, tooling and strengths |
-| **Activities** | Competitive experience and team leadership (Hivestorm, CyberPatriot) |
-
-### Focus areas
-
-- NIST SP 800-53, CMMC and GreenUAS
-- Security control assessment and evidence mapping
-- Penetration testing and adversarial thinking
-- Practical, testable security implementation
-
-## Built with
-
-| | |
-|---|---|
-| UI | React 19 (single `App.jsx` with data-driven sections) |
-| Styling | Tailwind CSS 4 via `@tailwindcss/vite` |
-| Build | Vite, with `base: '/Portfolio/'` for GitHub Pages |
-| Quality | ESLint (React Hooks and Refresh plugins) |
-| Deploy | GitHub Actions → GitHub Pages on every push to `main` (`.github/workflows/deploy.yml`) |
-
-## Run it locally
-
-```bash
+```sh
 npm ci
-npm run dev        # local dev server
-npm run build      # production build → dist/
-npm run preview    # serve the production build
-npm run lint
+npm run dev
+# Open http://localhost:5173/Portfolio/
+npm run check       # lint, unit/component/content tests, strict TypeScript, production build
+npx playwright install chromium
+npm run test:e2e    # production routes and interactions, desktop/mobile, axe checks
+npm run preview    # inspect generated output at /Portfolio/
 ```
 
-`npm ci` and `npm run build` were verified on Node 24 during this README update.
+## Content and structure
 
-## Updating content
+- `src/content/projects.ts`: 15 canonical project records. Implemented features, plans, evidence and limitations stay separate.
+- `src/content/site.ts`: identity, contact, navigation, experience, education, grouped skills, milestones and notes.
+- `src/content/types.ts`: authoring models, including credential/publication collections awaiting evidence.
+- `src/components/`: reusable cards, filters, case studies, timelines, navigation and content primitives.
+- `src/routes.ts`: base-aware route definitions and metadata.
+- `scripts/prerender.tsx`: 22 static pages, a 404 and sitemap from the same React/data model.
+- `src/index.css`: neutral Phase 1 presentation and design token entry points.
 
-Experience, projects and skills are plain data arrays at the top of `src/App.jsx`. Edit them there and push to `main`;
-the Pages workflow rebuilds and redeploys the site.
+Routes: home, Work, Experience, Labs & notes, The Workshop, About and Contact, plus canonical case studies. Creative engineering spotlights link to Workshop records without duplicating data.
+
+## Editing and publication
+
+Read [inventory](docs/CONTENT_INVENTORY.md) and [verification ledger](docs/CONTENT_VERIFICATION.md) before changing claims. Source-documented does not mean independently rerun. Owner-reported prototypes are labeled. No credentials, private host details, employer evidence or third-party game assets belong here. Repository documentation is public too; never commit sensitive follow-up answers.
+
+Edit canonical records, run checks and preview the build. Omit missing media rather than fabricating screenshots. No résumé file was supplied; the site offers contact by email instead of a broken download.
+
+## GitHub Pages
+
+Preserves `/Portfolio/` and the existing Actions deployment model. Each known route is a directory with `index.html`; no router rewrites are needed. Unknown URLs use generated `404.html`. Page-specific metadata is prerendered. Content is readable before hydration; JavaScript enables filters and mobile disclosure navigation. Main deployment validates first; branch/PR validation does not deploy.
+
+Production publishing follows the owner’s approved merge into `main`. Branch validation never deploys.
+
+## Claude’s next phase
+
+Start with [CLAUDE_VISUAL_HANDOFF.md](docs/CLAUDE_VISUAL_HANDOFF.md). Preserve professional hierarchy, honest statuses, source attribution, canonical routes and accessibility contracts. The final Arcane Tech identity is deferred.
+
+See [architecture](docs/PORTFOLIO_ARCHITECTURE.md) and [change/validation record](docs/PORTFOLIO_CHANGELOG.md).
