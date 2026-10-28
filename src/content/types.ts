@@ -56,6 +56,7 @@ export interface Experience {
 }
 export interface Education {
   title: string;
+  field: string;
   institution: string;
   period: string;
   status: "completed" | "in progress";

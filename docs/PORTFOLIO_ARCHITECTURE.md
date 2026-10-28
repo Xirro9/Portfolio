@@ -30,7 +30,8 @@ Experience, education, skills, milestones, notes, contact, certifications and pu
 | `Content.tsx`          | Heading primitives, bullet lists, safe external links, contact panel, grouped disciplines         |
 | `Projects.tsx`         | Status, canonical cards/grid, native search/select/reset filter, live result count                |
 | `ProjectCaseStudy.tsx` | Shared evidence-led detail sections, sanitized architecture flow, media fallback, related records |
-| `Timelines.tsx`        | Employment disclosures, education, milestones and historical activities                           |
+| `Timelines.tsx`        | Employment disclosures, milestones and historical activities                                      |
+| `EducationSection.tsx` | Shared education panels and configurable one-shot decorative title animation                       |
 | `pages/Pages.tsx`      | Page composition only; project/experience facts live in content records                           |
 | `App.tsx`              | Normalized route selection and not-found rendering                                                |
 

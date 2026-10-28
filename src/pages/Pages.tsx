@@ -10,10 +10,10 @@ import {
 import { ProjectExplorer, ProjectGrid } from "../components/Projects";
 import {
   Activities,
-  EducationSection,
   ExperienceTimeline,
   MilestoneTimeline,
 } from "../components/Timelines";
+import { EducationSection } from "../components/EducationSection";
 export function HomePage() {
   return (
     <>
@@ -32,6 +32,9 @@ export function HomePage() {
             Explore professional work
           </a>
           <a href={href("/experience")}>Experience & education</a>
+          <a href="#education">
+            Education highlights <span aria-hidden="true">↓</span>
+          </a>
         </div>
       </PageHeading>
       <section>
@@ -44,6 +47,7 @@ export function HomePage() {
         />
       </section>
       <ExperienceTimeline currentOnly />
+      <EducationSection />
       <TechnicalSkills />
       <section>
         <SectionHeading title="Systems beyond the interface" />
@@ -60,7 +64,6 @@ export function HomePage() {
           </a>
         </article>
       </section>
-      <EducationSection />
       <MilestoneTimeline />
       <aside className="workshop-invitation">
         <h2>A different kind of engineering practice</h2>

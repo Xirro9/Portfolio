@@ -70,7 +70,8 @@ export const experiences: Experience[] = [
 ];
 export const education: Education[] = [
   {
-    title: "Graduate study · Cybersecurity",
+    title: "Master’s studies",
+    field: "Cybersecurity",
     institution: "The University of Tulsa",
     period: "Fall 2026 – expected May 2028",
     status: "in progress",
@@ -79,7 +80,8 @@ export const education: Education[] = [
     source: "owner-confirmed",
   },
   {
-    title: "Bachelor’s degree · Cybersecurity",
+    title: "Bachelor’s degree",
+    field: "Cybersecurity",
     institution: "The University of Tulsa",
     period: "Completed May 2026",
     status: "completed",
@@ -88,6 +90,14 @@ export const education: Education[] = [
     source: "owner-confirmed",
   },
 ];
+// Presentation parameters, shared by the home and experience education sections.
+// Duration + stagger is deliberately brief; titles remain static and readable.
+export const educationAnimation = {
+  enabled: true,
+  durationMs: 1600,
+  staggerMs: 160,
+  glowOpacity: 0.7,
+};
 export const milestones: Milestone[] = [
   {
     title: "AgentHQ telemetry and replay",
