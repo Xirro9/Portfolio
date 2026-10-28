@@ -19,6 +19,7 @@ import { ArchiveHero } from "../components/heroes/ArchiveHero";
 import { FeaturedProjectShowcase } from "../components/FeaturedProjectShowcase";
 import { SystemDiagram } from "../components/visual/SystemDiagram";
 import { ChapterTransition } from "../components/visual/ChapterTransition";
+import { SanctumSeal } from "../components/visual/TechnomancerEngine";
 import {
   CaseStudyIndex,
   EngineeringNotes,
@@ -54,11 +55,17 @@ export function HomePage() {
       <MilestoneTimeline />
       <FeaturedWriting />
       <aside className="workshop-invitation">
-        <h2>A different kind of engineering practice</h2>
-        <p>
-          Games, programming adventures, and experiments have their own space.
-        </p>
-        <a href={href("/workshop")}>Visit The Workshop</a>
+        <SanctumSeal className="invitation-seal" />
+        <div className="invitation-copy">
+          <p className="eyebrow">Beyond the Observatory</p>
+          <h2>A different kind of engineering practice</h2>
+          <p>
+            Games, programming adventures, and experiments have their own space.
+          </p>
+          <a href={href("/workshop")}>
+            Visit The Workshop <span aria-hidden="true">→</span>
+          </a>
+        </div>
       </aside>
       <ContactPanel />
     </>
@@ -68,7 +75,7 @@ export function WorkPage() {
   return (
     <>
       <ArchiveHero />
-      <section data-section="featured-engineering">
+      <section id="featured-engineering" data-section="featured-engineering">
         <SectionHeading title="Featured engineering projects">
           Start with the system, then inspect the evidence.
         </SectionHeading>
@@ -85,12 +92,16 @@ export function WorkPage() {
         </div>
       </section>
       <section
+        id="workbench-exhibit"
         className="workbench-exhibit"
         data-section="workbench-exhibit"
         aria-labelledby="workbench-exhibit-heading"
       >
         <div className="workbench-exhibit-copy">
-          <p className="eyebrow">Infrastructure exhibit · experimental</p>
+          <p className="eyebrow exhibit-number">
+            <span aria-hidden="true">03</span>
+            Infrastructure exhibit · experimental
+          </p>
           <h2 id="workbench-exhibit-heading">Local AI workbench</h2>
           <p>
             Model serving, orchestration and specialist agents explored as one
@@ -105,7 +116,7 @@ export function WorkPage() {
         </div>
         <SystemDiagram slug="local-ai-workbench" />
       </section>
-      <section data-section="project-collection">
+      <section id="project-collection" data-section="project-collection">
         <ProjectExplorer
           title="Categorized project collection"
           projects={projects.filter((project) => project.home === "work")}
@@ -120,7 +131,7 @@ export function WorkPage() {
           projects={projects.filter((project) => project.professionalSpotlight)}
         />
       </section>
-      <section data-section="labs-foundations">
+      <section id="labs-foundations" data-section="labs-foundations">
         <SectionHeading title="Security labs & foundational work">
           Contained validation, security scripting, and earlier systems
           programming.
@@ -134,8 +145,10 @@ export function WorkPage() {
             ].includes(project.slug),
           )}
         />
-        <p>
-          <a href={href("/labs")}>Explore all security labs & notes</a>
+        <p className="section-coda">
+          <a href={href("/labs")}>
+            Explore all security labs & notes <span aria-hidden="true">→</span>
+          </a>
         </p>
       </section>
       <EngineeringNotes />
@@ -182,7 +195,10 @@ export function WorkshopPage() {
         </p>
       </section>
       <section data-section="featured-creative">
-        <SectionHeading title="Featured creative projects" />
+        <SectionHeading title="Featured creative projects">
+          Two artifacts from the bench, each with its prototype status in plain
+          view.
+        </SectionHeading>
         <div className="featured-project-list">
           {projects
             .filter((project) => project.workshopFeatured)
@@ -198,7 +214,7 @@ export function WorkshopPage() {
       </section>
       <section id="creative-gallery" data-section="creative-gallery">
         <ProjectExplorer
-          title="Project gallery"
+          title="The artifact index"
           creative
           projects={projects.filter((project) => project.home === "workshop")}
         />

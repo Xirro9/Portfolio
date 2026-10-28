@@ -41,9 +41,10 @@ These are original artwork created for this portfolio. They are not project evid
 | --------------------------------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------- |
 | Insignia (two variants) and favicon     | `src/components/visual/Insignia.tsx`, `public/favicon.svg` | Shared brand mark                                                                |
 | Celestial Engine (WebGL) and engraved orrery (SVG) | `CelestialEngine.tsx`, `OrreryArt.tsx` | Procedural geometry; decorative and `aria-hidden`                                |
-| Arcane Workbench                        | `ArcaneWorkbench.tsx`                      | Workshop hero illustration, captioned as an illustration                                       |
-| Project cover illustrations (15 motifs) | `ProjectArtwork.tsx`                       | Depict concepts only (for example a gauge or a heap free-list). No Pokémon or MTG IP; generic shapes only |
-| System diagrams                         | `SystemDiagram.tsx`                        | ControlGauge, AgentHQ and Local AI workbench. Status chips mirror canonical records; planned work is dashed and labeled PLANNED |
+| Technomancer Engine and Sanctum seal    | `TechnomancerEngine.tsx`                   | Workshop hero reactor (captioned as an illustration) and a static seal on Home; decorative, `aria-hidden` |
+| Workshop concept plates (5)             | `WorkshopArtwork.tsx`                      | Guild hall, kinetic clash, enchanted table, day astrolabe, scrying lens. No characters, card art or game assets |
+| Professional cover illustrations (10 motifs) | `ProjectArtwork.tsx`                  | Depict concepts only (for example a gauge or a heap free-list). No Pokémon or MTG IP; generic shapes only |
+| System diagrams                         | `SystemDiagram.tsx`                        | ControlGauge, AgentHQ and Local AI workbench, with labeled zones and a legend. Status chips mirror canonical records; planned work is dashed and labeled PLANNED. The same nodes render as an ordered list for narrow screens and assistive technology |
 | AgentHQ annotations                     | `FeaturedProjectShowcase.tsx`              | Decorative call-outs over the existing real DEMO capture; the image is unmodified               |
 
 ## Adding approved media

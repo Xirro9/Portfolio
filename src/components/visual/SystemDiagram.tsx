@@ -1,8 +1,12 @@
 /**
  * Original, sanitized architecture illustrations for the three flagship
  * systems. Status chips repeat the canonical record; planned work is dashed.
+ * The SVG is decorative; the same nodes and relationships are rendered as an
+ * ordered list, which is the readable portrait layout on narrow screens.
  */
+type Tone = "planned" | "experimental" | "core";
 interface DiagramNode {
+  id: string;
   x: number;
   y: number;
   w: number;
@@ -10,17 +14,29 @@ interface DiagramNode {
   title: string;
   sub: string[];
   chip?: string;
-  tone?: "planned" | "experimental" | "core";
+  tone?: Tone;
 }
 interface DiagramEdge {
+  from: string;
+  to: string;
   d: string;
   label?: [string, number, number];
   tone?: "planned" | "experimental";
 }
+interface DiagramZone {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  label: string;
+}
 interface Diagram {
   title: string;
+  size: [number, number];
   boundary?: string;
   note: string;
+  legend: ("implemented" | "planned" | "experimental")[];
+  zones: DiagramZone[];
   nodes: DiagramNode[];
   edges: DiagramEdge[];
 }
@@ -28,67 +44,94 @@ interface Diagram {
 const diagrams: Record<string, Diagram> = {
   controlgauge: {
     title: "ControlGauge desktop foundation",
+    size: [1000, 520],
     boundary: "ANALYST WORKSTATION · LOCAL-FIRST BOUNDARY",
     note: "Implemented foundation in solid lines. Compliance workflows and local AI are planned, not implemented.",
+    legend: ["implemented", "planned"],
+    zones: [
+      { x: 50, y: 64, w: 330, h: 362, label: "DESKTOP SHELL" },
+      { x: 620, y: 64, w: 330, h: 362, label: "LOCAL SERVICE" },
+    ],
     nodes: [
-      { x: 60, y: 70, w: 250, h: 96, title: "React + TypeScript", sub: ["Desktop interface"], chip: "IMPLEMENTED" },
-      { x: 60, y: 268, w: 250, h: 112, title: "Tauri v2 · Rust", sub: ["Supervisor: owns credentials", "and service lifecycle"], chip: "IMPLEMENTED", tone: "core" },
-      { x: 570, y: 268, w: 250, h: 112, title: "Python · FastAPI", sub: ["Authenticated local service"], chip: "IMPLEMENTED" },
-      { x: 570, y: 70, w: 250, h: 96, title: "Health & identity", sub: ["Service verification"], chip: "IMPLEMENTED" },
-      { x: 330, y: 396, w: 220, h: 70, title: "Compliance workflows", sub: ["Evidence mapping · local AI"], chip: "PLANNED", tone: "planned" },
+      { id: "ui", x: 80, y: 104, w: 270, h: 96, title: "React + TypeScript", sub: ["Desktop interface"], chip: "IMPLEMENTED" },
+      { id: "tauri", x: 80, y: 290, w: 270, h: 112, title: "Tauri v2 · Rust", sub: ["Supervisor: owns credentials", "and service lifecycle"], chip: "IMPLEMENTED", tone: "core" },
+      { id: "service", x: 650, y: 290, w: 270, h: 112, title: "Python · FastAPI", sub: ["Authenticated local service"], chip: "IMPLEMENTED" },
+      { id: "health", x: 650, y: 104, w: 270, h: 96, title: "Health & identity", sub: ["Service verification"], chip: "IMPLEMENTED" },
+      { id: "workflows", x: 362, y: 404, w: 276, h: 80, title: "Compliance workflows", sub: ["Evidence mapping · local AI"], chip: "PLANNED", tone: "planned" },
     ],
     edges: [
-      { d: "M185 166 V268", label: ["commands", 196, 222] },
-      { d: "M310 300 H570", label: ["spawns · supervises", 440, 290] },
-      { d: "M310 348 H570", label: ["authenticated requests", 440, 338] },
-      { d: "M695 268 V166", label: ["exposes", 706, 222] },
-      { d: "M570 140 C460 140 380 170 300 268", label: ["verifies identity", 470, 128] },
-      { d: "M695 380 V431 H550", tone: "planned" },
+      { from: "ui", to: "tauri", d: "M215 200 V290", label: ["commands", 262, 250] },
+      { from: "tauri", to: "service", d: "M350 324 H650", label: ["spawns · supervises", 500, 313] },
+      { from: "tauri", to: "service", d: "M350 370 H650", label: ["authenticated requests", 500, 359] },
+      { from: "service", to: "health", d: "M785 290 V200", label: ["exposes", 828, 250] },
+      { from: "tauri", to: "health", d: "M650 152 C540 152 440 196 350 300", label: ["verifies identity", 520, 140] },
+      { from: "service", to: "workflows", d: "M785 402 V470 H638", tone: "planned" },
     ],
   },
   agenthq: {
     title: "AgentHQ telemetry pipeline",
+    size: [880, 500],
     note: "Single-user, loopback-only. Events are sanitized before storage; DEMO, LIVE and REPLAY sources stay labeled.",
+    legend: ["implemented", "experimental"],
+    zones: [
+      { x: 24, y: 30, w: 252, h: 420, label: "SOURCES" },
+      { x: 314, y: 120, w: 232, h: 330, label: "LOCAL SERVER" },
+      { x: 604, y: 50, w: 252, h: 360, label: "INTERFACE" },
+    ],
     nodes: [
-      { x: 40, y: 60, w: 220, h: 84, title: "Hermes JSONL", sub: ["Documented live integration"], chip: "LIVE" },
-      { x: 40, y: 200, w: 220, h: 84, title: "OpenCode adapter", sub: ["Live events unverified"], chip: "EXPERIMENTAL", tone: "experimental" },
-      { x: 40, y: 340, w: 220, h: 84, title: "Demo fixture", sub: ["Labeled sample events"], chip: "DEMO" },
-      { x: 330, y: 150, w: 200, h: 104, title: "Fastify ingest", sub: ["Validate · sanitize", "· redact"], tone: "core" },
-      { x: 330, y: 320, w: 200, h: 104, title: "SQLite", sub: ["Event history", "and derived state"], chip: "REPLAY" },
-      { x: 620, y: 80, w: 220, h: 84, title: "React panels", sub: ["Feed · task board · replay"] },
-      { x: 620, y: 300, w: 220, h: 84, title: "Phaser office", sub: ["Spatial agent view"] },
+      { id: "hermes", x: 40, y: 60, w: 220, h: 84, title: "Hermes JSONL", sub: ["Documented live integration"], chip: "LIVE" },
+      { id: "opencode", x: 40, y: 200, w: 220, h: 84, title: "OpenCode adapter", sub: ["Live events unverified"], chip: "EXPERIMENTAL", tone: "experimental" },
+      { id: "demo", x: 40, y: 340, w: 220, h: 84, title: "Demo fixture", sub: ["Labeled sample events"], chip: "DEMO" },
+      { id: "ingest", x: 330, y: 150, w: 200, h: 104, title: "Fastify ingest", sub: ["Validate · sanitize", "· redact"], tone: "core" },
+      { id: "store", x: 330, y: 320, w: 200, h: 104, title: "SQLite", sub: ["Event history", "and derived state"], chip: "REPLAY" },
+      { id: "panels", x: 620, y: 80, w: 220, h: 84, title: "React panels", sub: ["Feed · task board · replay"] },
+      { id: "office", x: 620, y: 300, w: 220, h: 84, title: "Phaser office", sub: ["Spatial agent view"] },
     ],
     edges: [
-      { d: "M260 102 C300 102 290 180 330 186" },
-      { d: "M260 242 C292 242 296 214 330 210", tone: "experimental" },
-      { d: "M260 382 C300 382 296 246 330 236" },
-      { d: "M430 254 V320", label: ["persist", 442, 292] },
-      { d: "M530 352 C584 352 566 122 620 122", label: ["HTTP + WebSocket", 590, 230] },
-      { d: "M530 392 C580 392 570 342 620 342" },
+      { from: "hermes", to: "ingest", d: "M260 102 C300 102 290 180 330 186" },
+      { from: "opencode", to: "ingest", d: "M260 242 C292 242 296 214 330 210", tone: "experimental" },
+      { from: "demo", to: "ingest", d: "M260 382 C300 382 296 246 330 236" },
+      { from: "ingest", to: "store", d: "M430 254 V320", label: ["persist", 466, 292] },
+      { from: "store", to: "panels", d: "M530 352 C584 352 566 122 620 122", label: ["HTTP + WebSocket", 590, 230] },
+      { from: "store", to: "office", d: "M530 392 C580 392 570 342 620 342" },
     ],
   },
   "local-ai-workbench": {
     title: "Local AI workbench, sanitized",
+    size: [1000, 560],
     note: "Owner-reported environment. No hostnames, endpoints, hardware identifiers or benchmark values.",
+    legend: ["implemented", "experimental"],
+    zones: [
+      { x: 30, y: 150, w: 400, h: 190, label: "SERVING" },
+      { x: 460, y: 150, w: 200, h: 190, label: "ORCHESTRATION" },
+      { x: 690, y: 22, w: 286, h: 446, label: "SPECIALIST TOOLS" },
+      { x: 290, y: 396, w: 370, h: 140, label: "OBSERVABILITY" },
+    ],
     nodes: [
-      { x: 30, y: 196, w: 170, h: 100, title: "Model serving", sub: ["llama.cpp", "local GPU"] },
-      { x: 240, y: 196, w: 170, h: 100, title: "Inference API", sub: ["OpenAI-compatible"] },
-      { x: 450, y: 196, w: 150, h: 100, title: "Hermes", sub: ["Orchestration"], tone: "core" },
-      { x: 650, y: 52, w: 200, h: 80, title: "OpenCode specialist", sub: ["Delegated role"] },
-      { x: 650, y: 206, w: 200, h: 80, title: "OpenCode specialist", sub: ["Delegated role"] },
-      { x: 650, y: 360, w: 200, h: 80, title: "OpenCode specialist", sub: ["Delegated role"] },
-      { x: 240, y: 372, w: 250, h: 84, title: "AgentHQ", sub: ["Observes supported telemetry"], chip: "OBSERVE" },
+      { id: "serve", x: 56, y: 202, w: 170, h: 100, title: "Model serving", sub: ["llama.cpp", "local GPU"] },
+      { id: "api", x: 244, y: 202, w: 166, h: 100, title: "Inference API", sub: ["OpenAI-compatible"] },
+      { id: "hermes", x: 480, y: 202, w: 160, h: 100, title: "Hermes", sub: ["Orchestration"], tone: "core" },
+      { id: "oc1", x: 716, y: 64, w: 236, h: 80, title: "OpenCode specialist", sub: ["Delegated role"] },
+      { id: "oc2", x: 716, y: 206, w: 236, h: 80, title: "OpenCode specialist", sub: ["Delegated role"] },
+      { id: "oc3", x: 716, y: 348, w: 236, h: 80, title: "OpenCode specialist", sub: ["Delegated role"] },
+      { id: "agenthq", x: 320, y: 440, w: 300, h: 76, title: "AgentHQ", sub: ["Observes supported telemetry"], chip: "OBSERVE" },
     ],
     edges: [
-      { d: "M200 246 H240" },
-      { d: "M410 246 H450" },
-      { d: "M600 230 C630 230 620 92 650 92" },
-      { d: "M600 246 H650" },
-      { d: "M600 262 C630 262 620 400 650 400" },
-      { d: "M650 418 C580 418 560 414 490 414", label: ["telemetry", 570, 404], tone: "experimental" },
-      { d: "M525 296 V340 C525 360 510 372 490 380" },
+      { from: "serve", to: "api", d: "M226 252 H244" },
+      { from: "api", to: "hermes", d: "M410 252 H480" },
+      { from: "hermes", to: "oc1", d: "M640 236 C680 236 676 104 716 104" },
+      { from: "hermes", to: "oc2", d: "M640 252 H716" },
+      { from: "hermes", to: "oc3", d: "M640 268 C680 268 676 388 716 388" },
+      { from: "hermes", to: "agenthq", d: "M560 302 V440", label: ["events", 594, 376] },
+      { from: "oc3", to: "agenthq", d: "M716 408 C670 408 664 478 620 478", label: ["telemetry", 676, 462], tone: "experimental" },
     ],
   },
+};
+
+const legendLabels = {
+  implemented: "Implemented",
+  planned: "Planned",
+  experimental: "Experimental",
 };
 
 export const hasSystemDiagram = (slug: string) => slug in diagrams;
@@ -96,66 +139,119 @@ export const hasSystemDiagram = (slug: string) => slug in diagrams;
 export function SystemDiagram({ slug }: { slug: string }) {
   const diagram = diagrams[slug];
   if (!diagram) return null;
+  const [width, height] = diagram.size;
+  const name = (id: string) =>
+    diagram.nodes.find((node) => node.id === id)?.title ?? id;
   return (
     <figure
       className="system-diagram"
       data-diagram={slug}
       data-motion-slot="architecture-lines"
     >
-      <div
-        className="system-diagram-scroll"
-        role="region"
-        aria-label={`${diagram.title} illustration`}
-        tabIndex={0}
-      >
-        <svg viewBox="0 0 880 500" aria-hidden="true" focusable="false">
+      <div className="system-diagram-stage">
+        <ul className="sd-legend" aria-label="Diagram legend">
+          {diagram.legend.map((item) => (
+            <li key={item} className={`sd-legend-${item}`}>
+              {legendLabels[item]}
+            </li>
+          ))}
+        </ul>
+        <svg
+          viewBox={`0 0 ${width} ${height}`}
+          aria-hidden="true"
+          focusable="false"
+        >
           <g className="sd-grid">
-            {Array.from({ length: 11 }, (_, index) => (
-              <path key={`v${index}`} d={`M${index * 88} 0 V500`} />
+            {Array.from({ length: Math.ceil(width / 50) + 1 }, (_, index) => (
+              <path key={`v${index}`} d={`M${index * 50} 0 V${height}`} />
             ))}
-            {Array.from({ length: 6 }, (_, index) => (
-              <path key={`h${index}`} d={`M0 ${index * 100} H880`} />
+            {Array.from({ length: Math.ceil(height / 50) + 1 }, (_, index) => (
+              <path key={`h${index}`} d={`M0 ${index * 50} H${width}`} />
             ))}
           </g>
           {diagram.boundary && (
             <>
-              <rect className="sd-boundary" x="20" y="20" width="840" height="460" />
-              <text className="sd-edge-label" x="36" y="42">
+              <rect
+                className="sd-boundary"
+                x="20"
+                y="20"
+                width={width - 40}
+                height={height - 40}
+              />
+              <text className="sd-zone-label" x="40" y="44">
                 {diagram.boundary}
               </text>
             </>
           )}
+          {diagram.zones.map((zone) => (
+            <g
+              key={zone.label}
+              className="sd-zone"
+              data-motion-part="diagram-zone"
+            >
+              <rect x={zone.x} y={zone.y} width={zone.w} height={zone.h} />
+              <path
+                className="sd-zone-rule"
+                d={`M${zone.x} ${zone.y} H${zone.x + 28}`}
+              />
+              <text className="sd-zone-label" x={zone.x + 36} y={zone.y + 4}>
+                {zone.label}
+              </text>
+            </g>
+          ))}
           {diagram.edges.map((edge) => (
-            <g key={edge.d} className={`sd-edge${edge.tone ? ` sd-${edge.tone}` : ""}`}>
-              <path className="sd-wire" pathLength={1} d={edge.d} data-motion-part="diagram-path" />
+            <g
+              key={edge.d}
+              className={`sd-edge${edge.tone ? ` sd-${edge.tone}` : ""}`}
+            >
+              <path
+                className="sd-wire"
+                pathLength={1}
+                d={edge.d}
+                data-motion-part="diagram-path"
+              />
               {edge.label && (
-                <text className="sd-edge-label" x={edge.label[1]} y={edge.label[2]} textAnchor="middle">
+                <text
+                  className="sd-edge-label"
+                  x={edge.label[1]}
+                  y={edge.label[2]}
+                  textAnchor="middle"
+                >
                   {edge.label[0]}
                 </text>
               )}
             </g>
           ))}
-          {diagram.nodes.map((node, index) => (
+          {diagram.nodes.map((node) => (
             <g
-              key={`${node.title}-${index}`}
+              key={node.id}
               className={`sd-node${node.tone ? ` sd-${node.tone}` : ""}`}
               transform={`translate(${node.x} ${node.y})`}
               data-motion-part="diagram-node"
             >
-              <rect width={node.w} height={node.h} />
-              <path className="sd-corner" d={`M0 12 V0 H12 M${node.w - 12} ${node.h} H${node.w} V${node.h - 12}`} />
-              <text className="sd-title" x="18" y="34">
+              <rect className="sd-plinth" x="7" y="7" width={node.w} height={node.h} />
+              <rect className="sd-plate" width={node.w} height={node.h} />
+              <path
+                className="sd-corner"
+                d={`M0 12 V0 H12 M${node.w - 12} ${node.h} H${node.w} V${node.h - 12}`}
+              />
+              <text className="sd-title" x="18" y="36">
                 {node.title}
               </text>
               {node.sub.map((line, row) => (
-                <text key={line} className="sd-sub" x="18" y={58 + row * 20}>
+                <text key={line} className="sd-sub" x="18" y={60 + row * 20}>
                   {line}
                 </text>
               ))}
               {node.chip && (
-                <g transform={`translate(${node.w - 14} -11)`}>
-                  <rect className="sd-chip" x={-node.chip.length * 8.4 - 14} width={node.chip.length * 8.4 + 14} height="22" />
-                  <text className="sd-chip-label" x={-7} y="15" textAnchor="end">
+                <g transform={`translate(${node.w - 14} -12)`}>
+                  <rect
+                    className="sd-chip"
+                    x={-node.chip.length * 8.6 - 16}
+                    width={node.chip.length * 8.6 + 16}
+                    height="24"
+                  />
+                  <text className="sd-chip-label" x={-8} y="16.5" textAnchor="end">
                     {node.chip}
                   </text>
                 </g>
@@ -163,6 +259,30 @@ export function SystemDiagram({ slug }: { slug: string }) {
             </g>
           ))}
         </svg>
+      </div>
+      <div className="sd-index" role="group" aria-label={diagram.title}>
+        <ol className="sd-index-nodes">
+          {diagram.nodes.map((node) => (
+            <li
+              key={node.id}
+              className={node.tone ? `sd-index-${node.tone}` : undefined}
+            >
+              <strong>{node.title}</strong>
+              <span>{node.sub.join(" ")}</span>
+              {node.chip && <em>{node.chip.toLowerCase()}</em>}
+            </li>
+          ))}
+        </ol>
+        <ul className="sd-index-edges" aria-label="Relationships">
+          {diagram.edges.map((edge) => (
+            <li key={edge.d} className={edge.tone ? `sd-index-${edge.tone}` : undefined}>
+              {name(edge.from)} <span aria-hidden="true">→</span>
+              <span className="visually-hidden">to</span> {name(edge.to)}
+              {edge.label ? `: ${edge.label[0]}` : ""}
+              {edge.tone ? ` (${edge.tone})` : ""}
+            </li>
+          ))}
+        </ul>
       </div>
       <figcaption>
         Original architecture illustration · {diagram.note}

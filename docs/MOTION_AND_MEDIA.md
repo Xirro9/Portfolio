@@ -20,10 +20,12 @@ Not used: **Rive**. Exporting `.riv` needs an authenticated editor, so the Works
 - Safeguards: mounted only when `useSceneSupport("webgl")` passes (no reduced motion, no Save-Data, >2 cores/GB, WebGL available). DPR is `[1, 1.75]` and drei `PerformanceMonitor` drops it to 1. `frameloop="never"` while offscreen. An error boundary returns to the SVG. The canvas sits in an `aria-hidden`, `pointer-events: none` mount.
 - Fallback: `OrreryArt.tsx` (SSR SVG). The engraving layer stays as the frame in live mode, and the mechanism layer cross-fades out.
 
-**Arcane Workbench** (`visual/ArcaneWorkbench.tsx`, SVG + GSAP)
-- Includes a crystal processor with an etched core, rune-band and sigil rings, rune-circuit traces with travelling pulses, two holographic spellbook panels, copper pylons with coils, a console, and gentle arcs (no flashing).
-- Entrance: circuits draw, nodes pop, the crystal ignites, runes assemble from random rotations and the sigil draws. Idle loops pause offscreen.
-- Interaction: layered pointer parallax and a cursor glyph. The easter egg is a real `<button>` over the crystal ("Channel the arcane core"): three presses trigger a burst plus a polite live message.
+**Technomancer Engine** (`visual/TechnomancerEngine.tsx`, SVG + GSAP; replaced the earlier Arcane Workbench)
+- An arcane reactor in layers: atmosphere and light shafts, an engraved outer plate with a rune band, a six-segment blackened ring with brass rivets, inlaid runes and a 72-tooth gear, an octagram with emerald circuitry routed along it, three armillary gimbals, a containment cage with six clamps, a fractured crystal core, and floating fragments. Gradients separate metal, brass and crystal; only the nucleus and arcs use a blur filter.
+- The markup is the stable, assembled state, so no-JS and reduced-motion readers see the complete machine.
+- Entrance (about 4 s): dormant (energy dimmed), ring segments rotate into alignment, sigils and circuits draw, pulses converge on the core, the core ignites and one shock ring stabilises it.
+- Idle: slow opposing rotations (64 to 320 s per layer), gimbals breathing through ellipse depth, a halo pulse, occasional circuit pulses (4 to 9 s apart) and rare short arcs (7 to 13 s apart). Loops pause offscreen.
+- Interaction: depth-weighted pointer parallax. The easter egg is a real `<button>` over the core ("Channel the arcane core"): each press fires an arc; the third realigns the ring, fires the circuits and announces a polite live message.
 
 ## Scroll choreography (`motion/useSiteMotion.ts`)
 
@@ -35,9 +37,12 @@ There is one `useGSAP` controller in `SiteLayout`, scoped to the shell and bound
 | `chapter-transition`                   | Orbital arcs straighten into grid lines (scrub)            |
 | `hero-foreground`, `.orrery-art`       | Parallax drift and rotation as the hero leaves             |
 | `expanding-imagery`                    | Frame (not caption) opens from an inset clip (scrub)       |
-| `featured-project`                     | Copy rises; AgentHQ annotations pop                        |
-| `architecture-lines`                   | Diagram wires draw, nodes settle, flow steps slide (scrub) |
-| `project-card` / `workshop-portal`     | Plaques rise / portals tilt in                             |
+| `artifact-portal`                      | Workshop artwork opens as a widening circle (scrub)        |
+| `featured-project`                     | Heading, specs and actions rise; AgentHQ annotations pop; the second capture drifts against the first |
+| `architecture-lines`                   | Zones appear, wires draw, nodes settle (scrub). In the Local AI exhibit the plan lifts from a tilted bench (`rotateX`) and nodes light in sequence |
+| `project-card` / `arcane-entry`        | Index rows rise                                            |
+| `workshop-portal`                      | Artifact plates rise at staggered depths                   |
+| `.invitation-seal`                     | The Home Workshop seal scales with scroll; a CSS `rotate` turns it slowly |
 | `.timeline`                            | Progress line fills (`--progress`); entries slide          |
 
 Text is only ever transformed, never hidden behind opacity. Hero headings use CSS line-mask entrances, which `index.css` disables under reduced motion. Cross-document view transitions (`@view-transition`) give route continuity.

@@ -15,6 +15,14 @@ const labels: Record<ProjectStatus, string> = {
 export function StatusIndicator({ status }: { status: ProjectStatus }) {
   return <span className={`status status-${status}`}>{labels[status]}</span>;
 }
+const verificationLabel = (project: Project) =>
+  project.verification === "owner-reported"
+    ? "Owner-reported"
+    : project.verification === "local-documentation"
+      ? "Local documentation"
+      : "Public source";
+
+/** A compact editorial index row for secondary professional work. */
 export function ProjectCard({ project }: { project: Project }) {
   return (
     <article
@@ -22,31 +30,28 @@ export function ProjectCard({ project }: { project: Project }) {
       data-project={project.slug}
       data-motion-slot="project-card"
     >
-      <ProjectVisual project={project} />
+      <div className="index-title">
+        <h3>
+          <a href={href(projectPath(project))}>{project.title}</a>
+        </h3>
+        <p>{project.summary}</p>
+        <ul className="tag-list" aria-label="Technologies and topics">
+          {project.tags.map((tag) => (
+            <li key={tag}>{tag}</li>
+          ))}
+        </ul>
+      </div>
       <div className="project-meta">
         <StatusIndicator status={project.status} />
-        <span>
-          {project.verification === "owner-reported"
-            ? "Owner-reported"
-            : project.verification === "local-documentation"
-              ? "Local documentation"
-              : "Public source"}
-        </span>
+        <span>{verificationLabel(project)}</span>
+        <p className="project-status-detail">{project.statusDetail}</p>
       </div>
-      <h3>
-        <a href={href(projectPath(project))}>{project.title}</a>
-      </h3>
-      <p>{project.summary}</p>
-      <ul className="tag-list" aria-label="Technologies and topics">
-        {project.tags.map((tag) => (
-          <li key={tag}>{tag}</li>
-        ))}
-      </ul>
-      <p className="project-status-detail">{project.statusDetail}</p>
-      <a className="text-link" href={href(projectPath(project))}>
-        Read {project.title} case study <span aria-hidden="true">→</span>
-      </a>
-      <ProjectEvidenceLinks project={project} />
+      <div className="index-actions">
+        <a className="text-link" href={href(projectPath(project))}>
+          Read {project.title} case study{"\u00a0"}<span aria-hidden="true">→</span>
+        </a>
+        <ProjectEvidenceLinks project={project} />
+      </div>
     </article>
   );
 }
@@ -57,17 +62,17 @@ export function ProjectGrid({
   projects: Project[];
   creative?: boolean;
 }) {
-  return (
-    <div
-      className={`project-grid${creative ? " project-grid-workshop" : " project-grid-editorial"}`}
-    >
-      {projects.map((project) =>
-        creative ? (
-          <WorkshopProjectCard key={project.slug} project={project} />
-        ) : (
-          <ProjectCard key={project.slug} project={project} />
-        ),
-      )}
+  return creative ? (
+    <div className="artifact-plates">
+      {projects.map((project) => (
+        <WorkshopProjectCard key={project.slug} project={project} />
+      ))}
+    </div>
+  ) : (
+    <div className="project-index">
+      {projects.map((project) => (
+        <ProjectCard key={project.slug} project={project} />
+      ))}
     </div>
   );
 }
@@ -127,7 +132,11 @@ export function ProjectExplorer({
         {filtered.length} {filtered.length === 1 ? "project" : "projects"} shown
       </p>
       {filtered.length ? (
-        <ProjectGrid projects={filtered} creative={creative} />
+        creative ? (
+          <ArcaneIndex projects={filtered} />
+        ) : (
+          <ProjectGrid projects={filtered} />
+        )
       ) : (
         <p className="empty-state">
           No projects match these filters. Try another topic or reset the
@@ -141,9 +150,11 @@ export function ProjectExplorer({
 export function ProjectVisual({
   project,
   priority = false,
+  bare = false,
 }: {
   project: Project;
   priority?: boolean;
+  bare?: boolean;
 }) {
   return project.media ? (
     <ProjectPreview
@@ -153,7 +164,7 @@ export function ProjectVisual({
       priority={priority}
     />
   ) : (
-    <StaticProjectOverview project={project} />
+    <StaticProjectOverview project={project} bare={bare} />
   );
 }
 export function ProjectEvidenceLinks({ project }: { project: Project }) {
@@ -172,6 +183,7 @@ export function ProjectEvidenceLinks({ project }: { project: Project }) {
     </div>
   );
 }
+/** An open, unframed artifact plate: artwork first, then the record. */
 export function WorkshopProjectCard({ project }: { project: Project }) {
   return (
     <article
@@ -180,7 +192,7 @@ export function WorkshopProjectCard({ project }: { project: Project }) {
       data-motion-slot="workshop-portal"
     >
       <div className="workshop-project-visual">
-        <ProjectVisual project={project} />
+        <ProjectVisual project={project} bare />
       </div>
       <div className="workshop-project-description">
         <StatusIndicator status={project.status} />
@@ -198,10 +210,78 @@ export function WorkshopProjectCard({ project }: { project: Project }) {
           Evidence basis: {project.verification.replaceAll("-", " ")}
         </p>
         <a className="text-link" href={href(projectPath(project))}>
-          Read {project.title} case study <span aria-hidden="true">→</span>
+          Read {project.title} case study{"\u00a0"}<span aria-hidden="true">→</span>
         </a>
         <ProjectEvidenceLinks project={project} />
       </div>
     </article>
+  );
+}
+
+const numerals = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+
+/**
+ * The Workshop collection as an index of artifacts. Hover or focus on an entry
+ * brings its illustration into the preview plate; the plate is decorative, and
+ * every entry carries its own text and canonical link.
+ */
+export function ArcaneIndex({ projects }: { projects: Project[] }) {
+  const [selected, setSelected] = useState(projects[0]?.slug);
+  const active = projects.some((project) => project.slug === selected)
+    ? selected
+    : projects[0]?.slug;
+  return (
+    <div className="arcane-index">
+      <ol className="arcane-index-list">
+        {projects.map((project, index) => (
+          <li
+            key={project.slug}
+            className={project.slug === active ? "is-active" : undefined}
+            data-project={project.slug}
+            data-motion-slot="arcane-entry"
+            onPointerEnter={() => setSelected(project.slug)}
+            onFocus={() => setSelected(project.slug)}
+          >
+            <span className="arcane-index-numeral" aria-hidden="true">
+              {numerals[index] ?? index + 1}
+            </span>
+            <div className="arcane-index-entry">
+              <h3>
+                <a href={href(projectPath(project))}>{project.title}</a>
+              </h3>
+              <p>{project.summary}</p>
+              <p className="project-status-detail">{project.statusDetail}</p>
+              <ul className="tag-list" aria-label="Technologies and topics">
+                {project.tags.map((tag) => (
+                  <li key={tag}>{tag}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="arcane-index-meta">
+              <StatusIndicator status={project.status} />
+              <span className="caption">
+                Evidence basis: {project.verification.replaceAll("-", " ")}
+              </span>
+              <a className="text-link" href={href(projectPath(project))}>
+                Read {project.title} case study{"\u00a0"}
+                <span aria-hidden="true">→</span>
+              </a>
+              <ProjectEvidenceLinks project={project} />
+            </div>
+          </li>
+        ))}
+      </ol>
+      <div className="arcane-index-preview" aria-hidden="true">
+        {projects.map((project) => (
+          <div
+            key={project.slug}
+            className="arcane-index-plate"
+            data-active={project.slug === active}
+          >
+            <ProjectVisual project={project} bare />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

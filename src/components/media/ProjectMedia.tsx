@@ -5,8 +5,14 @@ import { ExternalLink } from "../Content";
 import { ProjectArtwork } from "../visual/ProjectArtwork";
 
 /** An original illustration, explicitly not a fictional application screenshot. */
-export function StaticProjectOverview({ project }: { project: Project }) {
-  return <ProjectArtwork project={project} />;
+export function StaticProjectOverview({
+  project,
+  bare = false,
+}: {
+  project: Project;
+  bare?: boolean;
+}) {
+  return <ProjectArtwork project={project} bare={bare} />;
 }
 
 export function ProjectMedia({

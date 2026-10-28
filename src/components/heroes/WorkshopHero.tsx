@@ -1,5 +1,5 @@
 import { href } from "../../routes";
-import { ArcaneWorkbench } from "../visual/ArcaneWorkbench";
+import { TechnomancerEngine } from "../visual/TechnomancerEngine";
 import { Insignia } from "../visual/Insignia";
 
 /** A separate creative composition, not a reskinned professional hero. */
@@ -12,7 +12,7 @@ export function WorkshopHero() {
       >
         <p className="eyebrow workshop-kicker">
           <Insignia variant="workshop" className="hero-kicker-mark" />
-          The Technomancer’s Realm
+          The Technomancer’s Sanctum
         </p>
         <h1 data-motion-slot="workshop-heading">
           <span className="workshop-heading-small" data-motion-part="heading-line">
@@ -23,7 +23,7 @@ export function WorkshopHero() {
           </span>
         </h1>
         <p className="hero-description">
-          Code, curiosity, and a little make-believe.
+          Experiments in code, play and arcane machinery.
         </p>
         <p>
           Programming adventures, shared game nights, and experiments built to
@@ -38,7 +38,7 @@ export function WorkshopHero() {
         aria-label="Creative development approach"
         data-scene="arcane-workbench"
       >
-        <ArcaneWorkbench />
+        <TechnomancerEngine />
         <div className="workshop-static-scene" data-scene-fallback>
           <p className="eyebrow">From idea to interaction</p>
           <ul>
@@ -57,8 +57,8 @@ export function WorkshopHero() {
           </ul>
         </div>
         <figcaption>
-          Original illustration of an arcane workbench. A creative practice,
-          with prototype status and evidence kept visible.
+          Original illustration of an arcane reactor. A creative practice, with
+          prototype status and evidence kept visible.
         </figcaption>
       </figure>
       <nav

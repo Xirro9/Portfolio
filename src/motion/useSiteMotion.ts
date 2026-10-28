@@ -90,12 +90,12 @@ export function useSiteMotion(scope: RefObject<HTMLElement | null>, path: string
           all('[data-motion-slot="expanding-imagery"]').forEach((media) => {
             // Clip only the visual frame; captions and provenance stay readable.
             const frame = media.querySelector(
-              ".project-media-frame, .system-diagram-scroll, .project-overview-art",
+              ".project-media-frame, .system-diagram-stage, .project-overview-art",
             );
             if (!frame) return;
             gsap.fromTo(
               frame,
-              { clipPath: wide ? "inset(9% 12% 9% 12%)" : "inset(4% 6% 4% 6%)" },
+              { clipPath: wide ? "inset(8% 10% 8% 10%)" : "inset(4% 6% 4% 6%)" },
               {
                 clipPath: "inset(0% 0% 0% 0%)",
                 ease: "none",
@@ -103,10 +103,24 @@ export function useSiteMotion(scope: RefObject<HTMLElement | null>, path: string
               },
             );
           });
+          // Workshop artifacts open like a portal rather than a window.
+          all('[data-motion-slot="artifact-portal"] .project-overview-art').forEach((art) => {
+            gsap.fromTo(
+              art,
+              { clipPath: "circle(24% at 50% 50%)" },
+              {
+                clipPath: "circle(78% at 50% 50%)",
+                ease: "none",
+                scrollTrigger: { trigger: art, start: "top 95%", end: "center 50%", scrub: 0.8 },
+              },
+            );
+          });
           all('[data-motion-slot="featured-project"]').forEach((feature) => {
-            const copy = feature.querySelector(".featured-project-copy");
-            if (copy)
-              gsap.from(copy.children, {
+            const parts = feature.querySelectorAll(
+              ".exhibit-head > *, .exhibit-specs > div, .exhibit-actions",
+            );
+            if (parts.length)
+              gsap.from(parts, {
                 y: 28,
                 duration: 0.9,
                 ease: "power3.out",
@@ -124,17 +138,52 @@ export function useSiteMotion(scope: RefObject<HTMLElement | null>, path: string
                 stagger: 0.15,
                 scrollTrigger: { trigger: feature, start: "top 55%", once: true },
               });
+            // The second capture drifts against the first: controlled layering.
+            const layer = feature.querySelector('[data-motion-part="secondary-media"]');
+            if (layer && wide)
+              gsap.fromTo(
+                layer,
+                { yPercent: 18 },
+                {
+                  yPercent: -14,
+                  ease: "none",
+                  scrollTrigger: { trigger: feature, start: "top bottom", end: "bottom top", scrub: true },
+                },
+              );
           });
 
           // Architecture wires draw with scroll; nodes settle onto the grid.
           all('[data-motion-slot="architecture-lines"]').forEach((diagram) => {
             const wires = diagram.querySelectorAll('[data-motion-part="diagram-path"]');
             const nodes = diagram.querySelectorAll('[data-motion-part="diagram-node"]');
+            const zones = diagram.querySelectorAll('[data-motion-part="diagram-zone"]');
+            const staged = diagram.closest(".workbench-exhibit");
             const timeline = gsap.timeline({
-              scrollTrigger: { trigger: diagram, start: "top 80%", end: "center 45%", scrub: 0.7 },
+              scrollTrigger: {
+                trigger: diagram,
+                start: "top 85%",
+                end: staged ? "center 50%" : "center 45%",
+                scrub: 0.7,
+              },
             });
+            if (staged && wide)
+              // The plan view lifts from a tilted bench to face the reader.
+              timeline.fromTo(
+                diagram.querySelector("svg"),
+                { rotateX: 26, scale: 0.94 },
+                { rotateX: 0, scale: 1, ease: "power1.out", duration: 1 },
+                0,
+              );
+            if (zones.length)
+              timeline.from(zones, { opacity: 0, stagger: 0.12, ease: "none", duration: 0.4 }, 0);
             if (nodes.length)
-              timeline.from(nodes, { y: "+=18", scale: 0.94, transformOrigin: "50% 50%", stagger: 0.08, ease: "power2.out" }, 0);
+              timeline.from(
+                nodes,
+                staged
+                  ? { opacity: 0.25, stagger: 0.09, ease: "power1.out", duration: 0.4 }
+                  : { y: "+=18", scale: 0.94, transformOrigin: "50% 50%", stagger: 0.08, ease: "power2.out" },
+                0.05,
+              );
             if (wires.length)
               timeline.fromTo(wires, { strokeDashoffset: 1 }, { strokeDashoffset: 0, stagger: 0.1, ease: "none" }, 0.15);
             const steps = diagram.querySelectorAll("[data-architecture-step]");
@@ -142,27 +191,35 @@ export function useSiteMotion(scope: RefObject<HTMLElement | null>, path: string
               timeline.from(steps, { x: -24, stagger: 0.1, ease: "power2.out" }, 0);
           });
 
-          // Archive plaques and workshop portals arrive differently.
-          all('[data-motion-slot="project-card"]').forEach((card, index) => {
-            gsap.from(card, {
-              y: 44,
-              duration: 0.9,
+          // Index rows and artifact plates arrive with restraint.
+          all('[data-motion-slot="project-card"], [data-motion-slot="arcane-entry"]').forEach((row) => {
+            gsap.from(row, {
+              y: 22,
+              duration: 0.8,
               clearProps: "transform",
-              delay: (index % 2) * 0.08,
               ease: "power3.out",
-              scrollTrigger: { trigger: card, start: "top 90%", once: true },
+              scrollTrigger: { trigger: row, start: "top 92%", once: true },
             });
           });
-          all('[data-motion-slot="workshop-portal"]').forEach((portal, index) => {
-            gsap.from(portal, {
-              y: 56,
-              rotate: index % 2 ? 2.5 : -2.5,
-              scale: 0.94,
-              duration: 1,
-              ease: "back.out(1.4)",
+          all('[data-motion-slot="workshop-portal"]').forEach((plate, index) => {
+            gsap.from(plate, {
+              y: 48 + (index % 2) * 32,
+              duration: 1.1,
+              ease: "power3.out",
               clearProps: "transform",
-              scrollTrigger: { trigger: portal, start: "top 92%", once: true },
+              scrollTrigger: { trigger: plate, start: "top 92%", once: true },
             });
+          });
+          all(".invitation-seal").forEach((seal) => {
+            gsap.fromTo(
+              seal,
+              { scale: 0.86 },
+              {
+                scale: 1.04,
+                ease: "none",
+                scrollTrigger: { trigger: seal, start: "top bottom", end: "bottom top", scrub: true },
+              },
+            );
           });
 
           // Timelines fill as the reader progresses through them.

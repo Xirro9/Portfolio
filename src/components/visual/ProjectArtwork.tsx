@@ -1,6 +1,6 @@
-import type { CSSProperties, ReactNode } from "react";
+import { useId, type CSSProperties, type ReactNode } from "react";
 import type { Project } from "../../content/types";
-import { runes } from "./runes";
+import { creativeMotifs } from "./WorkshopArtwork";
 
 /**
  * Original cover illustrations. They depict ideas and structure, never a
@@ -17,11 +17,11 @@ const accents: Record<string, string> = {
   "memory-allocator": "#c9b48c",
   "cli-text-editor": "#a9c7a0",
   "docker-wordpress": "#8fb3e0",
-  "bug-hunters-guild": "#ffc46b",
-  "pokemon-party-fighter": "#ff7a6b",
-  "mtg-game-night": "#6ef2b8",
-  lifedash: "#5be7f0",
-  realitycheck: "#c6a7ff",
+  "bug-hunters-guild": "#e0a85a",
+  "pokemon-party-fighter": "#ff4d6a",
+  "mtg-game-night": "#2fd69b",
+  lifedash: "#4fe3f0",
+  realitycheck: "#b27cff",
 };
 const arcTicks = (cx: number, cy: number, r: number, from: number, to: number, count: number, long = 6) =>
   Array.from({ length: count + 1 }, (_, index) => {
@@ -43,7 +43,7 @@ const label = (x: number, y: number, text: string, anchor: "start" | "middle" = 
   </text>
 );
 
-const motifs: Record<string, () => ReactNode> = {
+const motifs: Record<string, (id: string) => ReactNode> = {
   controlgauge: () => (
     <>
       <path className="pa-line" d="M140 222 A100 100 0 1 1 340 222" />
@@ -195,83 +195,6 @@ const motifs: Record<string, () => ReactNode> = {
       <ellipse className="pa-box" cx="240" cy="230" rx="46" ry="10" />
     </>
   ),
-  "bug-hunters-guild": () => (
-    <>
-      <path className="pa-box" d="M110 260 V140 A130 130 0 0 1 370 140 V260" />
-      <path className="pa-line" d="M140 260 V150 A100 100 0 0 1 340 150 V260" />
-      <circle className="pa-glow" cx="240" cy="150" r="58" />
-      <path className="pa-accent" d="M240 70 V100 M222 100 H258 L250 160 H230 Z" />
-      <circle className="pa-fill" cx="240" cy="132" r="10" />
-      <text className="pa-brace" x="172" y="226">{"{"}</text>
-      <text className="pa-brace" x="284" y="226">{"}"}</text>
-      <ellipse className="pa-line" cx="240" cy="212" rx="16" ry="12" />
-      <path className="pa-line" d="M228 204 l-12 -8 M252 204 l12 -8 M226 216 h-14 M254 216 h14 M240 200 V224" />
-    </>
-  ),
-  "pokemon-party-fighter": () => (
-    <>
-      {Array.from({ length: 14 }, (_, index) => (
-        <path key={index} className="pa-line" d={`M${30 + index * 8} ${60 + index * 14} H${160 + (index % 3) * 30}`} />
-      ))}
-      <path className="pa-glow" d="M300 60 L318 116 L374 96 L336 140 L392 170 L330 172 L344 230 L300 186 L262 232 L268 172 L210 168 L262 140 L228 96 L282 116 Z" />
-      <circle className="pa-fill" cx="230" cy="150" r="24" />
-      <circle className="pa-box" cx="364" cy="140" r="20" />
-      <path className="pa-accent pa-thick" d="M60 250 H420" />
-      <path className="pa-line" d="M120 250 V270 M360 250 V270" />
-    </>
-  ),
-  "mtg-game-night": () => (
-    <>
-      <ellipse className="pa-box" cx="240" cy="150" rx="170" ry="70" />
-      <ellipse className="pa-glow" cx="240" cy="150" rx="110" ry="40" />
-      {[-24, -8, 8, 24].map((angle) => (
-        <rect
-          key={angle}
-          className="pa-fill"
-          x="226"
-          y="114"
-          width="28"
-          height="40"
-          transform={`rotate(${angle} 240 190)`}
-        />
-      ))}
-      {[
-        [60, 70],
-        [420, 70],
-        [60, 230],
-        [420, 230],
-      ].map(([x, y]) => (
-        <g key={`${x}${y}`} transform={`translate(${x} ${y})`}>
-          <rect className="pa-box" x="-13" y="-22" width="26" height="44" rx="4" />
-          <path className="pa-accent" d="M-6 -4 h12 M-6 4 h8" />
-        </g>
-      ))}
-      <path className="pa-line pa-dashed" d="M73 74 L150 120 M407 74 L330 120 M73 226 L150 180 M407 226 L330 180" />
-    </>
-  ),
-  lifedash: () => (
-    <>
-      <path className="pa-line" d="M60 200 A180 180 0 0 1 420 200" />
-      <circle className="pa-glow" cx="150" cy="96" r="22" />
-      <path className="pa-fill" d="M348 82 A22 22 0 1 0 348 126 A17 17 0 1 1 348 82 Z" />
-      {[0, 1, 2].map((index) => (
-        <rect key={index} className="pa-box" x={90 + index * 106} y="186" width="90" height="70" />
-      ))}
-      <path className="pa-accent" d="M104 236 l14 -14 l12 8 l20 -20 M210 230 h60 M316 206 v36 h50" />
-    </>
-  ),
-  realitycheck: () => (
-    <>
-      {[80, 104, 128, 152, 176, 200].map((y, index) => (
-        <path key={y} className="pa-line" d={`M60 ${y} h${[220, 190, 240, 160, 210, 120][index]}`} />
-      ))}
-      <circle className="pa-glow" cx="300" cy="140" r="60" />
-      <circle className="pa-box pa-thick" cx="300" cy="140" r="60" />
-      <path className="pa-accent pa-thick" d="M344 184 L410 250" />
-      <path className="pa-accent" d="M276 140 l16 16 l30 -34" />
-      {label(300, 46, "CONCEPT")}
-    </>
-  ),
 };
 motifs.agenthq = () => (
   <>
@@ -294,41 +217,46 @@ motifs.agenthq = () => (
 export function ProjectArtwork({
   project,
   compact = false,
+  bare = false,
 }: {
   project: Project;
   compact?: boolean;
+  bare?: boolean;
 }) {
+  const id = useId().replace(/[^\w-]/g, "");
   const creative = project.home === "workshop";
-  const draw = motifs[project.slug];
+  const draw = creativeMotifs[project.slug] ?? motifs[project.slug];
   return (
     <figure
-      className={`project-media project-media-fallback project-artwork${creative ? " project-artwork-creative" : ""}`}
+      className={`project-media project-media-fallback project-artwork${creative ? " project-artwork-creative" : ""}${bare ? " project-artwork-bare" : ""}`}
       data-media-kind="static-overview"
+      data-art={project.slug}
       style={{ "--art-accent": accents[project.slug] ?? "#c4a77b" } as CSSProperties}
     >
       <div className="project-overview-art" data-motion-slot="project-static-visual">
         <svg className="project-artwork-svg" viewBox="0 0 480 300" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid slice">
-          <g className="pa-grid">
-            {creative
-              ? runes.map((rune, index) => (
-                  <path key={rune} d={rune} transform={`translate(${30 + index * 60} ${index % 2 ? 24 : 278}) scale(0.9)`} />
-                ))
-              : [60, 120, 180, 240].map((y) => <path key={y} d={`M0 ${y} H480`} />)}
-          </g>
-          <path className="pa-registration" d="M12 24 V12 H24 M456 12 H468 V24 M468 276 V288 H456 M24 288 H12 V276" />
-          {draw ? draw() : null}
+          {!creative && (
+            <g className="pa-grid">
+              {[60, 120, 180, 240].map((y) => (
+                <path key={y} d={`M0 ${y} H480`} />
+              ))}
+            </g>
+          )}
+          {draw ? draw(id) : null}
         </svg>
-        <div className="project-overview-copy">
-          <p className="eyebrow">
-            {creative ? "Creative project" : "Engineering overview"}
-          </p>
-          {!compact && <p className="project-overview-title">{project.title}</p>}
-          <ul>
-            {project.tags.slice(0, 3).map((tag) => (
-              <li key={tag}>{tag}</li>
-            ))}
-          </ul>
-        </div>
+        {!bare && (
+          <div className="project-overview-copy">
+            <p className="eyebrow">
+              {creative ? "Creative project" : "Engineering overview"}
+            </p>
+            {!compact && <p className="project-overview-title">{project.title}</p>}
+            <ul>
+              {project.tags.slice(0, 3).map((tag) => (
+                <li key={tag}>{tag}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       <figcaption>
         Original illustration · not a product capture.

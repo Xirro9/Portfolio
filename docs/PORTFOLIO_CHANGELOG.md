@@ -78,3 +78,15 @@ Branch: `portfolio-v2-structural-blueprint`. The owner explicitly requested a lo
 - Rewrote `CLAUDE_VISUAL_HANDOFF.md`; added `MEDIA_MANIFEST.md`; refreshed architecture, inventory, verification and README documentation.
 
 Validation: lint, strict TypeScript, 56 unit/component/content tests, production build (22 routes plus 404/sitemap), and 14 desktop/mobile Chromium tests passed during the structural implementation. The route suite includes 44 route/axe scans, gallery and no-JavaScript checks, education reduced motion, metadata, navigation and overflow checks. Final desktop/390px visual review and staged diff checks are recorded with delivery. Remote CI was not run for this local-only branch.
+
+## Arcane Tech editorial refinement
+
+Branch: `claude/arcane-editorial-refinement`, based on `claude/arcane-tech-visual-v2`. Local commit only; no push, merge or deploy.
+
+- De-boxified the layout system: open sections with single-axis rules, a `--bleed` token for media that reaches the viewport edge, no corner brackets, and frames kept only on controls, real captures, diagram nodes and the education panels.
+- Home: the celestial engine is staged as the centrepiece behind the headline, with the approach notes engraved at its corners and credentials as a ruled ledger; the introduction is an open editorial statement; disciplines and timelines became ledgers; education became an unboxed band; a full-bleed Workshop threshold with a static reactor seal replaced the boxed invitation.
+- Work: an exhibition contents index; ControlGauge as a diagram-led exhibit with legible zoned SVG and no horizontal scroll; AgentHQ with both real DEMO captures layered and annotated; the Local AI workbench as a full-bleed exhibition whose plan lifts and lights on scroll; secondary work as an `EA-xx` editorial index.
+- Workshop: a darker Sanctum palette, retired SOFT/WONK axes, a new layered arcane reactor hero, two individually composed artifact spreads, an artifact index with a preview plate, open artifact plates, and five new concept plates.
+- Diagrams render an ordered node and relationship list for narrow screens and assistive technology.
+
+Validation: see `VISUAL_ACCEPTANCE.md`.
