@@ -1,9 +1,4 @@
-import {
-  activities,
-  education,
-  experiences,
-  milestones,
-} from "../content/site";
+import { activities, experiences, milestones } from "../content/site";
 import { BulletList, ExternalLink, SectionHeading } from "./Content";
 export function ExperienceTimeline({
   currentOnly = false,
@@ -28,25 +23,6 @@ export function ExperienceTimeline({
               <summary>Responsibilities and approach</summary>
               <BulletList items={item.details} />
             </details>
-          </li>
-        ))}
-      </ol>
-    </section>
-  );
-}
-export function EducationSection() {
-  return (
-    <section>
-      <SectionHeading title="Education" />
-      <ol className="timeline">
-        {education.map((item) => (
-          <li key={item.title}>
-            <p className="eyebrow">{item.period}</p>
-            <h3>{item.title}</h3>
-            <p>
-              {item.institution} · {item.status}
-            </p>
-            <p>{item.description}</p>
           </li>
         ))}
       </ol>

@@ -59,3 +59,7 @@ Read `CLAUDE_VISUAL_HANDOFF.md` for Arcane Tech art direction, CSS/component ent
 ## Publication follow-up
 
 After Phase 1 delivery, the owner explicitly authorized pushing and merging this branch. The branch was pushed, and a pull request is used to verify remote checks before merging into main. The earlier no-push/no-deploy statements describe the initial Phase 1 delivery snapshot.
+
+## Education emphasis follow-up
+
+At the owner’s request, education moves immediately after current professional work on the homepage, with an introduction anchor link and larger, distinct graduate/undergraduate panels. Descriptive degree titles are separated from the Cybersecurity field; graduate study remains explicitly in progress. A configurable, one-time decorative underline sweep highlights both titles without moving or hiding text. Reduced-motion disables it. See `EDUCATION_PRESENTATION.md` for parameters. No exact formal degree title or completed master’s credential is inferred.

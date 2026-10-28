@@ -57,4 +57,6 @@ Choose final typefaces with readable fallbacks; define final tokens; refine edit
 
 ## Content tasks remain separate
 
+Owner-requested education emphasis was added after the initial handoff: `EducationSection.tsx` now renders larger degree panels and a one-shot underline sweep. Its duration, stagger, intensity and enabled state live in `educationAnimation` in `src/content/site.ts`; see `EDUCATION_PRESENTATION.md`. Preserve reduced-motion and always-visible text. Education now follows current employment on the homepage, with a direct introduction anchor.
+
 Exact formal degree names, employer-specific metrics and methodology disclosures, some personal contribution attribution, event dates, creative source links and asset rights are not settled by visual redesign. See the checklist. Do not fill these gaps with invented copy. No Security+ credential should appear as earned without confirmation.

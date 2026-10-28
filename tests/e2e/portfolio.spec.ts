@@ -104,9 +104,66 @@ test("404 state, skip link, sitemap, and base assets", async ({
     expect((await request.get(`/Portfolio/${path}`)).status()).toBe(200);
 });
 
-test("desktop and mobile visual review captures", async ({ page }, testInfo) => {
-  for (const [name, path] of [["home", "/"], ["case-study", "/work/controlgauge"], ["workshop", "/workshop"]]) {
+test("desktop and mobile visual review captures", async ({
+  page,
+}, testInfo) => {
+  for (const [name, path] of [
+    ["home", "/"],
+    ["case-study", "/work/controlgauge"],
+    ["workshop", "/workshop"],
+  ]) {
     await page.goto(href(path));
-    await page.screenshot({ path: testInfo.outputPath(`${name}.png`), fullPage: true });
+    await page.screenshot({
+      path: testInfo.outputPath(`${name}.png`),
+      fullPage: true,
+    });
   }
+});
+
+test("education is prominent and motion respects reader preferences", async ({
+  page,
+}, testInfo) => {
+  await page.goto("/Portfolio/");
+  await page.getByRole("link", { name: "Education highlights" }).click();
+  const education = page.locator("#education");
+  await expect(education).toBeInViewport();
+  for (const card of await education.locator('.education-card').all()) {
+    await card.scrollIntoViewIfNeeded();
+    await expect(card).toHaveAttribute("data-revealed", "true");
+  }
+  await expect(
+    education.getByRole("heading", { name: "Master’s studies" }),
+  ).toBeVisible();
+  await expect(
+    education.getByRole("heading", { name: "Bachelor’s degree" }),
+  ).toBeVisible();
+  await expect(
+    education.getByText("In progress", { exact: true }),
+  ).toBeVisible();
+  const motion = await education
+    .locator(".education-title-track")
+    .first()
+    .evaluate((element) => getComputedStyle(element, "::after").animationName);
+  expect(motion).toBe("education-title-sweep");
+  await education.screenshot({
+    path: testInfo.outputPath("education.png"),
+    animations: "disabled",
+  });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  expect(
+    await education
+      .locator(".education-title-track")
+      .first()
+      .evaluate(
+        (element) => getComputedStyle(element, "::after").animationName,
+      ),
+  ).toBe("none");
+  await expect(
+    education.getByRole("heading", { name: "Master’s studies" }),
+  ).toBeVisible();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
 });
