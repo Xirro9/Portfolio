@@ -1,5 +1,24 @@
 import { projects, projectPath } from "./content/projects";
 import { site } from "./content/site";
+export const themeScopes = [
+  "observatory",
+  "engineering-archive",
+  "technomancer-workshop",
+] as const;
+export type ThemeScope = (typeof themeScopes)[number];
+export function themeForPath(path: string): ThemeScope {
+  const route = normalizePath(path);
+  if (route === "/workshop" || route.startsWith("/workshop/"))
+    return "technomancer-workshop";
+  if (
+    route === "/work" ||
+    route.startsWith("/work/") ||
+    route === "/labs" ||
+    route.startsWith("/labs/")
+  )
+    return "engineering-archive";
+  return "observatory";
+}
 export const pages = [
   {
     path: "/",

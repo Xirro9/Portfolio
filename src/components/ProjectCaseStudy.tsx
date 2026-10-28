@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { projects, projectPath } from "../content/projects";
 import { site } from "../content/site";
 import type { Project } from "../content/types";
@@ -10,36 +9,26 @@ import {
   SectionHeading,
 } from "./Content";
 import { ProjectGrid, StatusIndicator } from "./Projects";
-export function CaseStudyMedia({ media }: { media: Project["media"] }) {
-  const [failed, setFailed] = useState(false);
-  if (!media) return null;
-  return (
-    <figure className="case-study-media">
-      {failed ? (
-        <p>
-          Image unavailable. See the linked project evidence for the original
-          capture.
-        </p>
-      ) : (
-        <img
-          src={`${site.base}/${media.path}`}
-          alt={media.alt}
-          width={media.width}
-          height={media.height}
-          loading="lazy"
-          onError={() => setFailed(true)}
-        />
-      )}
-      <figcaption>{media.caption}</figcaption>
-    </figure>
-  );
-}
-export function ProjectCaseStudy({ project }: { project: Project }) {
+import { CaseStudyMedia } from "./media/CaseStudyMedia";
+import { ArchitectureDiagram } from "./media/ArchitectureDiagram";
+export function ProjectCaseStudy({
+  project,
+  layout = project.home === "workshop" ? "creative" : "technical",
+}: {
+  project: Project;
+  layout?: "technical" | "creative";
+}) {
   const related = projects.filter((item) =>
     project.related.includes(item.slug),
   );
   const sections = [
-    { title: "Implementation", items: project.implemented },
+    {
+      title:
+        layout === "creative"
+          ? "Current prototype & interaction"
+          : "Implementation",
+      items: project.implemented,
+    },
     { title: "Engineering challenges", items: project.challenges },
     { title: "Security & reliability", items: project.safeguards },
     { title: "Results", items: project.results },
@@ -48,7 +37,11 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
     { title: "Engineering lessons", items: project.lessons },
   ];
   return (
-    <>
+    <article
+      className={`case-study case-study-${layout}`}
+      data-case-study={project.slug}
+      data-layout={layout}
+    >
       <nav className="breadcrumb" aria-label="Breadcrumb">
         <a href={href(`/${project.home}`)}>
           {project.home === "workshop"
@@ -60,7 +53,14 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
         <span aria-hidden="true"> / </span>
         <span>{project.title}</span>
       </nav>
-      <PageHeading eyebrow="Technical case study" title={project.title}>
+      <PageHeading
+        eyebrow={
+          layout === "creative"
+            ? "Workshop project notebook"
+            : "Technical case study"
+        }
+        title={project.title}
+      >
         <p>{project.summary}</p>
       </PageHeading>
       <div className="case-study-status">
@@ -76,34 +76,35 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
           {project.notice}
         </aside>
       )}
+      {layout === "creative" && <CaseStudyMedia project={project} />}
       <div className="case-study-layout">
         <div className="case-study-body">
           <section>
-            <SectionHeading title="Problem & intended use" />
+            <SectionHeading
+              title={
+                layout === "creative"
+                  ? "Creative intent & experience"
+                  : "Problem & intended use"
+              }
+            />
             <p>{project.problem}</p>
           </section>
           <section>
             <SectionHeading title="My role & attribution" />
             <p>{project.role}</p>
           </section>
-          {project.architecture.length > 0 && (
+          {(project.architecture.length > 0 || project.media?.diagram) && (
             <section>
               <SectionHeading title="Architecture" />
-              <ol
-                className="architecture-flow"
-                aria-label="High-level component flow"
-              >
-                {project.architecture.map((step) => (
-                  <li key={step}>{step}</li>
-                ))}
-              </ol>
-              <p className="caption">
-                Sanitized component overview; no infrastructure connection
-                details.
-              </p>
+              <ArchitectureDiagram
+                steps={project.architecture}
+                image={project.media?.diagram}
+              />
             </section>
           )}
-          <CaseStudyMedia key={project.slug} media={project.media} />
+          {layout === "technical" && (
+            <CaseStudyMedia key={project.slug} project={project} />
+          )}
           {sections
             .filter((section) => section.items.length)
             .map((section) => (
@@ -153,9 +154,9 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
       {related.length > 0 && (
         <section>
           <SectionHeading title="Related work" />
-          <ProjectGrid projects={related} />
+          <ProjectGrid projects={related} creative={layout === "creative"} />
         </section>
       )}
-    </>
+    </article>
   );
 }

@@ -53,3 +53,7 @@ Local PartyMage was relevant and already present. No unrelated repository was mo
 `public/media/agenthq-night.png`: actual 1280×720 capture from `Xirro9/AgentHQ/docs/evidence/e2e-04-night.png`, visually inspected. Demonstrates demo interface/night settings. No private network details visible. Attribution and source recorded in `public/media/README.md`.
 
 Case-study architecture flows are semantic, sanitized component overviews, not screenshots or exact deployment diagrams. No fabricated product screens. Old portfolio screenshots in `.github/readme` remain historical repository artifacts and are no longer advertised as current previews.
+
+## Structural blueprint follow-up
+
+The separate structural-blueprint branch reorganizes existing verified/qualified content into the Observatory, Engineering Archive and Technomancer Workshop compositions, with no added employment, qualification or project-capability claims. Existing education emphasis remains. `MEDIA_MANIFEST.md` records the authentic AgentHQ cover/gallery and all missing captures. The task-board screenshot was inspected before reuse; its fixture tasks remain explicitly DEMO. No actual preview video was supplied or invented.

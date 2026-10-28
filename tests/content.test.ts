@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { existsSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { projects, projectPath } from "../src/content/projects";
 import {
   certifications,
@@ -33,7 +35,8 @@ describe("publication contracts", () => {
       if (project.repositoryUrl)
         expect(new URL(project.repositoryUrl).hostname).toBe("github.com");
       if (project.featured) expect(project.home).toBe("work");
-      if (project.media) expect(project.media.alt.length).toBeGreaterThan(15);
+      if (project.media)
+        expect(project.media.cover.alt.length).toBeGreaterThan(15);
     }
   });
   it("connects every navigation and note destination to a real route", () => {
@@ -48,6 +51,44 @@ describe("publication contracts", () => {
     expect(education.find((item) => item.status === "completed")?.period).toBe(
       "Completed May 2026",
     );
+  });
+  it("uses real, correctly sized local media and valid preview prerequisites", () => {
+    for (const project of projects) {
+      const media = project.media;
+      if (!media) continue;
+      for (const image of [
+        media.cover,
+        ...(media.screenshots ?? []),
+        ...(media.diagram ? [media.diagram] : []),
+        ...(media.preview ? [media.preview.poster] : []),
+      ]) {
+        expect(image.path).toMatch(/^media\/[a-z0-9-]+\.(png|webp|jpg|svg)$/);
+        const file = resolve("public", image.path);
+        expect(existsSync(file), image.path).toBe(true);
+        expect(image.alt.length).toBeGreaterThan(10);
+        expect(image.caption.length).toBeGreaterThan(10);
+        expect(image.width).toBeGreaterThan(0);
+        expect(image.height).toBeGreaterThan(0);
+        if (image.path.endsWith(".png")) {
+          const png = readFileSync(file);
+          expect(png.readUInt32BE(16)).toBe(image.width);
+          expect(png.readUInt32BE(20)).toBe(image.height);
+        }
+        for (const source of image.srcSet ?? []) {
+          const file = resolve("public", source.path);
+          expect(existsSync(file)).toBe(true);
+          if (source.path.endsWith(".png"))
+            expect(readFileSync(file).readUInt32BE(16)).toBe(source.width);
+        }
+        for (const variant of Object.values(image.variants ?? {}))
+          expect(existsSync(resolve("public", variant))).toBe(true);
+      }
+      if (media.preview) {
+        expect(existsSync(resolve("public", media.preview.path))).toBe(true);
+        expect(media.preview.description.length).toBeGreaterThan(10);
+        expect(media.preview.caption.length).toBeGreaterThan(10);
+      }
+    }
   });
   it("handles the Pages base, trailing slash, and unknown route metadata", () => {
     expect(normalizePath("/Portfolio/work/controlgauge/")).toBe(

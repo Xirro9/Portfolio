@@ -44,3 +44,7 @@ Status terminology: **documented** means supported by inspected project sources,
 ## Publication boundary
 
 No certificates, awards, conference talks, company endorsements, customer details, model benchmarks, or production assessment capabilities have been inferred. Owner-reported public records are visibly labeled in project views. Proposed future capabilities remain separate from implementation. Any publication approval for employer-specific examples must be obtained before adding them; it is not needed to complete the sanitized implementation in this branch.
+
+## Structural media follow-up
+
+The AgentHQ task-board capture from `docs/evidence/e2e-03-taskboard.png` in the public source repository was inspected before inclusion in the separate structural-blueprint branch. It is actual application imagery displaying a DEMO fixture, not evidence of live task outcomes. Night and task-board captures have faithful 640/960px derivatives and preserve source captions. No other project media, video, credentials, employer facts, or capability claims were promoted. See `MEDIA_MANIFEST.md` for the capture and rights-review backlog.

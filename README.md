@@ -25,8 +25,13 @@ npm run preview    # inspect generated output at /Portfolio/
 - `src/routes.ts`: base-aware route definitions and metadata.
 - `scripts/prerender.tsx`: 22 static pages, a 404 and sitemap from the same React/data model.
 - `src/index.css`: neutral Phase 1 presentation and design token entry points.
+- `src/structure.css`: neutral theme scopes, distinct hero compositions, media frames, and editorial layout hooks.
+- `src/components/heroes/`: independent Observatory, Archive, and Workshop hero foundations.
+- `src/components/media/`: responsive images, intent-driven video previews, manual galleries, and architecture diagrams.
 
 Routes: home, Work, Experience, Labs & notes, The Workshop, About and Contact, plus canonical case studies. Creative engineering spotlights link to Workshop records without duplicating data.
+
+The structural-blueprint branch adds `observatory`, `engineering-archive`, and `technomancer-workshop` scopes to the shared application. See [media manifest](docs/MEDIA_MANIFEST.md) for authentic captures and the remaining asset backlog. No approved project video is supplied yet; media policy/control behavior is tested with test-only fixtures. Final illustration and elaborate animation remain Phase 2 work.
 
 ## Editing and publication
 
@@ -39,6 +44,8 @@ Edit canonical records, run checks and preview the build. Omit missing media rat
 Preserves `/Portfolio/` and the existing Actions deployment model. Each known route is a directory with `index.html`; no router rewrites are needed. Unknown URLs use generated `404.html`. Page-specific metadata is prerendered. Content is readable before hydration; JavaScript enables filters and mobile disclosure navigation. Main deployment validates first; branch/PR validation does not deploy.
 
 Production publishing follows the owner’s approved merge into `main`. Branch validation never deploys.
+
+The structural-blueprint request explicitly requires a separate committed branch without automatic merging or deployment. Its local results do not change the live site.
 
 ## Claude’s next phase
 

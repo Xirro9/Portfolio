@@ -14,6 +14,17 @@
     system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --content-width: 72rem;
   --space-section: clamp(3rem, 6vw, 5rem);
+  --space-page-inline: 1.5rem;
+  --space-grid: 1.5rem;
+  --type-display: clamp(2.2rem, 4.7vw, 3.8rem);
+  --type-section: clamp(1.5rem, 2.6vw, 2rem);
+  --type-subheading: 1.25rem;
+  --type-caption: 0.85rem;
+  --font-display: var(--font-body);
+  --motion-duration-short: 160ms;
+  --motion-duration-base: 320ms;
+  --motion-easing: cubic-bezier(0.2, 0.65, 0.35, 1);
+  --motion-enabled: 1;
   font: 100% / 1.7 var(--font-body);
   background: var(--color-background);
   color: var(--color-text);
@@ -80,18 +91,19 @@ h3 {
   text-wrap: balance;
 }
 h1 {
-  font-size: clamp(2.2rem, 4.7vw, 3.8rem);
+  font-size: var(--type-display);
+  font-family: var(--font-display);
   letter-spacing: -0.035em;
   max-width: 22ch;
   margin: 0.75rem 0 1.5rem;
 }
 h2 {
-  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-size: var(--type-section);
   letter-spacing: -0.02em;
   margin: 0 0 1rem;
 }
 h3 {
-  font-size: 1.25rem;
+  font-size: var(--type-subheading);
   margin: 0.75rem 0;
 }
 p {
@@ -177,7 +189,7 @@ img {
 }
 .page-shell {
   max-width: var(--content-width);
-  padding: 0 1.5rem var(--space-section);
+  padding: 0 var(--space-page-inline) var(--space-section);
   margin-inline: auto;
 }
 .page-heading {
@@ -224,7 +236,7 @@ figcaption {
 .project-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.5rem;
+  gap: var(--space-grid);
 }
 .project-card {
   padding: 1.6rem;
@@ -393,7 +405,8 @@ figcaption {
   opacity: 0;
   transform: translateX(-120%);
 }
-.education-section[data-motion="enabled"] .education-card[data-revealed="true"]
+.education-section[data-motion="enabled"]
+  .education-card[data-revealed="true"]
   .education-title-track::after {
   animation: education-title-sweep var(--education-duration)
     cubic-bezier(0.2, 0.65, 0.35, 1) var(--education-delay) 1 both;

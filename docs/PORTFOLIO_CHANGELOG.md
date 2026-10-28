@@ -63,3 +63,18 @@ After Phase 1 delivery, the owner explicitly authorized pushing and merging this
 ## Education emphasis follow-up
 
 At the owner’s request, education moves immediately after current professional work on the homepage, with an introduction anchor link and larger, distinct graduate/undergraduate panels. Descriptive degree titles are separated from the Cybersecurity field; graduate study remains explicitly in progress. A configurable, one-time decorative underline sweep highlights both titles without moving or hiding text. Reduced-motion disables it. See `EDUCATION_PRESENTATION.md` for parameters. No exact formal degree title or completed master’s credential is inferred.
+
+## Structural blueprint foundation
+
+Branch: `portfolio-v2-structural-blueprint`. The owner explicitly requested a local committed result with no automatic merge or deployment. Existing live main remains unchanged by this phase.
+
+- Added independent `ObservatoryHero`, `WorkshopHero`, and archive introduction components with separate foreground/scene DOM and meaningful static fallbacks.
+- Composed Home in the requested professional-first order, Work as an engineering archive, and Workshop as a creative gallery and prototype space with a professional return transition.
+- Added the three named scopes to the shared layout, neutral semantic theme tokens, and stable animation integration markers; no elaborate visual effects or final illustration implemented.
+- Replaced text-only presentation with reusable media-ready cards, asymmetric editorial grids and feature rows. One canonical project record/detail path is preserved across all views.
+- Added typed responsive covers, optional video/poster/captions, screenshot galleries, diagrams and static overviews; added a reviewed AgentHQ DEMO task-board capture and real resized variants.
+- Added intent-based video source loading, desktop hover/focus policy, explicit touch/manual controls, reduced-motion/data-saver/slow-network handling, single-player coordination and visibility cleanup. No approved preview video is bundled; test-only mocked playback does not certify real codec/stream behavior.
+- Preserved education styling and title animation, base-aware static routing, existing content verification boundaries, navigation and keyboard behavior.
+- Rewrote `CLAUDE_VISUAL_HANDOFF.md`; added `MEDIA_MANIFEST.md`; refreshed architecture, inventory, verification and README documentation.
+
+Validation: lint, strict TypeScript, 56 unit/component/content tests, production build (22 routes plus 404/sitemap), and 14 desktop/mobile Chromium tests passed during the structural implementation. The route suite includes 44 route/axe scans, gallery and no-JavaScript checks, education reduced motion, metadata, navigation and overflow checks. Final desktop/390px visual review and staged diff checks are recorded with delivery. Remote CI was not run for this local-only branch.

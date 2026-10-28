@@ -59,6 +59,7 @@ test("navigation, filters, disclosures, and mobile keyboard dismissal", async ({
   await expect(page.getByRole("status")).toHaveText("0 projects shown");
   await page.getByRole("button", { name: "Reset filters" }).click();
   await page
+    .locator('[data-section="featured-engineering"]')
     .getByRole("link", { name: "Read ControlGauge case study" })
     .click();
   await expect(page).toHaveURL(/\/Portfolio\/work\/controlgauge\/$/);
@@ -127,7 +128,7 @@ test("education is prominent and motion respects reader preferences", async ({
   await page.getByRole("link", { name: "Education highlights" }).click();
   const education = page.locator("#education");
   await expect(education).toBeInViewport();
-  for (const card of await education.locator('.education-card').all()) {
+  for (const card of await education.locator(".education-card").all()) {
     await card.scrollIntoViewIfNeeded();
     await expect(card).toHaveAttribute("data-revealed", "true");
   }
@@ -166,4 +167,71 @@ test("education is prominent and motion respects reader preferences", async ({
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
+});
+
+test("distinct page scopes, gallery controls, and no-JavaScript hero fallbacks", async ({
+  page,
+  browser,
+}, testInfo) => {
+  await page.goto("/Portfolio/");
+  await expect(
+    page.locator('[data-theme="observatory"] [data-hero="observatory"]'),
+  ).toBeVisible();
+  await expect(
+    page.locator('[data-scene="celestial-engine"] [data-scene-fallback]'),
+  ).toBeVisible();
+  await page.goto("/Portfolio/work/");
+  await expect(
+    page.locator('[data-theme="engineering-archive"]'),
+  ).toBeVisible();
+  await expect(
+    page.locator(
+      '[data-section="featured-engineering"] .featured-project-showcase',
+    ),
+  ).toHaveCount(2);
+  await page.goto("/Portfolio/workshop/");
+  await expect(
+    page.locator('[data-theme="technomancer-workshop"] [data-hero="workshop"]'),
+  ).toBeVisible();
+  await expect(page.locator('[data-hero="observatory"]')).toHaveCount(0);
+  await page.getByRole("link", { name: "Explore the projects" }).click();
+  await expect(page.locator("#creative-gallery")).toBeInViewport();
+  await page.goto("/Portfolio/work/agenthq/");
+  await page.getByRole("button", { name: "Screenshot 2" }).click();
+  await expect(page.getByRole("img")).toHaveAttribute("alt", /task board/);
+  await expect(page.getByRole("status")).toHaveText("Screenshot 2 of 2");
+  await expect
+    .poll(() =>
+      page
+        .getByRole("img")
+        .evaluate(
+          (image: HTMLImageElement) => image.complete && image.naturalWidth > 0,
+        ),
+    )
+    .toBe(true);
+  await page.screenshot({
+    path: testInfo.outputPath("gallery.png"),
+    fullPage: true,
+  });
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    viewport:
+      testInfo.project.name === "mobile"
+        ? { width: 390, height: 844 }
+        : { width: 1280, height: 900 },
+  });
+  const staticPage = await context.newPage();
+  for (const [path, hero] of [
+    ["/", "observatory"],
+    ["/workshop/", "workshop"],
+  ]) {
+    await staticPage.goto(`http://127.0.0.1:4173/Portfolio${path}`);
+    await expect(
+      staticPage.locator(`[data-hero="${hero}"] [data-scene-fallback]`),
+    ).toBeVisible();
+    await expect(
+      staticPage.getByRole("navigation", { name: "Main", exact: true }),
+    ).toBeVisible();
+  }
+  await context.close();
 });
