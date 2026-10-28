@@ -1,6 +1,8 @@
 import { useRef, useState, type ReactNode } from "react";
 import { navigation, site } from "../content/site";
 import { href, themeForPath } from "../routes";
+import { Insignia } from "./visual/Insignia";
+import { useSiteMotion } from "../motion/useSiteMotion";
 export function SiteHeader({ path }: { path: string }) {
   const [open, setOpen] = useState(false);
   const trigger = useRef<HTMLButtonElement>(null);
@@ -11,7 +13,17 @@ export function SiteHeader({ path }: { path: string }) {
       </a>
       <div className="header-inner">
         <a className="site-name" href={href("/")} aria-label="Mahin Moon home">
-          Mahin Moon<span>Cybersecurity & engineering</span>
+          <Insignia
+            className="site-mark"
+            variant={
+              themeForPath(path) === "technomancer-workshop"
+                ? "workshop"
+                : "observatory"
+            }
+          />
+          <span className="site-name-text">
+            Mahin Moon<span>Cybersecurity & engineering</span>
+          </span>
         </a>
         <button
           ref={trigger}
@@ -67,8 +79,11 @@ export function SiteLayout({
   path: string;
   children: ReactNode;
 }) {
+  const shell = useRef<HTMLDivElement>(null);
+  useSiteMotion(shell, path);
   return (
     <div
+      ref={shell}
       className="portfolio-shell"
       data-theme={themeForPath(path)}
       data-route={path}
@@ -83,7 +98,8 @@ export function SiteLayout({
         {children}
       </main>
       <footer className="site-footer">
-        <div>
+        <div className="footer-brand">
+          <Insignia className="footer-mark" />
           <a href={href("/")}>Mahin Moon</a>
           <p>Cybersecurity, software systems, and practical experimentation.</p>
         </div>

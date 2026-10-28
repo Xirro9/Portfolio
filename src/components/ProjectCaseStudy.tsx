@@ -11,6 +11,8 @@ import {
 import { ProjectGrid, StatusIndicator } from "./Projects";
 import { CaseStudyMedia } from "./media/CaseStudyMedia";
 import { ArchitectureDiagram } from "./media/ArchitectureDiagram";
+import { ProjectArtwork } from "./visual/ProjectArtwork";
+import { hasSystemDiagram } from "./visual/SystemDiagram";
 export function ProjectCaseStudy({
   project,
   layout = project.home === "workshop" ? "creative" : "technical",
@@ -77,6 +79,15 @@ export function ProjectCaseStudy({
         </aside>
       )}
       {layout === "creative" && <CaseStudyMedia project={project} />}
+      {!project.media &&
+        (layout === "creative" || !hasSystemDiagram(project.slug)) && (
+          <div
+            className="case-study-media case-study-artwork"
+            data-motion-slot="case-study-media"
+          >
+            <ProjectArtwork project={project} />
+          </div>
+        )}
       <div className="case-study-layout">
         <div className="case-study-body">
           <section>
@@ -99,6 +110,7 @@ export function ProjectCaseStudy({
               <ArchitectureDiagram
                 steps={project.architecture}
                 image={project.media?.diagram}
+                slug={project.slug}
               />
             </section>
           )}

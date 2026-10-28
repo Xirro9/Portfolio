@@ -31,7 +31,20 @@ All assets live in `public/media/`. The smaller files are faithful resized deriv
 | LifeDash                    | Pending capture of the actual Flutter implementation                  | None supplied | Feature completeness and team attribution still require verification                             |
 | RealityCheck / TrustLens    | No product capture is currently justified                             | None supplied | Treat as one concept until surviving source/prototype is verified                                |
 
-For every missing cover, the public component shows a labeled static project overview, never a fake application screen. No empty media route is created. Hero scene mounts also have meaningful static text/process fallbacks; final celestial/arcane illustrations are future design work rather than project evidence.
+For every missing cover, the public component shows an original project illustration captioned "Original illustration · not a product capture", never a fake application screen. No empty media route is created. Hero scenes keep their static text/process fallbacks.
+
+## Authored design assets (Arcane Tech visual pass)
+
+These are original artwork created for this portfolio. They are not project evidence and contain no third-party assets, screenshots, hostnames or metrics.
+
+| Asset                                   | Location                                   | Notes                                                                                          |
+| --------------------------------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| Insignia (two variants) and favicon     | `src/components/visual/Insignia.tsx`, `public/favicon.svg` | Shared brand mark                                                                |
+| Celestial Engine (WebGL) and engraved orrery (SVG) | `CelestialEngine.tsx`, `OrreryArt.tsx` | Procedural geometry; decorative and `aria-hidden`                                |
+| Arcane Workbench                        | `ArcaneWorkbench.tsx`                      | Workshop hero illustration, captioned as an illustration                                       |
+| Project cover illustrations (15 motifs) | `ProjectArtwork.tsx`                       | Depict concepts only (for example a gauge or a heap free-list). No Pokémon or MTG IP; generic shapes only |
+| System diagrams                         | `SystemDiagram.tsx`                        | ControlGauge, AgentHQ and Local AI workbench. Status chips mirror canonical records; planned work is dashed and labeled PLANNED |
+| AgentHQ annotations                     | `FeaturedProjectShowcase.tsx`              | Decorative call-outs over the existing real DEMO capture; the image is unmodified               |
 
 ## Adding approved media
 

@@ -1,4 +1,6 @@
 import { href } from "../../routes";
+import { ArcaneWorkbench } from "../visual/ArcaneWorkbench";
+import { Insignia } from "../visual/Insignia";
 
 /** A separate creative composition, not a reskinned professional hero. */
 export function WorkshopHero() {
@@ -8,8 +10,18 @@ export function WorkshopHero() {
         className="workshop-hero-introduction"
         data-motion-slot="workshop-title"
       >
-        <p className="eyebrow">The Technomancer’s Realm</p>
-        <h1 data-motion-slot="workshop-heading">The Workshop</h1>
+        <p className="eyebrow workshop-kicker">
+          <Insignia variant="workshop" className="hero-kicker-mark" />
+          The Technomancer’s Realm
+        </p>
+        <h1 data-motion-slot="workshop-heading">
+          <span className="workshop-heading-small" data-motion-part="heading-line">
+            The
+          </span>{" "}
+          <span className="workshop-heading-large" data-motion-part="heading-line">
+            Workshop
+          </span>
+        </h1>
         <p className="hero-description">
           Code, curiosity, and a little make-believe.
         </p>
@@ -17,7 +29,7 @@ export function WorkshopHero() {
           Programming adventures, shared game nights, and experiments built to
           be explored.
         </p>
-        <a className="button-link" href="#creative-gallery">
+        <a className="button-link button-spell" href="#creative-gallery">
           Explore the projects
         </a>
       </div>
@@ -26,11 +38,7 @@ export function WorkshopHero() {
         aria-label="Creative development approach"
         data-scene="arcane-workbench"
       >
-        <div
-          className="hero-scene-mount"
-          data-motion-slot="workshop-illustration"
-          aria-hidden="true"
-        />
+        <ArcaneWorkbench />
         <div className="workshop-static-scene" data-scene-fallback>
           <p className="eyebrow">From idea to interaction</p>
           <ul>
@@ -49,7 +57,8 @@ export function WorkshopHero() {
           </ul>
         </div>
         <figcaption>
-          A creative practice, with prototype status and evidence kept visible.
+          Original illustration of an arcane workbench. A creative practice,
+          with prototype status and evidence kept visible.
         </figcaption>
       </figure>
       <nav

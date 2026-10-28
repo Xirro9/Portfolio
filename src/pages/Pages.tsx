@@ -17,6 +17,8 @@ import { ObservatoryHero } from "../components/heroes/ObservatoryHero";
 import { WorkshopHero } from "../components/heroes/WorkshopHero";
 import { ArchiveHero } from "../components/heroes/ArchiveHero";
 import { FeaturedProjectShowcase } from "../components/FeaturedProjectShowcase";
+import { SystemDiagram } from "../components/visual/SystemDiagram";
+import { ChapterTransition } from "../components/visual/ChapterTransition";
 import {
   CaseStudyIndex,
   EngineeringNotes,
@@ -27,6 +29,7 @@ export function HomePage() {
   return (
     <>
       <ObservatoryHero />
+      <ChapterTransition />
       <ProfessionalIntroduction />
       <section data-section="featured-professional-work">
         <SectionHeading title="Featured professional work">
@@ -80,6 +83,27 @@ export function WorkPage() {
               />
             ))}
         </div>
+      </section>
+      <section
+        className="workbench-exhibit"
+        data-section="workbench-exhibit"
+        aria-labelledby="workbench-exhibit-heading"
+      >
+        <div className="workbench-exhibit-copy">
+          <p className="eyebrow">Infrastructure exhibit · experimental</p>
+          <h2 id="workbench-exhibit-heading">Local AI workbench</h2>
+          <p>
+            Model serving, orchestration and specialist agents explored as one
+            local-first environment, with AgentHQ observing supported
+            telemetry. The diagram is deliberately sanitized and the setup is
+            owner-reported; no benchmarks are claimed.
+          </p>
+          <a className="text-link" href={href("/work/local-ai-workbench")}>
+            Read the Local AI workbench case study{" "}
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        <SystemDiagram slug="local-ai-workbench" />
       </section>
       <section data-section="project-collection">
         <ProjectExplorer
