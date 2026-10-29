@@ -17,8 +17,10 @@ import { EducationSection } from "../components/EducationSection";
 import { ProfessionalHero } from "../components/heroes/ProfessionalHero";
 import { WorkshopHero } from "../components/heroes/WorkshopHero";
 import { ArchiveHero } from "../components/heroes/ArchiveHero";
-import { FeaturedProjectShowcase } from "../components/FeaturedProjectShowcase";
-import { SystemDiagram } from "../components/visual/SystemDiagram";
+import {
+  FeaturedProjectShowcase,
+  WorkbenchExhibit,
+} from "../components/FeaturedProjectShowcase";
 import { CareerPath } from "../components/visual/SignalRail";
 import { Monogram } from "../components/visual/Monogram";
 import {
@@ -51,6 +53,7 @@ export function HomePage() {
               />
             ))}
         </div>
+        <WorkbenchExhibit headingLevel={3} />
       </section>
       <TechnicalSkills />
       <LabsAndMilestones />
@@ -92,28 +95,7 @@ export function WorkPage() {
             ))}
         </div>
       </section>
-      <section
-        id="workbench-exhibit"
-        className="workbench-exhibit"
-        data-section="workbench-exhibit"
-        aria-labelledby="workbench-exhibit-heading"
-      >
-        <div className="workbench-exhibit-copy">
-          <p className="eyebrow">Infrastructure · experimental</p>
-          <h2 id="workbench-exhibit-heading">Local AI workbench</h2>
-          <p>
-            Model serving, orchestration and specialist agents explored as one
-            local-first environment, with AgentHQ observing supported
-            telemetry. The diagram is deliberately sanitized and the setup is
-            owner-reported; no benchmarks are claimed.
-          </p>
-          <a className="text-link" href={href("/work/local-ai-workbench")}>
-            Read the Local AI workbench case study{" "}
-            <span aria-hidden="true">→</span>
-          </a>
-        </div>
-        <SystemDiagram slug="local-ai-workbench" />
-      </section>
+      <WorkbenchExhibit />
       <section id="project-collection" data-section="project-collection">
         <ProjectExplorer
           title="Categorized project collection"

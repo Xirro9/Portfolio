@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { filterProjects, projectPath } from "../content/projects";
 import type { Project, ProjectStatus } from "../content/types";
 import { href } from "../routes";
@@ -230,9 +230,25 @@ export function ArcaneIndex({ projects }: { projects: Project[] }) {
   const active = projects.some((project) => project.slug === selected)
     ? selected
     : projects[0]?.slug;
+  const list = useRef<HTMLOListElement>(null);
+  // While reading, the entry crossing the middle of the viewport is selected.
+  useEffect(() => {
+    const node = list.current;
+    if (!node || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries.find((item) => item.isIntersecting);
+        const slug = (entry?.target as HTMLElement | undefined)?.dataset.project;
+        if (slug) setSelected(slug);
+      },
+      { rootMargin: "-45% 0px -45% 0px" },
+    );
+    node.querySelectorAll(":scope > li").forEach((item) => observer.observe(item));
+    return () => observer.disconnect();
+  }, [projects]);
   return (
     <div className="arcane-index">
-      <ol className="arcane-index-list">
+      <ol ref={list} className="arcane-index-list">
         {projects.map((project, index) => (
           <li
             key={project.slug}

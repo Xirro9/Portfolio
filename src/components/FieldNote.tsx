@@ -2,7 +2,6 @@ import { useState } from "react";
 import { projects, projectPath } from "../content/projects";
 import type { ClaimBasis, FieldNote } from "../content/types";
 import { href } from "../routes";
-import { PageHeading, SectionHeading } from "./Content";
 import { Monogram } from "./visual/Monogram";
 import { MemoryBudget } from "./visual/MemoryBudget";
 import { SystemDiagram } from "./visual/SystemDiagram";
@@ -10,15 +9,15 @@ import { SystemDiagram } from "./visual/SystemDiagram";
 const basisLabels: Record<ClaimBasis, { label: string; meaning: string }> = {
   observed: {
     label: "Observed",
-    meaning: "Seen in an explicit test, log or result.",
+    meaning: "seen in an explicit test, log or result",
   },
   reported: {
     label: "Reported",
-    meaning: "Described in a setup report or run output.",
+    meaning: "described in a setup report or run output",
   },
   explored: {
     label: "Explored",
-    meaning: "Considered or researched; not deployed.",
+    meaning: "considered or researched, not deployed",
   },
 };
 
@@ -30,114 +29,127 @@ function Basis({ basis }: { basis: ClaimBasis }) {
   );
 }
 
-/** Copies the sanitized compact brief; the brief itself is always visible. */
+/** Copies the sanitized compact brief; its full text is in the disclosure. */
 function CopyBrief({ text }: { text: string }) {
   const [state, setState] = useState("");
   return (
-    <div className="brief-actions">
+    <>
       <button
         type="button"
+        className="brief-copy"
         onClick={async () => {
           try {
             await navigator.clipboard.writeText(text);
             setState("Brief copied to the clipboard.");
           } catch {
-            setState("Copy unavailable here; select the text instead.");
+            setState("Copy unavailable here; open the brief and select it.");
           }
         }}
       >
         Copy the brief
       </button>
-      <p className="caption" aria-live="polite">
+      <p className="brief-status caption" aria-live="polite">
         {state}
       </p>
-    </div>
+    </>
   );
 }
 
+/**
+ * A field note set as a journal article: one reading measure, with figures
+ * breaking out to wide and full widths. Section order follows the story.
+ */
 export function FieldNotePage({ note }: { note: FieldNote }) {
   const related = projects.filter((project) =>
     note.related.includes(project.slug),
   );
+  const lines = note.brief.split("\n").length;
   return (
-    <article className="field-note" data-field-note={note.slug}>
+    <article className="field-note article" data-field-note={note.slug}>
       <nav className="breadcrumb" aria-label="Breadcrumb">
         <a href={href("/labs")}>Labs & notes</a>
         <span aria-hidden="true"> / </span>
         <span>Field notes</span>
       </nav>
-      <PageHeading
-        eyebrow={`Field notes · ${note.period}`}
-        title={note.title}
-        mark={<Monogram className="case-mark" />}
-      >
-        <p>{note.dek}</p>
-      </PageHeading>
 
-      <dl className="note-meta">
-        <div>
-          <dt>Basis</dt>
-          <dd>{note.basis}</dd>
-        </div>
-        <div>
-          <dt>Published</dt>
-          <dd>Sanitized: no addresses, machine details or throughput figures</dd>
-        </div>
-        <div>
-          <dt>Read</dt>
-          <dd>
-            <a href="#brief">The two-minute brief</a> or the full notes below
-          </dd>
-        </div>
-      </dl>
+      <header className="article-head">
+        <Monogram className="case-mark" />
+        <p className="eyebrow">Field notes</p>
+        <h1>{note.title}</h1>
+        <p className="article-dek">{note.dek}</p>
+        <p className="article-byline">
+          <span>Mahin Moon</span>
+          <span>{note.period}</span>
+          <span>{note.basis}</span>
+          <span>Sanitized: no addresses, machine details or throughput figures</span>
+        </p>
+      </header>
 
-      <section className="note-legend" aria-labelledby="legend-heading">
-        <h2 id="legend-heading" className="visually-hidden">
-          How claims are labelled
-        </h2>
-        <ul>
-          {(Object.keys(basisLabels) as ClaimBasis[]).map((basis) => (
-            <li key={basis}>
-              <Basis basis={basis} />
-              <span>{basisLabels[basis].meaning}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section className="note-question" aria-labelledby="question-heading">
+      <section className="article-question" aria-labelledby="question-heading">
         <h2 id="question-heading" className="visually-hidden">
-          The question
+          How the question changed
         </h2>
         <p className="question-before">
-          <span className="eyebrow">The question at the start</span>
+          <span className="question-date">October 6</span>
           <s>{note.question.before}</s>
         </p>
+        <span className="question-line" aria-hidden="true" />
         <p className="question-after">
-          <span className="eyebrow">The question three weeks later</span>
+          <span className="question-date">October 28</span>
           {note.question.after}
         </p>
       </section>
 
-      <section id="brief" className="note-brief" aria-labelledby="brief-heading">
-        <div className="brief-intro">
-          <SectionHeading id="brief-heading" title="The compact brief">
-            The same notes condensed for a coding agent or a quick read. Paste
-            it at the start of a session instead of the full history.
-          </SectionHeading>
-          <CopyBrief text={note.brief} />
-        </div>
+      <details className="article-brief" id="brief">
+        <summary>
+          <span className="eyebrow">Reference · {lines} lines</span>
+          <span className="brief-title">The compact brief</span>
+          <span className="brief-summary">
+            The same notes condensed for a coding agent or a quick read. Expand
+            to read; copy to paste at the start of a session.
+          </span>
+        </summary>
         <pre className="brief-text" tabIndex={0}>
           {note.brief}
         </pre>
+      </details>
+      <div className="brief-tools">
+        <CopyBrief text={note.brief} />
+      </div>
+
+      <section className="article-section" aria-labelledby="environments-heading">
+        <h2 id="environments-heading">Three environments, three jobs</h2>
+        <p className="article-lead">
+          The work ran across three setups. Each answered a different
+          question, and each claim below keeps the label it had in my notes:{" "}
+          {(Object.keys(basisLabels) as ClaimBasis[]).map((basis, index) => (
+            <span key={basis} className="inline-basis">
+              <Basis basis={basis} /> {basisLabels[basis].meaning}
+              {index < 2 ? "; " : "."}
+            </span>
+          ))}
+        </p>
+        <dl className="article-cast">
+          {note.environments.map((item) => (
+            <div key={item.title}>
+              <dt>
+                {item.title}
+                <span>{item.when}</span>
+              </dt>
+              <dd>
+                {item.body} <Basis basis={item.basis} />
+              </dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
-      <section aria-labelledby="environments-heading">
-        <SectionHeading id="environments-heading" title="Three environments, three jobs" />
-        <ol className="note-environments">
-          {note.environments.map((item) => (
+      <section className="article-section" aria-labelledby="timeline-heading">
+        <h2 id="timeline-heading">Three weeks, in order</h2>
+        <ol className="note-timeline">
+          {note.timeline.map((item) => (
             <li key={item.title}>
-              <p className="eyebrow">{item.when}</p>
+              <p className="note-when">{item.when}</p>
               <h3>{item.title}</h3>
               <p>{item.body}</p>
               <Basis basis={item.basis} />
@@ -146,71 +158,87 @@ export function FieldNotePage({ note }: { note: FieldNote }) {
         </ol>
       </section>
 
-      <section aria-labelledby="timeline-heading" className="note-timeline-section">
-        <SectionHeading id="timeline-heading" title="Three weeks, in order" />
-        <ol className="note-timeline">
-          {note.timeline.map((item) => (
-            <li key={item.title}>
-              <p className="note-when">{item.when}</p>
-              <div>
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-                <Basis basis={item.basis} />
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
+      <blockquote className="article-pull">
+        <p>A configured context window is not usable capacity.</p>
+      </blockquote>
 
-      <section className="note-budget" aria-labelledby="budget-heading">
-        <SectionHeading id="budget-heading" title="Configured context is not usable context">
+      <section className="article-section" aria-labelledby="budget-heading">
+        <h2 id="budget-heading">Four budgets, not one</h2>
+        <p>
           Weights, KV cache, harness overhead and concurrency are separate
-          budgets. Try the controls: the same window that fits with one slot
-          overflows with four.
-        </SectionHeading>
+          budgets. The server will happily accept a context size that only fits
+          while one request is active. Try the controls: the same window that
+          fits with one slot overflows with four.
+        </p>
+      </section>
+      <div className="article-figure figure-wide">
+        <p className="figure-label">Fig. 1</p>
         <MemoryBudget />
-      </section>
+      </div>
 
-      <section className="note-harness" aria-labelledby="harness-heading">
-        <SectionHeading id="harness-heading" title="The harness">
-          Hermes manages; OpenCode executes; six roles share one model server.
-          More agents did not mean more throughput.
-        </SectionHeading>
+      <section className="article-section" aria-labelledby="harness-heading">
+        <h2 id="harness-heading">The harness</h2>
+        <p>
+          Hermes manages the conversation, memory and routing; OpenCode
+          executes against the repository; six roles share one model server.
+          With a single inference slot, more agents did not mean more
+          throughput. They queue.
+        </p>
+      </section>
+      <div className="article-figure figure-full">
+        <p className="figure-label">Fig. 2</p>
         <SystemDiagram slug="agent-harness" />
-      </section>
+      </div>
 
-      <section className="note-incidents" aria-labelledby="incidents-heading">
-        <SectionHeading id="incidents-heading" title="Failure ledger">
+      <section
+        className="article-section article-table-section"
+        aria-labelledby="incidents-heading"
+      >
+        <h2 id="incidents-heading">Failure ledger</h2>
+        <p>
           What each symptom turned out to be, and the check that tells you
           next time.
-        </SectionHeading>
-        <ol className="incident-list">
-          {note.incidents.map((item, index) => (
-            <li key={item.symptom}>
-              <span className="incident-id" aria-hidden="true">
-                {`F-${String(index + 1).padStart(2, "0")}`}
-              </span>
-              <h3>{item.symptom}</h3>
-              <p className="incident-cause">{item.cause}</p>
-              <p className="incident-check">
-                <span>Check</span> {item.check}
-              </p>
-            </li>
-          ))}
-        </ol>
+        </p>
       </section>
+      <div className="article-figure figure-wide">
+        <table className="incident-table">
+          <caption>
+            <span className="figure-label">Table 1</span> Symptoms, causes and
+            checks
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Symptom</th>
+              <th scope="col">What it was</th>
+              <th scope="col">The check</th>
+            </tr>
+          </thead>
+          <tbody>
+            {note.incidents.map((item) => (
+              <tr key={item.symptom}>
+                <th scope="row">{item.symptom}</th>
+                <td>{item.cause}</td>
+                <td>{item.check}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      <section className="note-rules" aria-labelledby="rules-heading">
-        <SectionHeading id="rules-heading" title="Decision rules" />
-        <ol className="rule-list">
+      <section className="article-section" aria-labelledby="rules-heading">
+        <h2 id="rules-heading">Decision rules</h2>
+        <ol className="article-rules">
           {note.rules.map((rule) => (
             <li key={rule}>{rule}</li>
           ))}
         </ol>
       </section>
 
-      <section className="note-confidence" aria-labelledby="confidence-heading">
-        <SectionHeading id="confidence-heading" title="What this does and doesn’t show" />
+      <section
+        className="article-section figure-wide article-confidence"
+        aria-labelledby="confidence-heading"
+      >
+        <h2 id="confidence-heading">What this does and doesn’t show</h2>
         <div className="confidence-grid">
           <div>
             <h3>Established</h3>
@@ -242,28 +270,28 @@ export function FieldNotePage({ note }: { note: FieldNote }) {
         </div>
       </section>
 
-      <section className="note-next" aria-labelledby="next-heading">
-        <SectionHeading id="next-heading" title="Next experiments">
-          Planned work, not results.
-        </SectionHeading>
-        <ol className="rule-list rule-list-planned">
-          {note.experiments.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="note-related" aria-labelledby="related-heading">
-        <SectionHeading id="related-heading" title="Related work" />
-        <ul>
-          {related.map((project) => (
-            <li key={project.slug}>
-              <a href={href(projectPath(project))}>{project.title}</a>
-              <span>{project.statusDetail}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <footer className="article-end figure-wide">
+        <section aria-labelledby="next-heading">
+          <h2 id="next-heading">Next experiments</h2>
+          <p className="caption">Planned work, not results.</p>
+          <ol>
+            {note.experiments.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ol>
+        </section>
+        <section aria-labelledby="related-heading">
+          <h2 id="related-heading">Related work</h2>
+          <ul>
+            {related.map((project) => (
+              <li key={project.slug}>
+                <a href={href(projectPath(project))}>{project.title}</a>
+                <span>{project.statusDetail}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </footer>
     </article>
   );
 }

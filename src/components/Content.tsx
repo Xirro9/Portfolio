@@ -85,7 +85,7 @@ export function ContactPanel() {
 }
 export function TechnicalSkills() {
   return (
-    <section>
+    <section className="expertise-section">
       <SectionHeading title="Technical expertise">
         Experience is described by context, without numerical proficiency
         scores.
@@ -95,8 +95,10 @@ export function TechnicalSkills() {
           <article key={group.title}>
             <p className="eyebrow">{group.context}</p>
             <h3>{group.title}</h3>
-            <p>{group.description}</p>
-            <BulletList items={group.skills} />
+            <div className="discipline-detail">
+              <p>{group.description}</p>
+              <BulletList items={group.skills} />
+            </div>
           </article>
         ))}
       </div>

@@ -344,7 +344,7 @@ function scryingLens(id: string) {
         <circle r="15" />
         <path d="M-7 0 L-2 5 L8 -6" />
       </g>
-      <text className="pa-label" x="452" y="34" textAnchor="end">
+      <text className="pa-label" x="300" y="56" textAnchor="middle">
         CONCEPT
       </text>
     </>

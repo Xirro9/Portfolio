@@ -16,12 +16,12 @@ export function LabsAndMilestones() {
         engineering progress.
       </SectionHeading>
       <div className="labs-milestones-grid">
+        <a className="research-teaser" href={href(fieldNotes[0].path)}>
+          <span className="eyebrow">Research · {fieldNotes[0].period}</span>
+          <strong>{fieldNotes[0].title}</strong>
+          <span>{fieldNotes[0].dek}</span>
+        </a>
         <div className="lab-column">
-          <a className="research-teaser" href={href(fieldNotes[0].path)}>
-            <span className="eyebrow">Research · {fieldNotes[0].period}</span>
-            <strong>{fieldNotes[0].title}</strong>
-            <span>{fieldNotes[0].dek}</span>
-          </a>
           <p className="eyebrow">Security labs & notes</p>
           <ul className="lab-list">
             {labs.map((project) => (

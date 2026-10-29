@@ -19,8 +19,8 @@ const annotations: Record<string, [string, number, number][]> = {
 
 /**
  * Each flagship project gets its own composition. The DOM order is always
- * heading → visual → specification → actions, so reading and focus order stay
- * stable while the grid places the parts differently per exhibit.
+ * heading → visual → (secondary visual) → specification → actions, so reading
+ * and focus order stay stable while CSS grid places the parts per exhibit.
  */
 type Exhibit = "diagram" | "media" | "arch" | "table" | "spread";
 function exhibitFor(project: Project, creative: boolean): Exhibit {
@@ -46,6 +46,12 @@ export function FeaturedProjectShowcase({
 }) {
   const exhibit = exhibitFor(project, creative);
   const number = String(index + 1).padStart(2, "0");
+  const secondary =
+    exhibit === "media"
+      ? project.media?.screenshots?.find(
+          (shot) => shot.path !== project.media?.cover.path,
+        )
+      : undefined;
   return (
     <article
       id={`exhibit-${project.slug}`}
@@ -70,6 +76,11 @@ export function FeaturedProjectShowcase({
       >
         <ExhibitVisual project={project} exhibit={exhibit} />
       </div>
+      {secondary && (
+        <div className="exhibit-secondary" data-motion-part="secondary-media">
+          <ProjectMedia image={secondary} sizes="(min-width: 900px) 40vw, 90vw" />
+        </div>
+      )}
       <dl className="exhibit-specs">
         <div>
           <dt>Status</dt>
@@ -114,33 +125,52 @@ function ExhibitVisual({
   if (exhibit === "arch" || exhibit === "table")
     return <ProjectArtwork project={project} bare />;
   const notes = annotations[project.slug];
-  const secondary = project.media?.screenshots?.find(
-    (shot) => shot.path !== project.media?.cover.path,
-  );
   return (
-    <div className="exhibit-layers">
-      <div className={notes ? "annotated-media" : undefined}>
-        <ProjectVisual project={project} priority={false} />
-        {notes && (
-          <ul className="media-annotations" aria-hidden="true">
-            {notes.map(([text, x, y]) => (
-              <li
-                key={text}
-                data-motion-part="annotation"
-                style={{ left: `${x}%`, top: `${y}%` }}
-                className={x > 60 ? "annotation-end" : undefined}
-              >
-                <span>{text}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-      {secondary && (
-        <div className="exhibit-secondary" data-motion-part="secondary-media">
-          <ProjectMedia image={secondary} sizes="(min-width: 900px) 24vw, 60vw" />
-        </div>
+    <div className={notes ? "annotated-media" : undefined}>
+      <ProjectVisual project={project} />
+      {notes && (
+        <ul className="media-annotations" aria-hidden="true">
+          {notes.map(([text, x, y]) => (
+            <li
+              key={text}
+              data-motion-part="annotation"
+              style={{ left: `${x}%`, top: `${y}%` }}
+              className={x > 60 ? "annotation-end" : undefined}
+            >
+              <span>{text}</span>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
+  );
+}
+
+/** The Local AI workbench: a full-bleed architecture chapter. */
+export function WorkbenchExhibit({ headingLevel = 2 }: { headingLevel?: 2 | 3 }) {
+  const Heading = headingLevel === 2 ? "h2" : "h3";
+  return (
+    <section
+      id="workbench-exhibit"
+      className="workbench-exhibit"
+      data-section="workbench-exhibit"
+      aria-labelledby="workbench-exhibit-heading"
+    >
+      <div className="workbench-exhibit-copy">
+        <p className="eyebrow">Infrastructure · experimental</p>
+        <Heading id="workbench-exhibit-heading">Local AI workbench</Heading>
+        <p>
+          Model serving, orchestration and specialist agents explored as one
+          local-first environment, with AgentHQ observing supported telemetry.
+          The diagram is deliberately sanitized and the setup is
+          owner-reported; no benchmarks are claimed.
+        </p>
+        <a className="text-link" href={href("/work/local-ai-workbench")}>
+          Read the Local AI workbench case study{" "}
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+      <SystemDiagram slug="local-ai-workbench" />
+    </section>
   );
 }
