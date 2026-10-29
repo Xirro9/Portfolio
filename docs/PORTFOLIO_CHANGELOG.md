@@ -90,3 +90,17 @@ Branch: `claude/arcane-editorial-refinement`, based on `claude/arcane-tech-visua
 - Diagrams render an ordered node and relationship list for narrow screens and assistive technology.
 
 Validation: see `VISUAL_ACCEPTANCE.md`.
+
+## Portfolio V3: Cybernetic Editorial and the Technomancer Workshop
+
+Branch: `claude/portfolio-v3-cybernetic-editorial`, based on `claude/arcane-editorial-refinement`. Local commit only; no push, merge or deploy.
+
+- Professional scopes moved to a dark Cybernetic Editorial system: graphite surfaces, signal blue and cyan, silver, Manrope display type. Brass, amethyst, Fraunces and runes no longer appear on professional routes.
+- New animated MM monogram (signal variant for professional pages, arcane variant for the Workshop) in the header, footer, hero, case-study watermark and favicon. The insignia was retired.
+- Home: new typography-led professional hero with a signal field from the monogram; current experience and education now follow the hero directly, joined by one career signal rail; expertise; a combined labs/research/milestones section; a small Workshop doorway.
+- The Celestial Engine moved from Home into the Workshop hero, recoloured with a rune engraving and cyan energy core, running inside the SVG reactor, which remains the static fallback.
+- Diagrams gained travelling data packets and a local-first boundary for the AI workbench; planned work stays dashed and still.
+- Retired: `ObservatoryHero`, `OrreryArt`, `ChapterTransition`, `Insignia`.
+
+Validation: see `VISUAL_ACCEPTANCE.md`.
+

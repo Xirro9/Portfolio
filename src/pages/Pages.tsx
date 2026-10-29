@@ -13,27 +13,29 @@ import {
   MilestoneTimeline,
 } from "../components/Timelines";
 import { EducationSection } from "../components/EducationSection";
-import { ObservatoryHero } from "../components/heroes/ObservatoryHero";
+import { ProfessionalHero } from "../components/heroes/ProfessionalHero";
 import { WorkshopHero } from "../components/heroes/WorkshopHero";
 import { ArchiveHero } from "../components/heroes/ArchiveHero";
 import { FeaturedProjectShowcase } from "../components/FeaturedProjectShowcase";
 import { SystemDiagram } from "../components/visual/SystemDiagram";
-import { ChapterTransition } from "../components/visual/ChapterTransition";
-import { SanctumSeal } from "../components/visual/TechnomancerEngine";
+import { CareerPath } from "../components/visual/SignalRail";
+import { Monogram } from "../components/visual/Monogram";
 import {
   CaseStudyIndex,
   EngineeringNotes,
   FeaturedWriting,
-  ProfessionalIntroduction,
+  LabsAndMilestones,
 } from "../components/EngineeringSections";
 export function HomePage() {
   return (
     <>
-      <ObservatoryHero />
-      <ChapterTransition />
-      <ProfessionalIntroduction />
+      <ProfessionalHero />
+      <CareerPath>
+        <ExperienceTimeline currentOnly />
+        <EducationSection />
+      </CareerPath>
       <section data-section="featured-professional-work">
-        <SectionHeading title="Featured professional work">
+        <SectionHeading title="Selected projects">
           Local-first security software and observability, with implementation
           status and supporting sources.
         </SectionHeading>
@@ -50,14 +52,12 @@ export function HomePage() {
         </div>
       </section>
       <TechnicalSkills />
-      <ExperienceTimeline currentOnly />
-      <EducationSection />
-      <MilestoneTimeline />
+      <LabsAndMilestones />
       <FeaturedWriting />
       <aside className="workshop-invitation">
-        <SanctumSeal className="invitation-seal" />
+        <Monogram variant="arcane" className="invitation-mark" />
         <div className="invitation-copy">
-          <p className="eyebrow">Beyond the Observatory</p>
+          <p className="eyebrow">Off the clock</p>
           <h2>A different kind of engineering practice</h2>
           <p>
             Games, programming adventures, and experiments have their own space.
@@ -98,10 +98,7 @@ export function WorkPage() {
         aria-labelledby="workbench-exhibit-heading"
       >
         <div className="workbench-exhibit-copy">
-          <p className="eyebrow exhibit-number">
-            <span aria-hidden="true">03</span>
-            Infrastructure exhibit · experimental
-          </p>
+          <p className="eyebrow">Infrastructure · experimental</p>
           <h2 id="workbench-exhibit-heading">Local AI workbench</h2>
           <p>
             Model serving, orchestration and specialist agents explored as one
@@ -262,8 +259,10 @@ export function ExperiencePage() {
           hands-on engineering.
         </p>
       </PageHeading>
-      <ExperienceTimeline />
-      <EducationSection />
+      <CareerPath>
+        <ExperienceTimeline />
+        <EducationSection />
+      </CareerPath>
       <MilestoneTimeline />
       <Activities />
     </>

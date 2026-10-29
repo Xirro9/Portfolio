@@ -13,6 +13,7 @@ import { CaseStudyMedia } from "./media/CaseStudyMedia";
 import { ArchitectureDiagram } from "./media/ArchitectureDiagram";
 import { ProjectArtwork } from "./visual/ProjectArtwork";
 import { hasSystemDiagram } from "./visual/SystemDiagram";
+import { Monogram } from "./visual/Monogram";
 export function ProjectCaseStudy({
   project,
   layout = project.home === "workshop" ? "creative" : "technical",
@@ -62,6 +63,12 @@ export function ProjectCaseStudy({
             : "Technical case study"
         }
         title={project.title}
+        mark={
+          <Monogram
+            className="case-mark"
+            variant={layout === "creative" ? "arcane" : "signal"}
+          />
+        }
       >
         <p>{project.summary}</p>
       </PageHeading>

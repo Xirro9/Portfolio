@@ -30,9 +30,9 @@ Work is cybersecurity/software/AI infrastructure. Labs is contained security pra
 
 ## Page composition contracts
 
-### Home — The Observatory
+### Home — professional (scope id `observatory`)
 
-`src/components/heroes/ObservatoryHero.tsx` is the professional hero, with separate `.observatory-foreground` and `.observatory-visual` layers. It has a real headline, concise description, Work CTA, and Experience CTA. The visual layer contains a `[data-scene="celestial-engine"]` integration point and a meaningful static Requirements → Systems → Evidence overview.
+V3 note: `ObservatoryHero` was replaced by `src/components/heroes/ProfessionalHero.tsx` (animated monogram and signal field; no scene), and the Celestial Engine moved to `WorkshopHero`. Home now runs hero, experience, education, projects, expertise, labs/milestones, Workshop doorway, contact. The original Phase 1 contract follows for history. `src/components/heroes/ObservatoryHero.tsx` was the professional hero, with separate `.observatory-foreground` and `.observatory-visual` layers. It has a real headline, concise description, Work CTA, and Experience CTA. The visual layer contains a `[data-scene="celestial-engine"]` integration point and a meaningful static Requirements → Systems → Evidence overview.
 
 The sequence in `pages/Pages.tsx` is:
 

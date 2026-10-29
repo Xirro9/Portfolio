@@ -39,9 +39,9 @@ These are original artwork created for this portfolio. They are not project evid
 
 | Asset                                   | Location                                   | Notes                                                                                          |
 | --------------------------------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------- |
-| Insignia (two variants) and favicon     | `src/components/visual/Insignia.tsx`, `public/favicon.svg` | Shared brand mark                                                                |
-| Celestial Engine (WebGL) and engraved orrery (SVG) | `CelestialEngine.tsx`, `OrreryArt.tsx` | Procedural geometry; decorative and `aria-hidden`                                |
-| Technomancer Engine and Sanctum seal    | `TechnomancerEngine.tsx`                   | Workshop hero reactor (captioned as an illustration) and a static seal on Home; decorative, `aria-hidden` |
+| Monogram (signal and arcane variants) and favicon | `src/components/visual/Monogram.tsx`, `public/favicon.svg` | Shared brand mark                                                                |
+| Celestial Engine (WebGL, Workshop) and professional signal field | `CelestialEngine.tsx`, `ProfessionalHero.tsx`, `SignalRail.tsx` | Procedural geometry; decorative and `aria-hidden`                                |
+| Technomancer Engine                     | `TechnomancerEngine.tsx`                   | Workshop reactor housing for the Celestial Engine and its static fallback (captioned as an illustration); decorative, `aria-hidden` |
 | Workshop concept plates (5)             | `WorkshopArtwork.tsx`                      | Guild hall, kinetic clash, enchanted table, day astrolabe, scrying lens. No characters, card art or game assets |
 | Professional cover illustrations (10 motifs) | `ProjectArtwork.tsx`                  | Depict concepts only (for example a gauge or a heap free-list). No Pokémon or MTG IP; generic shapes only |
 | System diagrams                         | `SystemDiagram.tsx`                        | ControlGauge, AgentHQ and Local AI workbench, with labeled zones and a legend. Status chips mirror canonical records; planned work is dashed and labeled PLANNED. The same nodes render as an ordered list for narrow screens and assistive technology |

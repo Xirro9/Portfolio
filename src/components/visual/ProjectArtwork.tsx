@@ -7,15 +7,15 @@ import { creativeMotifs } from "./WorkshopArtwork";
  * product interface, and are always captioned as illustrations.
  */
 const accents: Record<string, string> = {
-  controlgauge: "#d9bd8a",
-  agenthq: "#b3a9ee",
-  "local-ai-workbench": "#a79cf0",
-  "purple-team-lab": "#c7a2e6",
+  controlgauge: "#8ec5ea",
+  agenthq: "#73d6e6",
+  "local-ai-workbench": "#73d6e6",
+  "purple-team-lab": "#9fb4e8",
   "wazuh-siem": "#8fc6d8",
   "network-security-lab": "#9fc4a8",
-  "security-scripting": "#d9bd8a",
-  "memory-allocator": "#c9b48c",
-  "cli-text-editor": "#a9c7a0",
+  "security-scripting": "#8ec5ea",
+  "memory-allocator": "#c9d1db",
+  "cli-text-editor": "#9fd6c4",
   "docker-wordpress": "#8fb3e0",
   "bug-hunters-guild": "#e0a85a",
   "pokemon-party-fighter": "#ff4d6a",
@@ -231,7 +231,7 @@ export function ProjectArtwork({
       className={`project-media project-media-fallback project-artwork${creative ? " project-artwork-creative" : ""}${bare ? " project-artwork-bare" : ""}`}
       data-media-kind="static-overview"
       data-art={project.slug}
-      style={{ "--art-accent": accents[project.slug] ?? "#c4a77b" } as CSSProperties}
+      style={{ "--art-accent": accents[project.slug] ?? "#8ec5ea" } as CSSProperties}
     >
       <div className="project-overview-art" data-motion-slot="project-static-visual">
         <svg className="project-artwork-svg" viewBox="0 0 480 300" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid slice">

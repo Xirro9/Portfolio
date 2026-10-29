@@ -1,44 +1,59 @@
-# Art direction — Arcane Tech
+# Art direction — Portfolio V3
 
-Professional pages: technology that looks almost magical. Workshop: magic that behaves like technology. All tokens live in `src/arcane.css`, scoped by `.portfolio-shell[data-theme]`.
+Two experiences, one person. Professional pages communicate competence first and personality second (**Cybernetic Editorial**). The Workshop communicates imagination first, with engineering underneath (**the Technomancer's Sanctum**). All tokens live in `src/arcane.css`, scoped by `.portfolio-shell[data-theme]`. The scope names (`observatory`, `engineering-archive`, `technomancer-workshop`) are kept as stable identifiers; `observatory` no longer implies astronomical imagery.
 
 ## Scopes
 
-| Scope                   | Balance                  | Composition                                                                                           |
-| ----------------------- | ------------------------ | ----------------------------------------------------------------------------------------------------- |
-| `observatory`           | ~85% technical / 15% arcane | Headline staged against the celestial instrument, which bleeds to the viewport edge; approach notes engraved at the plate's corners; credentials as a ruled ledger |
-| `engineering-archive`   | ~95% technical / 5% arcane  | Faint 6rem drafting grid, exhibition contents index, one composition per flagship exhibit, `EA-xx` editorial index rows, sanitized zoned diagrams |
-| `technomancer-workshop` | ~30% technical / 70% fantasy | The Technomancer's Sanctum: near-black indigo, a layered arcane reactor, artifact spreads, an artifact index with a preview plate |
+| Scope                   | Routes                                     | Identity |
+| ----------------------- | ------------------------------------------ | -------- |
+| `observatory`           | Home, Experience, About, Contact, 404      | Cybernetic Editorial. Typography-led hero with the animated monogram as the source of a sparse signal-line field; career signal rail |
+| `engineering-archive`   | Work, Labs and their case studies          | Cybernetic Editorial with a faint 6rem drafting grid; one composition per flagship exhibit; zoned diagrams with travelling data packets |
+| `technomancer-workshop` | Workshop and its project notebooks         | Technomancer's Sanctum: the Celestial Engine inside an arcane reactor, artifact spreads, an artifact index with a preview plate |
+
+Dark mode only. Roughly 75% professional restraint and 25% cyber character on professional routes. No purple, gold ornament, runes or magical gradients there; the only arcane note is the small Workshop doorway on Home.
 
 ## Colour
 
-| Token            | Observatory / Archive | Workshop                              |
-| ---------------- | --------------------- | ------------------------------------- |
-| Background       | `#080d19` / `#090e18` | `#07060d`                             |
-| Surface          | `#101a2d` / `#0f1726` | `#110e1c`                             |
-| Text             | `#ece6d9` (ivory)     | `#ece8f6`                             |
-| Muted            | `#aab1c0`             | `#aaa3c0`                             |
-| Accent           | Brass `#c4a77b` / `#e2c99c` | Aged brass `#c9a46a`, electric cyan `#4fe3f0`, emerald `#2fd69b`, ultraviolet `#8a5cff`, selective magenta `#d04bd8`, copper `#b8733a` |
-| Restrained light | Amethyst `#8b80c9` / `#b3a9ee` | —                              |
+| Token            | Professional (`observatory`, `engineering-archive`) | Workshop |
+| ---------------- | --------------------------------------------------- | -------- |
+| Background       | `#090d14`                                           | `#07060d` |
+| Surface          | `#111927`                                           | `#110e1c` |
+| Text             | `#f0f3f6`                                           | `#ece8f6` |
+| Muted            | `#9caabd`                                           | `#aaa3c0` |
+| Border           | `#2d3a4b`                                           | `#2a2340` |
+| Signal           | `--signal` `#6ba9d6`, `--signal-bright` `#8ec5ea`   | aged brass `#c9a46a` (the same token names) |
+| Highlight        | `--signal-alt` `#73d6e6`                            | ultraviolet `#8a5cff` |
+| Warm neutral     | `--silver` `#c9d1db`                                | `#d8d2e6` |
+| Workshop accents | —                                                   | cyan `#4fe3f0`, emerald `#2fd69b`, magenta `#d04bd8`, copper `#b8733a` |
 
-Status dots: active = sage, prototype = brass, experimental = amethyst. Education keeps its owner-approved blue (current) / brass (completed) distinction.
+Lines use `--line` / `--line-strong` (blue-grey on professional pages, brass in the Workshop). Status dots: active = sage, prototype = signal, experimental and concept = an outlined ring. Education keeps the owner-approved current / completed distinction: pale blue (in progress, outlined dot) and silver (completed, filled dot).
 
 ## Typography
 
-- Display: **Fraunces** (variable, OFL, self-hosted via Fontsource). All scopes use `SOFT 0, WONK 0`. The Workshop gets its weight from scale instead: a 300-weight display face up to 9rem, a tracked mono "THE" and italic Fraunces for its statements. The earlier soft, wonky axis read as childlike and was retired.
-- Body: **Manrope** (variable, OFL).
-- Technical: **IBM Plex Mono** 400/500 (OFL) for eyebrows, captions, status, tags and diagram labels.
+- Professional display and body: **Manrope** (variable, OFL), headings at weight 500 with tight negative tracking. Technical labels: **IBM Plex Mono** 400/500.
+- Workshop display: **Fraunces** (variable, OFL) at light weights, `SOFT 0, WONK 0`, with italic Fraunces for statements. The Workshop sets `--theme-font-display` back to Fraunces, so the two experiences differ in voice as well as colour.
 
-## Insignia
+## Signature mark
 
-`src/components/visual/Insignia.tsx`: a calibrated 48-tick ring, an eight-point star, an inclined orbit with one planet, and a crescent core (Moon). The `observatory` variant is a brass instrument. The `workshop` variant uses the same geometry in aged brass, "awakened" with eight emerald rune nodes and a luminous cyan core. It is used in the header, footer, hero kickers and favicon. The same eight-point geometry is the octagram of the Workshop reactor and of the Home page's Workshop seal.
+`src/components/visual/Monogram.tsx`: two nested M traces, like parallel signal lines on a board, ending in four contact pads, with a via at the inner vertex. The name is always real text beside it.
 
-## Motifs and rules
+- `signal` variant (professional): silver outer trace, blue inner trace, cyan via. Used in the header, footer, hero and as a case-study watermark (`.case-mark`).
+- `arcane` variant (Workshop): the same traces in brass and glowing cyan inside a rune ring. Used in the Workshop header, Workshop kicker, Workshop notebooks and the Home doorway.
+- Entrance (`animated`, hero only, CSS): the outer then inner trace draws, the pads and via resolve, then one sheen passes along both traces. About 2.5 s, then static. Header mark repeats the sheen on hover only.
+- `public/favicon.svg` is the static signal mark.
+- Xirro9 appears as the secondary handle in the hero kicker and footer.
 
-- Fine engraved linework, calibrated ticks, and thin brass rules that draw under headings.
-- Borders are structural. Frames remain on controls, embedded real captures, diagram nodes and the education panels; sections, exhibits, illustrations and metadata are open, separated by single-axis rules. No corner brackets on images.
-- Original rune alphabet (`runes.ts`): eight circuit-like glyphs, decorative only, never a real script.
-- Project covers are original illustrations of each system's *idea*. They are always captioned "Original illustration · not a product capture". Workshop plates (`WorkshopArtwork.tsx`) are dark concept art that dissolves into the page through a radial mask.
-- Compositions vary by content: diagram-led (ControlGauge), layered real captures (AgentHQ), full-bleed system exhibition (Local AI workbench), open editorial statements, ruled ledgers and indexes, and Workshop artifact spreads (arch, table) and plates.
-- Square corners, hairlines and plaques instead of rounded glass cards. No gradient text and no generic particle fields.
-- Quiet sections (disciplines, education, contact) sit between cinematic sequences.
+## Signal geometry (professional)
+
+- Hero field: curves leave the monogram's pads and run off the page edges, with a few nodes and a masked dot grid. Lines draw once; three carry a rare travelling pulse (every 8 s, one at a time). Light pointer parallax by depth.
+- Career rail (`SignalRail.tsx`, `CareerPath`): one measured line runs down the margin past each role, then turns into the horizontal academic timeline with a node at each degree (filled = completed, ring = in progress). On narrow screens, where degrees stack, the line keeps running down. It draws with reading progress.
+- Diagrams: sparse packets travel implemented and experimental wires; planned wires stay dashed and still.
+- Never: matrix rain, padlocks, shields, HUDs, fake terminals, glitching.
+
+## Composition
+
+- Borders are structural. Frames remain on controls, real screenshots, diagram nodes and education panels; sections and exhibits are open, separated by single-axis rules.
+- Professional Home order: hero, current experience, education, selected projects, technical expertise, labs/research/milestones, Workshop doorway, contact.
+- Work: diagram-led ControlGauge, AgentHQ with both real DEMO captures layered, a full-bleed Local AI workbench, an `EA-xx` editorial index. No decorative exhibit numerals on professional exhibits.
+- Workshop: artifact spreads (arch, table), artifact index, open plates. Concept plates (`WorkshopArtwork.tsx`) dissolve into the page through a radial mask.
+- Project covers are original illustrations of each system's *idea*, always captioned "Original illustration · not a product capture".

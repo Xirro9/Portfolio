@@ -1,6 +1,43 @@
 # Visual acceptance
 
-## Editorial refinement pass
+## Portfolio V3 pass
+
+Method: production build plus prerender, served by `vite preview` at `/Portfolio/`, inspected in headless Chromium (SwiftShader WebGL) as scrolled viewports.
+
+### Inspected
+
+| Width | Pages / states |
+| ----- | -------------- |
+| 1440  | Home (all sections), Work (all sections), Experience, About, AgentHQ and memory-allocator case studies, Workshop hero (WebGL live) and featured artifacts, Workshop with reduced motion (SVG reactor fallback) |
+| 1024  | Home |
+| 768   | Home |
+| 390   | Home (hero through education), Work (exhibits and diagram index), Labs, Workshop hero, Home with the menu open |
+
+No horizontal overflow or page errors on any capture.
+
+### Corrections made
+
+1. The hero monogram rendered as fragments: `vector-effect: non-scaling-stroke` broke the normalised dash animation inside the scaled field. Removed for the field.
+2. The hero headline broke into four lines at 1440px; the copy column widened and the type scale came down to two lines.
+3. The Workshop kicker mark rendered at full column width (its sizing rule went with the retired insignia); restored.
+4. Exhibit numerals on professional exhibits removed (kept in the Workshop).
+5. A React lint error: the Celestial Engine mutated a memoised material passed to a hook; the opacity now updates through the mesh.
+6. At 390px the hero mark crowded the kicker; more top padding.
+7. Professional cover art still used brass and violet accents; moved to the signal palette.
+8. The Bug Hunters Guild title overlapped its lantern; the overlap was removed.
+
+### Validation
+
+- `npm run check`: lint (0 errors, 2 pre-existing fast-refresh warnings), 56/56 unit tests, typecheck and build pass.
+- `npm run test:e2e`: 14/14 pass (desktop and mobile), including axe WCAG 2.1 AA on every route and the no-JavaScript hero checks. Tests were updated for the new structure: Home must not contain the celestial scene, Workshop must, and the Home hero must render its heading without JavaScript.
+
+### Remaining gaps
+
+- WebGL verified only on SwiftShader. The Celestial Engine chunk (~981 kB raw / ~266 kB gzip) now loads only on the Workshop page.
+- No real ControlGauge capture or project video exists; nothing was simulated.
+- Motion was judged from screenshots, not recordings.
+
+## Editorial refinement pass (history)
 
 Method: production build plus prerender, served by `vite preview` at `/Portfolio/`, inspected in headless Chromium (SwiftShader WebGL). Captures were taken as scrolled viewports, so scroll-scrubbed effects were judged in their in-view state rather than their pre-scroll state.
 

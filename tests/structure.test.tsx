@@ -21,16 +21,17 @@ describe("structural blueprint contracts", () => {
     expect(screen.getAllByRole("navigation", { name: "Main" })).toHaveLength(1);
     expect(themeForPath(`/Portfolio${path}/`)).toBe(scope);
   });
-  it("orders the Observatory around professional credibility and education", () => {
+  it("puts experience and education directly after the professional hero", () => {
     const { container } = render(<App path="/" />);
     const hero = container.querySelector('[data-hero="observatory"]')!;
+    expect(hero).toHaveTextContent("Mahin Moon");
+    expect(hero.querySelector('[data-scene="celestial-engine"]')).toBeNull();
     const headings = [
-      "Mahin Moon · cybersecurity & practical engineering",
-      "Featured professional work",
-      "Core disciplines",
       "Current professional work",
       "Education & continued study",
-      "Selected milestones",
+      "Selected projects",
+      "Technical expertise",
+      "Labs, research & milestones",
       "A different kind of engineering practice",
     ];
     let prior: Element = hero;
@@ -43,11 +44,6 @@ describe("structural blueprint contracts", () => {
       prior = current;
     }
     expect(
-      container.querySelector(
-        '[data-scene="celestial-engine"] [data-scene-fallback]',
-      ),
-    ).toHaveTextContent("Requirements");
-    expect(
       container.querySelector('[data-section="technical-writing"]'),
     ).toBeNull();
   });
@@ -58,7 +54,9 @@ describe("structural blueprint contracts", () => {
     ).toBeInTheDocument();
     expect(container.querySelector('[data-hero="observatory"]')).toBeNull();
     expect(
-      container.querySelector('[data-scene="arcane-workbench"]'),
+      container.querySelector(
+        '[data-hero="workshop"] [data-scene="celestial-engine"] [data-scene-fallback]',
+      ),
     ).toHaveTextContent("From idea to interaction");
     for (const link of screen.getAllByRole("link", {
       name: "Read Bug Hunters Guild case study",

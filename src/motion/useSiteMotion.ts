@@ -43,26 +43,10 @@ export function useSiteMotion(scope: RefObject<HTMLElement | null>, path: string
             );
           });
 
-          // Hero → content: celestial lines straighten into the grid.
-          all<SVGPathElement>('[data-motion-part="chapter-line"]').forEach((line, index) => {
-            gsap.fromTo(
-              line,
-              { strokeDashoffset: 0.65 },
-              {
-                strokeDashoffset: 0,
-                ease: "none",
-                scrollTrigger: {
-                  trigger: line.closest("[data-motion-slot]") ?? line,
-                  start: `top ${92 - (index % 4) * 4}%`,
-                  end: "bottom 45%",
-                  scrub: 0.8,
-                },
-              },
-            );
-          });
+          // The hero copy drifts up as the career section arrives.
           all('[data-motion-slot="hero-foreground"]').forEach((foreground) => {
             gsap.to(foreground, {
-              yPercent: -8,
+              yPercent: -6,
               ease: "none",
               scrollTrigger: {
                 trigger: foreground.closest("[data-hero]"),
@@ -72,13 +56,12 @@ export function useSiteMotion(scope: RefObject<HTMLElement | null>, path: string
               },
             });
           });
-          all(".orrery-art").forEach((art) => {
-            gsap.to(art, {
-              rotate: 24,
-              scale: 0.86,
+          all(".signal-field").forEach((field) => {
+            gsap.to(field, {
+              yPercent: 8,
               ease: "none",
               scrollTrigger: {
-                trigger: art.closest("[data-hero]"),
+                trigger: field.closest("[data-hero]"),
                 start: "top top",
                 end: "bottom top",
                 scrub: true,
@@ -210,18 +193,6 @@ export function useSiteMotion(scope: RefObject<HTMLElement | null>, path: string
               scrollTrigger: { trigger: plate, start: "top 92%", once: true },
             });
           });
-          all(".invitation-seal").forEach((seal) => {
-            gsap.fromTo(
-              seal,
-              { scale: 0.86 },
-              {
-                scale: 1.04,
-                ease: "none",
-                scrollTrigger: { trigger: seal, start: "top bottom", end: "bottom top", scrub: true },
-              },
-            );
-          });
-
           // Timelines fill as the reader progresses through them.
           all(".timeline").forEach((timeline) => {
             gsap.fromTo(

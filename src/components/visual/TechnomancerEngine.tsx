@@ -1,4 +1,4 @@
-import { useId, useRef, useState, type PointerEvent } from "react";
+import { useId, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useInView, useSceneSupport } from "./sceneSupport";
@@ -10,7 +10,8 @@ gsap.registerPlugin(useGSAP);
  * The Workshop's arcane reactor: an original layered SVG machine. The markup
  * is the fully assembled, stable state, so it reads correctly without
  * JavaScript and under reduced motion; GSAP only plays the awakening and the
- * idle loops on top of it.
+ * idle loops on top of it. `children` (the Celestial Engine canvas) sit in
+ * the housing; while it runs live, the inner SVG layers (`te-inner`) recede.
  */
 const C = 400;
 const ORIGIN = `${C} ${C}`;
@@ -100,7 +101,7 @@ const fragments = [
   { x: 134, y: 626, r: 22, from: 280, to: 20, depth: 1.15 },
 ];
 
-export function TechnomancerEngine() {
+export function TechnomancerEngine({ children }: { children?: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
   const svg = useRef<SVGSVGElement>(null);
   const motion = useSceneSupport("motion");
@@ -379,7 +380,7 @@ export function TechnomancerEngine() {
           </g>
 
           {/* Sacred geometry and circuitry routed along it */}
-          <g data-depth="0.45">
+          <g data-depth="0.45" className="te-inner">
             <g className="te-sigil te-energy">
               <circle className="te-sigil-line te-draw" pathLength={1} cx={C} cy={C} r="244" />
               {octagram.map((d) => (
@@ -405,7 +406,7 @@ export function TechnomancerEngine() {
           </g>
 
           {/* Armillary gimbals: dimensional rings around the core */}
-          <g data-depth="0.6">
+          <g data-depth="0.6" className="te-inner">
             {[
               [-28, 210, 70],
               [34, 210, 120],
@@ -421,7 +422,7 @@ export function TechnomancerEngine() {
           </g>
 
           {/* Containment cage and clamps */}
-          <g data-depth="0.75">
+          <g data-depth="0.75" className="te-inner">
             <g className="te-cage">
               <circle className="te-cage-ring" cx={C} cy={C} r="140" />
               <circle className="te-cage-edge" cx={C} cy={C} r="147" stroke={ref("brass")} />
@@ -452,7 +453,7 @@ export function TechnomancerEngine() {
           </g>
 
           {/* The fractured crystal core */}
-          <g data-depth="0.9">
+          <g data-depth="0.9" className="te-inner">
             <circle className="te-halo" cx={C} cy={C} r="170" fill={ref("halo")} />
             <circle className="te-burst" cx={C} cy={C} r="96" />
             <g className="te-core-runes te-energy">
@@ -508,6 +509,7 @@ export function TechnomancerEngine() {
           })}
         </svg>
       </div>
+      {children}
       <button
         type="button"
         className="core-rune"
@@ -520,33 +522,5 @@ export function TechnomancerEngine() {
         {message}
       </p>
     </div>
-  );
-}
-
-/** A small, static reactor seal used to invite readers into the Workshop. */
-export function SanctumSeal({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 800 800" aria-hidden="true" focusable="false">
-      <circle className="te-engrave" cx={C} cy={C} r="360" />
-      {Array.from({ length: 72 }, (_, index) => {
-        const [x1, y1] = polar(360, index * 5);
-        const [x2, y2] = polar(index % 6 ? 350 : 336, index * 5);
-        return <path key={index} className="te-engrave" d={`M${x1} ${y1} L${x2} ${y2}`} />;
-      })}
-      {segments.map((d) => (
-        <path key={d} d={d} className="seal-segment" />
-      ))}
-      {octagram.map((d) => (
-        <path key={d} className="te-sigil-line" d={d} />
-      ))}
-      <circle className="te-sigil-line" cx={C} cy={C} r="244" />
-      <circle className="te-sigil-line" cx={C} cy={C} r="176" />
-      {vertices.map((angle) => {
-        const [x, y] = polar(244, angle);
-        return <circle key={angle} className="seal-vertex" cx={x} cy={y} r="10" />;
-      })}
-      <circle className="seal-core" cx={C} cy={C} r="54" />
-      <path className="seal-crystal" d="M400 300 L430 388 L400 444 L370 388 Z" />
-    </svg>
   );
 }

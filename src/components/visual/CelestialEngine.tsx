@@ -8,12 +8,15 @@ import {
 import * as THREE from "three";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { runes } from "./runes";
 
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * Procedural astronomical computing instrument. Loaded lazily by the
- * Observatory hero; the engraved SVG remains underneath as its fallback.
+ * Procedural astronomical computing instrument, the heart of the Workshop
+ * reactor. Loaded lazily by the Workshop hero; the SVG reactor remains
+ * underneath as its fallback. The engraving is runic and the core carries
+ * cyan arcane energy with violet fill light.
  */
 interface Drive {
   intro: number;
@@ -23,7 +26,8 @@ interface Drive {
 const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
 const ease = (value: number) => 1 - Math.pow(1 - clamp01(value), 3);
 const BRASS = "#c4a77b";
-const AMETHYST = "#8b80c9";
+const VIOLET = "#8a5cff";
+const CYAN = "#4fe3f0";
 const TILT = Math.PI / 2 - 0.42;
 
 function engravingTexture() {
@@ -32,7 +36,7 @@ function engravingTexture() {
   canvas.width = canvas.height = size;
   const context = canvas.getContext("2d")!;
   context.translate(size / 2, size / 2);
-  context.strokeStyle = context.fillStyle = "#ecd8ae";
+  context.strokeStyle = context.fillStyle = "#e3c58e";
   const ring = (radius: number, width: number) => {
     context.lineWidth = width;
     context.beginPath();
@@ -53,25 +57,22 @@ function engravingTexture() {
     context.lineTo(Math.cos(angle) * 486, Math.sin(angle) * 486);
     context.stroke();
   }
-  context.font = "500 17px 'IBM Plex Mono', ui-monospace, monospace";
-  context.textAlign = "center";
-  context.textBaseline = "middle";
-  for (let degree = 0; degree < 360; degree += 10) {
-    context.save();
-    context.rotate((degree * Math.PI) / 180);
-    context.fillText(String(degree).padStart(3, "0"), 0, -442);
-    context.restore();
-  }
-  const inscription =
-    "REQUIREMENTS · SYSTEMS · EVIDENCE · THE OBSERVATORY · MAHIN MOON · ";
-  context.font = "600 19px 'IBM Plex Mono', ui-monospace, monospace";
-  const characters = [...inscription.repeat(2)];
-  characters.forEach((character, index) => {
-    context.save();
-    context.rotate((index / characters.length) * Math.PI * 2);
-    context.fillText(character, 0, -396);
-    context.restore();
-  });
+  // Rune glyphs replace numerals and lettering: two engraved bands.
+  const glyphs = runes.map((rune) => new Path2D(rune));
+  const band = (radius: number, count: number, scale: number, offset: number) => {
+    for (let index = 0; index < count; index++) {
+      context.save();
+      context.rotate((index / count) * Math.PI * 2);
+      context.translate(0, -radius);
+      context.scale(scale, scale);
+      context.lineWidth = 2.2 / scale;
+      context.lineCap = "round";
+      context.stroke(glyphs[(index * offset) % glyphs.length]);
+      context.restore();
+    }
+  };
+  band(442, 36, 1.5, 3);
+  band(396, 54, 1.25, 5);
   for (let index = 0; index < 12; index++) {
     context.save();
     context.rotate((index * Math.PI) / 6 + Math.PI / 12);
@@ -161,8 +162,8 @@ function Instrument({ drive }: { drive: Drive }) {
       roughness: 0.22,
     });
     const core = new THREE.MeshStandardMaterial({
-      color: "#1d1838",
-      emissive: AMETHYST,
+      color: "#120c2c",
+      emissive: CYAN,
       emissiveIntensity: 0,
       roughness: 0.25,
       metalness: 0.2,
@@ -172,8 +173,8 @@ function Instrument({ drive }: { drive: Drive }) {
     const disc = new THREE.MeshStandardMaterial({
       map: engraving,
       emissiveMap: engraving,
-      emissive: "#7a6646",
-      emissiveIntensity: 0.55,
+      emissive: "#6a5aa8",
+      emissiveIntensity: 0.6,
       metalness: 0.8,
       roughness: 0.38,
       transparent: true,
@@ -182,14 +183,21 @@ function Instrument({ drive }: { drive: Drive }) {
       side: THREE.DoubleSide,
     });
     const path = new THREE.LineBasicMaterial({
-      color: "#a79cf0",
+      color: VIOLET,
       transparent: true,
       opacity: 0,
     });
     const shell = new THREE.LineBasicMaterial({
-      color: "#e6cf9f",
+      color: "#bdfbff",
       transparent: true,
-      opacity: 0.75,
+      opacity: 0.8,
+    });
+    const energy = new THREE.MeshBasicMaterial({
+      color: CYAN,
+      transparent: true,
+      opacity: 0,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
     });
     return {
       brass,
@@ -199,6 +207,7 @@ function Instrument({ drive }: { drive: Drive }) {
       disc,
       path,
       shell,
+      energy,
       engraving,
       gearLarge: gearGeometry(24, 0.62, 0.55, 0.12),
       gearSmall: gearGeometry(12, 0.33, 0.27, 0.07),
@@ -227,6 +236,7 @@ function Instrument({ drive }: { drive: Drive }) {
   const ticks = useRef<THREE.InstancedMesh>(null);
   const paths = useRef<THREE.LineLoop | null>(null);
   const core = useRef<THREE.Mesh>(null);
+  const field = useRef<THREE.Group>(null);
 
   useEffect(() => {
     const mesh = ticks.current;
@@ -311,6 +321,13 @@ function Instrument({ drive }: { drive: Drive }) {
     if (shell.current) {
       shell.current.rotation.set(a.disc * 3, a.disc * 2, 0);
     }
+    if (field.current) {
+      field.current.rotation.set(a.disc * 5, -a.disc * 4, a.disc * 2);
+      // The rings share one material; updating it through the mesh pulses both.
+      const ring = field.current.children[0] as THREE.Mesh;
+      (ring.material as THREE.MeshBasicMaterial).opacity =
+        ease((t - 0.55) * 2) * (0.55 + Math.sin(state.clock.elapsedTime * 2.1) * 0.15);
+    }
     state.scene.environmentRotation.y = state.clock.elapsedTime * 0.06;
   });
 
@@ -369,6 +386,13 @@ function Instrument({ drive }: { drive: Drive }) {
           <icosahedronGeometry args={[0.18, 0]} />
         </mesh>
         <lineSegments ref={shell} geometry={assets.shellEdges} material={assets.shell} />
+        <group ref={field}>
+          {[0, 1].map((index) => (
+            <mesh key={index} rotation={[index * 1.2, index * 0.7, 0]} material={assets.energy}>
+              <torusGeometry args={[0.34 + index * 0.05, 0.005, 8, 120]} />
+            </mesh>
+          ))}
+        </group>
       </group>
       <group position={[1.42, -1.08, -0.7]}>
         <mesh
@@ -387,7 +411,8 @@ function Instrument({ drive }: { drive: Drive }) {
           material={assets.brass}
         />
       </group>
-      <pointLight position={[0, 0, 0.4]} color={AMETHYST} intensity={6} distance={3.5} />
+      <pointLight position={[0, 0, 0.4]} color={CYAN} intensity={7} distance={3.5} />
+      <pointLight position={[0, -0.6, 1.2]} color={VIOLET} intensity={4} distance={4} />
     </group>
   );
 }
@@ -443,12 +468,12 @@ export default function CelestialEngine({
       >
         <PerformanceMonitor onDecline={() => setDpr(1)} />
         <ambientLight intensity={0.25} />
-        <directionalLight position={[3, 4, 5]} intensity={1.6} color="#ffe9c4" />
-        <directionalLight position={[-4, -2, 2]} intensity={0.8} color="#8b80c9" />
+        <directionalLight position={[3, 4, 5]} intensity={1.4} color="#ffe2b8" />
+        <directionalLight position={[-4, -2, 2]} intensity={1.1} color={VIOLET} />
         <Environment resolution={128}>
           <Lightformer form="rect" intensity={2.4} color="#fff2d8" position={[0, 4, -2]} scale={[8, 1.4, 1]} />
-          <Lightformer form="rect" intensity={1.4} color="#b3a9ee" position={[-5, 0, 1]} rotation={[0, Math.PI / 2, 0]} scale={[6, 2, 1]} />
-          <Lightformer form="ring" intensity={1.8} color="#f0dcb4" position={[4, -1, 3]} scale={2} />
+          <Lightformer form="rect" intensity={1.6} color="#9d7bff" position={[-5, 0, 1]} rotation={[0, Math.PI / 2, 0]} scale={[6, 2, 1]} />
+          <Lightformer form="ring" intensity={1.6} color="#7fe9f2" position={[4, -1, 3]} scale={2} />
         </Environment>
         <Instrument drive={drive} />
       </Canvas>

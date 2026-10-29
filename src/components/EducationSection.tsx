@@ -59,11 +59,12 @@ export function EducationSection({
           A completed cybersecurity degree, with graduate study underway.
         </SectionHeading>
       </div>
-      <ol className="education-grid">
+      <ol className="education-grid" data-rail-turn>
         {education.map((item, index) => (
           <li
             key={item.title}
             className={`education-card ${item.status === "completed" ? "education-completed" : "education-current"}`}
+            data-rail-branch={item.status}
             style={
               {
                 "--education-delay": `${Math.min(400, Math.max(0, animation.staggerMs)) * index}ms`,

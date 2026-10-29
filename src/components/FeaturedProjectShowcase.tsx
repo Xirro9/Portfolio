@@ -56,7 +56,7 @@ export function FeaturedProjectShowcase({
     >
       <header className="exhibit-head">
         <p className="eyebrow exhibit-number">
-          <span aria-hidden="true">{number}</span>
+          {creative && <span aria-hidden="true">{number}</span>}
           {creative ? "Workshop artifact" : "Featured engineering"}
         </p>
         <h3>

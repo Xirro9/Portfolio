@@ -4,13 +4,16 @@ export function PageHeading({
   eyebrow,
   title,
   children,
+  mark,
 }: {
   eyebrow: string;
   title: string;
   children?: ReactNode;
+  mark?: ReactNode;
 }) {
   return (
     <header className="page-heading">
+      {mark}
       <p className="eyebrow">{eyebrow}</p>
       <h1>{title}</h1>
       {children && <div className="lede">{children}</div>}
@@ -81,7 +84,7 @@ export function ContactPanel() {
 export function TechnicalSkills() {
   return (
     <section>
-      <SectionHeading title="Core disciplines">
+      <SectionHeading title="Technical expertise">
         Experience is described by context, without numerical proficiency
         scores.
       </SectionHeading>

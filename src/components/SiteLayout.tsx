@@ -1,7 +1,7 @@
 import { useRef, useState, type ReactNode } from "react";
 import { navigation, site } from "../content/site";
 import { href, themeForPath } from "../routes";
-import { Insignia } from "./visual/Insignia";
+import { Monogram } from "./visual/Monogram";
 import { useSiteMotion } from "../motion/useSiteMotion";
 export function SiteHeader({ path }: { path: string }) {
   const [open, setOpen] = useState(false);
@@ -13,12 +13,12 @@ export function SiteHeader({ path }: { path: string }) {
       </a>
       <div className="header-inner">
         <a className="site-name" href={href("/")} aria-label="Mahin Moon home">
-          <Insignia
+          <Monogram
             className="site-mark"
             variant={
               themeForPath(path) === "technomancer-workshop"
-                ? "workshop"
-                : "observatory"
+                ? "arcane"
+                : "signal"
             }
           />
           <span className="site-name-text">
@@ -99,9 +99,12 @@ export function SiteLayout({
       </main>
       <footer className="site-footer">
         <div className="footer-brand">
-          <Insignia className="footer-mark" />
+          <Monogram className="footer-mark" />
           <a href={href("/")}>Mahin Moon</a>
-          <p>Cybersecurity, software systems, and practical experimentation.</p>
+          <p>
+            Cybersecurity, software systems, and practical experimentation.
+            <span className="footer-handle"> Xirro9 on GitHub.</span>
+          </p>
         </div>
         <p>
           Content as of {site.asOf}.<br />

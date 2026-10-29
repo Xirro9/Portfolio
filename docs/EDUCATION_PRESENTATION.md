@@ -1,10 +1,10 @@
 # Education presentation
 
-Education now appears immediately after current professional experience on the homepage. An “Education highlights” link in the introduction jumps directly to `#education`. The homepage and Experience page share `EducationSection.tsx`, using the canonical education records.
+Education appears immediately after current professional experience, directly below the homepage hero. An “Education highlights” link in the hero jumps directly to `#education`. The homepage and Experience page share `EducationSection.tsx`, using the canonical education records.
 
 Degree titles use descriptive “Master’s studies” and “Bachelor’s degree” labels, with Cybersecurity on a separate line. Exact formal award naming remains an editorial verification item; the master’s program is clearly marked in progress.
 
-The two highlighted panels use blue for current graduate study and brass for completed undergraduate study. A decorative light sweep beneath each title plays once when its own panel first enters the viewport, so the second title still animates when reached on a phone. Content is always fully visible, including without JavaScript or IntersectionObserver. There are no looping effects, layout shifts, hover-only information, or extra animation dependencies. Reduced-motion disables the sweep entirely.
+The two highlighted panels use pale blue (outlined status dot) for current graduate study and silver (filled status dot) for completed undergraduate study; V3 replaced the earlier brass to keep professional pages free of fantasy materials. On Home and Experience a career signal rail turns into a horizontal academic timeline above the two panels. A decorative light sweep beneath each title plays once when its own panel first enters the viewport, so the second title still animates when reached on a phone. Content is always fully visible, including without JavaScript or IntersectionObserver. There are no looping effects, layout shifts, hover-only information, or extra animation dependencies. Reduced-motion disables the sweep entirely.
 
 ## Parameters
 

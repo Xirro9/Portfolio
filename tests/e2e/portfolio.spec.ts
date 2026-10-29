@@ -177,9 +177,7 @@ test("distinct page scopes, gallery controls, and no-JavaScript hero fallbacks",
   await expect(
     page.locator('[data-theme="observatory"] [data-hero="observatory"]'),
   ).toBeVisible();
-  await expect(
-    page.locator('[data-scene="celestial-engine"] [data-scene-fallback]'),
-  ).toBeVisible();
+  await expect(page.locator('[data-scene="celestial-engine"]')).toHaveCount(0);
   await page.goto("/Portfolio/work/");
   await expect(
     page.locator('[data-theme="engineering-archive"]'),
@@ -194,6 +192,9 @@ test("distinct page scopes, gallery controls, and no-JavaScript hero fallbacks",
     page.locator('[data-theme="technomancer-workshop"] [data-hero="workshop"]'),
   ).toBeVisible();
   await expect(page.locator('[data-hero="observatory"]')).toHaveCount(0);
+  await expect(
+    page.locator('[data-scene="celestial-engine"] [data-scene-fallback]'),
+  ).toBeVisible();
   await page.getByRole("link", { name: "Explore the projects" }).click();
   await expect(page.locator("#creative-gallery")).toBeInViewport();
   await page.goto("/Portfolio/work/agenthq/");
@@ -221,13 +222,13 @@ test("distinct page scopes, gallery controls, and no-JavaScript hero fallbacks",
         : { width: 1280, height: 900 },
   });
   const staticPage = await context.newPage();
-  for (const [path, hero] of [
-    ["/", "observatory"],
-    ["/workshop/", "workshop"],
+  for (const [path, hero, content] of [
+    ["/", "observatory", "h1"],
+    ["/workshop/", "workshop", "[data-scene-fallback]"],
   ]) {
     await staticPage.goto(`http://127.0.0.1:4173/Portfolio${path}`);
     await expect(
-      staticPage.locator(`[data-hero="${hero}"] [data-scene-fallback]`),
+      staticPage.locator(`[data-hero="${hero}"] ${content}`),
     ).toBeVisible();
     await expect(
       staticPage.getByRole("navigation", { name: "Main", exact: true }),

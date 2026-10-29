@@ -26,7 +26,7 @@ npm run preview    # inspect generated output at /Portfolio/
 - `scripts/prerender.tsx`: 22 static pages, a 404 and sitemap from the same React/data model.
 - `src/index.css`: neutral Phase 1 presentation and design token entry points.
 - `src/structure.css`: neutral theme scopes, distinct hero compositions, media frames, and editorial layout hooks.
-- `src/components/heroes/`: independent Observatory, Archive, and Workshop hero foundations.
+- `src/components/heroes/`: independent professional, Archive, and Workshop heroes (the Celestial Engine lives in the Workshop hero).
 - `src/components/media/`: responsive images, intent-driven video previews, manual galleries, and architecture diagrams.
 
 Routes: home, Work, Experience, Labs & notes, The Workshop, About and Contact, plus canonical case studies. Creative engineering spotlights link to Workshop records without duplicating data.

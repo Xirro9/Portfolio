@@ -99,6 +99,7 @@ const diagrams: Record<string, Diagram> = {
   "local-ai-workbench": {
     title: "Local AI workbench, sanitized",
     size: [1000, 560],
+    boundary: "LOCAL-FIRST ENVIRONMENT · OWNER-REPORTED",
     note: "Owner-reported environment. No hostnames, endpoints, hardware identifiers or benchmark values.",
     legend: ["implemented", "experimental"],
     zones: [
@@ -199,7 +200,7 @@ export function SystemDiagram({ slug }: { slug: string }) {
               </text>
             </g>
           ))}
-          {diagram.edges.map((edge) => (
+          {diagram.edges.map((edge, index) => (
             <g
               key={edge.d}
               className={`sd-edge${edge.tone ? ` sd-${edge.tone}` : ""}`}
@@ -210,6 +211,15 @@ export function SystemDiagram({ slug }: { slug: string }) {
                 d={edge.d}
                 data-motion-part="diagram-path"
               />
+              {edge.tone !== "planned" && (
+                // A sparse packet travelling the wire: data flow, not decoration.
+                <path
+                  className="sd-flow"
+                  pathLength={1}
+                  d={edge.d}
+                  style={{ animationDelay: `${(index * 1.3) % 7}s` }}
+                />
+              )}
               {edge.label && (
                 <text
                   className="sd-edge-label"
