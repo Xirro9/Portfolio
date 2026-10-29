@@ -23,13 +23,15 @@ export function PageHeading({
 export function SectionHeading({
   title,
   children,
+  id,
 }: {
   title: string;
   children?: ReactNode;
+  id?: string;
 }) {
   return (
     <div className="section-heading">
-      <h2>{title}</h2>
+      <h2 id={id}>{title}</h2>
       {children && <p>{children}</p>}
     </div>
   );

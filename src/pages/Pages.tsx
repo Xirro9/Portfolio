@@ -1,4 +1,5 @@
 import { projects } from "../content/projects";
+import { fieldNotes } from "../content/fieldNotes";
 import { href } from "../routes";
 import {
   ContactPanel,
@@ -165,6 +166,21 @@ export function LabsPage() {
           small observations from ongoing experimentation.
         </p>
       </PageHeading>
+      <section className="labs-feature" aria-labelledby="labs-feature-heading">
+        <p className="eyebrow">Field notes · {fieldNotes[0].period}</p>
+        <h2 id="labs-feature-heading">
+          <a href={href(fieldNotes[0].path)}>{fieldNotes[0].title}</a>
+        </h2>
+        <p className="labs-feature-dek">{fieldNotes[0].dek}</p>
+        <ol className="labs-feature-points">
+          {fieldNotes[0].rules.slice(1, 4).map((rule) => (
+            <li key={rule}>{rule}</li>
+          ))}
+        </ol>
+        <a className="button-link" href={href(fieldNotes[0].path)}>
+          Read the field notes <span aria-hidden="true">→</span>
+        </a>
+      </section>
       <ProjectExplorer
         projects={projects.filter((project) => project.home === "labs")}
       />

@@ -1,5 +1,6 @@
 import { projects, projectPath } from "./content/projects";
 import { site } from "./content/site";
+import { fieldNotes } from "./content/fieldNotes";
 export const themeScopes = [
   "observatory",
   "engineering-archive",
@@ -76,6 +77,11 @@ export const allRoutes = () => [
     path: projectPath(project),
     title: project.title,
     description: project.summary,
+  })),
+  ...fieldNotes.map((note) => ({
+    path: note.path,
+    title: note.title,
+    description: note.description,
   })),
 ];
 export function routeMetadata(path: string) {

@@ -1,5 +1,6 @@
 import { projects, projectPath } from "../content/projects";
 import { notes, publications } from "../content/site";
+import { fieldNotes } from "../content/fieldNotes";
 import { href } from "../routes";
 import { ExternalLink, SectionHeading } from "./Content";
 import { StatusIndicator } from "./Projects";
@@ -16,6 +17,11 @@ export function LabsAndMilestones() {
       </SectionHeading>
       <div className="labs-milestones-grid">
         <div className="lab-column">
+          <a className="research-teaser" href={href(fieldNotes[0].path)}>
+            <span className="eyebrow">Research · {fieldNotes[0].period}</span>
+            <strong>{fieldNotes[0].title}</strong>
+            <span>{fieldNotes[0].dek}</span>
+          </a>
           <p className="eyebrow">Security labs & notes</p>
           <ul className="lab-list">
             {labs.map((project) => (
@@ -77,9 +83,15 @@ export function EngineeringNotes() {
             <p className="eyebrow">{note.status}</p>
             <h3>{note.title}</h3>
             <p>{note.body}</p>
-            <a href={href(`/work/${note.projectSlug}`)}>
-              Related infrastructure case study
-            </a>
+            {note.path ? (
+              <a href={href(note.path)}>
+                Read the field notes <span aria-hidden="true">→</span>
+              </a>
+            ) : (
+              <a href={href(`/work/${note.projectSlug}`)}>
+                Related infrastructure case study
+              </a>
+            )}
           </article>
         ))}
       </div>

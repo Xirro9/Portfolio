@@ -29,13 +29,16 @@ interface DiagramZone {
   w: number;
   h: number;
   label: string;
+  /** Lets an edge target the zone as a whole; `name` is its readable label. */
+  id?: string;
+  name?: string;
 }
 interface Diagram {
   title: string;
   size: [number, number];
   boundary?: string;
   note: string;
-  legend: ("implemented" | "planned" | "experimental")[];
+  legend: (keyof typeof legendLabels)[];
   zones: DiagramZone[];
   nodes: DiagramNode[];
   edges: DiagramEdge[];
@@ -127,12 +130,51 @@ const diagrams: Record<string, Diagram> = {
       { from: "oc3", to: "agenthq", d: "M716 408 C670 408 664 478 620 478", label: ["telemetry", 676, 462], tone: "experimental" },
     ],
   },
+  "agent-harness": {
+    title: "Local agent harness, sanitized",
+    size: [1000, 600],
+    note: "Reported configuration from the multi-GPU test environment. Roles share one inference slot and run in turn; premium models are reachable only on explicit approval. No addresses or machine details.",
+    legend: ["reported", "gated"],
+    zones: [
+      { x: 24, y: 40, w: 256, h: 330, label: "ORCHESTRATION" },
+      { x: 314, y: 40, w: 272, h: 170, label: "EXECUTION" },
+      { id: "roles", name: "Specialist roles", x: 620, y: 30, w: 360, h: 300, label: "SPECIALIST ROLES" },
+      { x: 314, y: 400, w: 666, h: 170, label: "INFERENCE · PRIVATE NETWORK" },
+    ],
+    nodes: [
+      { id: "hermes", x: 44, y: 80, w: 220, h: 96, title: "Hermes", sub: ["Manager: memory,", "policy, routing"], tone: "core" },
+      { id: "tools", x: 44, y: 250, w: 220, h: 96, title: "Evidence tools", sub: ["Playwright · Semgrep", "Gitleaks · Trivy"] },
+      { id: "premium", x: 44, y: 460, w: 220, h: 84, title: "Premium model", sub: ["Hosted, opt-in"], chip: "GATED", tone: "planned" },
+      { id: "opencode", x: 334, y: 80, w: 210, h: 96, title: "OpenCode", sub: ["Repo tools, edits,", "commands, tests"] },
+      { id: "architect", x: 640, y: 66, w: 158, h: 68, title: "Architect", sub: [], chip: "READ" },
+      { id: "security", x: 812, y: 66, w: 158, h: 68, title: "Security", sub: [], chip: "READ" },
+      { id: "implementation", x: 640, y: 160, w: 158, h: 68, title: "Implement", sub: [], chip: "EDIT" },
+      { id: "frontend", x: 812, y: 160, w: 158, h: 68, title: "Frontend", sub: [], chip: "EDIT" },
+      { id: "tester", x: 640, y: 254, w: 158, h: 68, title: "Tester", sub: [], chip: "EDIT" },
+      { id: "debugger", x: 812, y: 254, w: 158, h: 68, title: "Debugger", sub: [], chip: "EDIT" },
+      { id: "api", x: 334, y: 444, w: 232, h: 92, title: "Inference API", sub: ["OpenAI-compatible"] },
+      { id: "server", x: 620, y: 444, w: 160, h: 92, title: "llama.cpp", sub: ["Docker · CUDA"], chip: "1 SLOT" },
+      { id: "model", x: 806, y: 444, w: 158, h: 92, title: "GLM-5.3", sub: ["Flash · Q4"] },
+    ],
+    edges: [
+      { from: "hermes", to: "opencode", d: "M264 128 H334", label: ["brief", 299, 116] },
+      { from: "opencode", to: "roles", d: "M544 128 H620", label: ["dispatch", 582, 116] },
+      { from: "opencode", to: "tools", d: "M334 150 C300 150 300 298 264 298" },
+      { from: "opencode", to: "api", d: "M439 176 V444", label: ["requests", 481, 310] },
+      { from: "roles", to: "api", d: "M720 330 C720 390 520 380 520 444", label: ["queued, one at a time", 838, 372] },
+      { from: "api", to: "server", d: "M566 490 H620" },
+      { from: "server", to: "model", d: "M780 490 H806" },
+      { from: "hermes", to: "premium", d: "M44 150 H30 V500 H44", label: ["on approval", 154, 440], tone: "planned" },
+    ],
+  },
 };
 
 const legendLabels = {
   implemented: "Implemented",
   planned: "Planned",
   experimental: "Experimental",
+  reported: "Reported working",
+  gated: "Approval-gated",
 };
 
 export const hasSystemDiagram = (slug: string) => slug in diagrams;
@@ -142,7 +184,9 @@ export function SystemDiagram({ slug }: { slug: string }) {
   if (!diagram) return null;
   const [width, height] = diagram.size;
   const name = (id: string) =>
-    diagram.nodes.find((node) => node.id === id)?.title ?? id;
+    diagram.nodes.find((node) => node.id === id)?.title ??
+    diagram.zones.find((zone) => zone.id === id)?.name ??
+    id;
   return (
     <figure
       className="system-diagram"
