@@ -31,7 +31,21 @@ All assets live in `public/media/`. The smaller files are faithful resized deriv
 | LifeDash                    | Pending capture of the actual Flutter implementation                  | None supplied | Feature completeness and team attribution still require verification                             |
 | RealityCheck / TrustLens    | No product capture is currently justified                             | None supplied | Treat as one concept until surviving source/prototype is verified                                |
 
-For every missing cover, the public component shows a labeled static project overview, never a fake application screen. No empty media route is created. Hero scene mounts also have meaningful static text/process fallbacks; final celestial/arcane illustrations are future design work rather than project evidence.
+For every missing cover, the public component shows an original project illustration captioned "Original illustration · not a product capture", never a fake application screen. No empty media route is created. Hero scenes keep their static text/process fallbacks.
+
+## Authored design assets (Arcane Tech visual pass)
+
+These are original artwork created for this portfolio. They are not project evidence and contain no third-party assets, screenshots, hostnames or metrics.
+
+| Asset                                   | Location                                   | Notes                                                                                          |
+| --------------------------------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| Monogram (signal and arcane variants) and favicon | `src/components/visual/Monogram.tsx`, `public/favicon.svg` | Shared brand mark                                                                |
+| Celestial Engine (WebGL, Workshop) and professional signal field | `CelestialEngine.tsx`, `ProfessionalHero.tsx`, `SignalRail.tsx` | Procedural geometry; decorative and `aria-hidden`                                |
+| Technomancer Engine                     | `TechnomancerEngine.tsx`                   | Workshop reactor housing for the Celestial Engine and its static fallback (captioned as an illustration); decorative, `aria-hidden` |
+| Workshop concept plates (5)             | `WorkshopArtwork.tsx`                      | Guild hall, kinetic clash, enchanted table, day astrolabe, scrying lens. No characters, card art or game assets |
+| Professional cover illustrations (10 motifs) | `ProjectArtwork.tsx`                  | Depict concepts only (for example a gauge or a heap free-list). No Pokémon or MTG IP; generic shapes only |
+| System diagrams                         | `SystemDiagram.tsx`                        | ControlGauge, AgentHQ and Local AI workbench, with labeled zones and a legend. Status chips mirror canonical records; planned work is dashed and labeled PLANNED. The same nodes render as an ordered list for narrow screens and assistive technology |
+| AgentHQ annotations                     | `FeaturedProjectShowcase.tsx`              | Decorative call-outs over the existing real DEMO capture; the image is unmodified               |
 
 ## Adding approved media
 

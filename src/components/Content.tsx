@@ -4,13 +4,16 @@ export function PageHeading({
   eyebrow,
   title,
   children,
+  mark,
 }: {
   eyebrow: string;
   title: string;
   children?: ReactNode;
+  mark?: ReactNode;
 }) {
   return (
     <header className="page-heading">
+      {mark}
       <p className="eyebrow">{eyebrow}</p>
       <h1>{title}</h1>
       {children && <div className="lede">{children}</div>}
@@ -20,13 +23,15 @@ export function PageHeading({
 export function SectionHeading({
   title,
   children,
+  id,
 }: {
   title: string;
   children?: ReactNode;
+  id?: string;
 }) {
   return (
     <div className="section-heading">
-      <h2>{title}</h2>
+      <h2 id={id}>{title}</h2>
       {children && <p>{children}</p>}
     </div>
   );
@@ -80,8 +85,8 @@ export function ContactPanel() {
 }
 export function TechnicalSkills() {
   return (
-    <section>
-      <SectionHeading title="Core disciplines">
+    <section className="expertise-section">
+      <SectionHeading title="Technical expertise">
         Experience is described by context, without numerical proficiency
         scores.
       </SectionHeading>
@@ -90,8 +95,10 @@ export function TechnicalSkills() {
           <article key={group.title}>
             <p className="eyebrow">{group.context}</p>
             <h3>{group.title}</h3>
-            <p>{group.description}</p>
-            <BulletList items={group.skills} />
+            <div className="discipline-detail">
+              <p>{group.description}</p>
+              <BulletList items={group.skills} />
+            </div>
           </article>
         ))}
       </div>

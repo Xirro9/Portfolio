@@ -9,6 +9,7 @@ import {
   notes,
 } from "../src/content/site";
 import { allRoutes, href, normalizePath, routeMetadata } from "../src/routes";
+import { fieldNotes } from "../src/content/fieldNotes";
 
 describe("publication contracts", () => {
   it("has unique canonical records, valid relations, and complete case studies", () => {
@@ -43,8 +44,15 @@ describe("publication contracts", () => {
     const paths = allRoutes().map((route) => route.path);
     expect(new Set(paths).size).toBe(paths.length);
     for (const item of navigation) expect(paths).toContain(item.path);
-    for (const note of notes)
+    for (const note of notes) {
       expect(paths).toContain(`/work/${note.projectSlug}`);
+      if (note.path) expect(paths).toContain(note.path);
+    }
+    for (const note of fieldNotes) {
+      expect(note.path.startsWith("/labs/notes/")).toBe(true);
+      for (const slug of note.related)
+        expect(projects.some((project) => project.slug === slug)).toBe(true);
+    }
     for (const project of projects)
       expect(paths).toContain(projectPath(project));
     expect(certifications).toEqual([]);
@@ -105,6 +113,12 @@ describe("publication contracts", () => {
       /(?:192\.168\.|10\.\d+\.\d+\.|100\.(?:6[4-9]|[7-9]\d|1[01]\d|12[0-7])\.)/,
     );
     expect(content).not.toMatch(/ghp_[a-z0-9]{20}|sk-[a-z0-9]{20}/i);
+    // Field notes come from a private report: no addresses, ports, container
+    // names, hardware specs beyond the published personal GPU, or throughput.
+    const published = JSON.stringify(fieldNotes);
+    expect(published).not.toMatch(
+      /127\.0\.0\.1|localhost:\d|:\d{4,5}\b|glm-server|ai-network|\/opt\/data|RTX PRO|Threadripper|RTX 5090|\d+\s?(?:GB|TB)\b|tok\/s|driver|\$\d/i,
+    );
     const cg = projects.find((project) => project.slug === "controlgauge")!;
     expect(cg.limitations.join(" ")).toContain("No evidence ingestion");
     expect(cg.planned.join(" ")).toContain("Local inference");

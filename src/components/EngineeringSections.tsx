@@ -1,26 +1,48 @@
 import { projects, projectPath } from "../content/projects";
 import { notes, publications } from "../content/site";
+import { fieldNotes } from "../content/fieldNotes";
 import { href } from "../routes";
 import { ExternalLink, SectionHeading } from "./Content";
+import { StatusIndicator } from "./Projects";
+import { MilestoneTimeline } from "./Timelines";
 
-export function ProfessionalIntroduction() {
+/** Contained practice beside a dated record: two densities in one section. */
+export function LabsAndMilestones() {
+  const labs = projects.filter((project) => project.home === "labs").slice(0, 4);
   return (
-    <section
-      className="professional-introduction"
-      aria-labelledby="professional-introduction-heading"
-      data-section="credentials"
-    >
-      <h2 id="professional-introduction-heading">
-        Mahin Moon · cybersecurity & practical engineering
-      </h2>
-      <p>
-        I’m a Security Compliance Analyst at the Oklahoma Cyber Innovation
-        Institute, a cybersecurity graduate, and a current graduate student at
-        The University of Tulsa.
-      </p>
-      <a href="#education">
-        Education highlights <span aria-hidden="true">↓</span>
-      </a>
+    <section className="labs-milestones" data-section="labs-milestones">
+      <SectionHeading title="Labs, research & milestones">
+        Contained security practice alongside a dated record of education and
+        engineering progress.
+      </SectionHeading>
+      <div className="labs-milestones-grid">
+        <a className="research-teaser" href={href(fieldNotes[0].path)}>
+          <span className="eyebrow">Research · {fieldNotes[0].period}</span>
+          <strong>{fieldNotes[0].title}</strong>
+          <span>{fieldNotes[0].dek}</span>
+        </a>
+        <div className="lab-column">
+          <p className="eyebrow">Security labs & notes</p>
+          <ul className="lab-list">
+            {labs.map((project) => (
+              <li key={project.slug}>
+                <h3>
+                  <a href={href(projectPath(project))}>{project.title}</a>
+                </h3>
+                <p>{project.summary}</p>
+                <StatusIndicator status={project.status} />
+              </li>
+            ))}
+          </ul>
+          <a className="section-coda-link" href={href("/labs")}>
+            All labs & engineering notes <span aria-hidden="true">→</span>
+          </a>
+        </div>
+        <div className="milestone-column">
+          <p className="eyebrow">Selected milestones</p>
+          <MilestoneTimeline bare />
+        </div>
+      </div>
     </section>
   );
 }
@@ -61,9 +83,15 @@ export function EngineeringNotes() {
             <p className="eyebrow">{note.status}</p>
             <h3>{note.title}</h3>
             <p>{note.body}</p>
-            <a href={href(`/work/${note.projectSlug}`)}>
-              Related infrastructure case study
-            </a>
+            {note.path ? (
+              <a href={href(note.path)}>
+                Read the field notes <span aria-hidden="true">→</span>
+              </a>
+            ) : (
+              <a href={href(`/work/${note.projectSlug}`)}>
+                Related infrastructure case study
+              </a>
+            )}
           </article>
         ))}
       </div>

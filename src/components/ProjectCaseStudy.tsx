@@ -11,6 +11,9 @@ import {
 import { ProjectGrid, StatusIndicator } from "./Projects";
 import { CaseStudyMedia } from "./media/CaseStudyMedia";
 import { ArchitectureDiagram } from "./media/ArchitectureDiagram";
+import { ProjectArtwork } from "./visual/ProjectArtwork";
+import { SystemDiagram, hasSystemDiagram } from "./visual/SystemDiagram";
+import { Monogram } from "./visual/Monogram";
 export function ProjectCaseStudy({
   project,
   layout = project.home === "workshop" ? "creative" : "technical",
@@ -21,21 +24,15 @@ export function ProjectCaseStudy({
   const related = projects.filter((item) =>
     project.related.includes(item.slug),
   );
-  const sections = [
-    {
-      title:
-        layout === "creative"
-          ? "Current prototype & interaction"
-          : "Implementation",
-      items: project.implemented,
-    },
-    { title: "Engineering challenges", items: project.challenges },
-    { title: "Security & reliability", items: project.safeguards },
-    { title: "Results", items: project.results },
-    { title: "Limitations", items: project.limitations },
-    { title: "Next steps · planned", items: project.planned },
-    { title: "Engineering lessons", items: project.lessons },
-  ];
+  const list = (title: string, items: string[], className?: string) =>
+    items.length > 0 && (
+      <section className={className}>
+        <SectionHeading title={title} />
+        <BulletList items={items} />
+      </section>
+    );
+  const diagramLed =
+    layout === "technical" && !project.media && hasSystemDiagram(project.slug);
   return (
     <article
       className={`case-study case-study-${layout}`}
@@ -60,6 +57,12 @@ export function ProjectCaseStudy({
             : "Technical case study"
         }
         title={project.title}
+        mark={
+          <Monogram
+            className="case-mark"
+            variant={layout === "creative" ? "arcane" : "signal"}
+          />
+        }
       >
         <p>{project.summary}</p>
       </PageHeading>
@@ -76,43 +79,67 @@ export function ProjectCaseStudy({
           {project.notice}
         </aside>
       )}
-      {layout === "creative" && <CaseStudyMedia project={project} />}
+      {/* One large visual opens every case study: real media first, then
+          the sanitized system diagram, then the original illustration. */}
+      <div className={`case-hero-visual${diagramLed ? " case-hero-diagram" : ""}`}>
+        {project.media ? (
+          <CaseStudyMedia key={project.slug} project={project} />
+        ) : (
+          <div className="case-study-media" data-motion-slot="case-study-media">
+            {diagramLed ? (
+              <SystemDiagram slug={project.slug} />
+            ) : (
+              <div className="case-study-artwork">
+                <ProjectArtwork project={project} bare />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+      <div className="case-lede">
+        <section className="case-lede-problem">
+          <SectionHeading
+            title={
+              layout === "creative"
+                ? "Creative intent & experience"
+                : "Problem & intended use"
+            }
+          />
+          <p>{project.problem}</p>
+        </section>
+        <section className="case-lede-role">
+          <SectionHeading title="My role & attribution" />
+          <p>{project.role}</p>
+        </section>
+      </div>
       <div className="case-study-layout">
         <div className="case-study-body">
-          <section>
-            <SectionHeading
-              title={
-                layout === "creative"
-                  ? "Creative intent & experience"
-                  : "Problem & intended use"
-              }
-            />
-            <p>{project.problem}</p>
-          </section>
-          <section>
-            <SectionHeading title="My role & attribution" />
-            <p>{project.role}</p>
-          </section>
           {(project.architecture.length > 0 || project.media?.diagram) && (
             <section>
               <SectionHeading title="Architecture" />
               <ArchitectureDiagram
                 steps={project.architecture}
                 image={project.media?.diagram}
+                slug={diagramLed ? undefined : project.slug}
               />
             </section>
           )}
-          {layout === "technical" && (
-            <CaseStudyMedia key={project.slug} project={project} />
+          {list(
+            layout === "creative"
+              ? "Current prototype & interaction"
+              : "Implementation",
+            project.implemented,
           )}
-          {sections
-            .filter((section) => section.items.length)
-            .map((section) => (
-              <section key={section.title}>
-                <SectionHeading title={section.title} />
-                <BulletList items={section.items} />
-              </section>
-            ))}
+          <div className="case-pair">
+            {list("Engineering challenges", project.challenges)}
+            {list("Security & reliability", project.safeguards)}
+          </div>
+          {list("Results", project.results, "case-results")}
+          <div className="case-pair case-pair-boundary">
+            {list("Limitations", project.limitations)}
+            {list("Next steps · planned", project.planned)}
+          </div>
+          {list("Engineering lessons", project.lessons, "case-lessons")}
           <section>
             <SectionHeading title="Evidence" />
             {project.evidence.length ? (

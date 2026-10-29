@@ -30,9 +30,9 @@ Work is cybersecurity/software/AI infrastructure. Labs is contained security pra
 
 ## Page composition contracts
 
-### Home — The Observatory
+### Home — professional (scope id `observatory`)
 
-`src/components/heroes/ObservatoryHero.tsx` is the professional hero, with separate `.observatory-foreground` and `.observatory-visual` layers. It has a real headline, concise description, Work CTA, and Experience CTA. The visual layer contains a `[data-scene="celestial-engine"]` integration point and a meaningful static Requirements → Systems → Evidence overview.
+V3 note: `ObservatoryHero` was replaced by `src/components/heroes/ProfessionalHero.tsx` (animated monogram and signal field; no scene), and the Celestial Engine moved to `WorkshopHero`. Home now runs hero, experience, education, projects, expertise, labs/milestones, Workshop doorway, contact. The original Phase 1 contract follows for history. `src/components/heroes/ObservatoryHero.tsx` was the professional hero, with separate `.observatory-foreground` and `.observatory-visual` layers. It has a real headline, concise description, Work CTA, and Experience CTA. The visual layer contains a `[data-scene="celestial-engine"]` integration point and a meaningful static Requirements → Systems → Evidence overview.
 
 The sequence in `pages/Pages.tsx` is:
 
@@ -52,13 +52,13 @@ There are no invented counts, fake live signals, or hidden-until-scroll text. Ed
 
 `ArchiveHero.tsx` introduces the professional archive. Sections: featured media rows; categorized/filterable canonical collection; a technical case-study index; technically relevant creative spotlights; selected labs/foundational work with a route to the full Labs collection; existing engineering notes; contact CTA.
 
-`FeaturedProjectShowcase` supports oversized editorial rows, media-first/copy-first DOM composition, status, technologies, source basis, summary, canonical case-study link and optional repository/demo links. `ProjectGrid` supports an editorial wide first item when appropriate. Keep DOM order and focus order aligned if changing the composition. Do not turn the final pattern back into plain text-only cards.
+`FeaturedProjectShowcase` renders one exhibit per project (`data-exhibit`: `diagram`, `media`, `arch`, `table`, or a generic `spread`) with a fixed DOM order of heading, visual, specification, actions; CSS grid places them differently. `ProjectGrid` renders professional work as an editorial index (`ProjectCard` rows) and creative work as open artifact plates; the creative `ProjectExplorer` uses `ArcaneIndex`. Keep DOM order and focus order aligned if changing the composition. Do not turn the final pattern back into plain text-only cards.
 
-### Workshop — The Technomancer's Realm
+### Workshop — The Technomancer's Sanctum
 
 `src/components/heroes/WorkshopHero.tsx` is independent markup and composition, not the professional hero with a string swap. It includes its own creative introduction, a scene area `[data-scene="arcane-workbench"]`, static Imagine / Build / Play & refine content, a gallery CTA, and professional return links.
 
-The page has a playful introduction, selected Bug Hunters Guild and MTG Game Night showcases, a filterable project gallery using `WorkshopProjectCard`, smaller prototypes/concepts, and a return-to-Work/Home transition. There are no empty creative-notes sections. Magical circuitry, spell circles, original pixel art, project portals and small Easter eggs can be designed in Phase 2; they are not implemented as token placeholder effects here.
+The page has a playful introduction, selected Bug Hunters Guild and MTG Game Night showcases, a filterable artifact index (`ArcaneIndex`), smaller prototypes/concepts, and a return-to-Work/Home transition. There are no empty creative-notes sections. Magical circuitry, spell circles, original pixel art, project portals and small Easter eggs can be designed in Phase 2; they are not implemented as token placeholder effects here.
 
 ### Canonical case studies
 
@@ -87,7 +87,8 @@ Override tokens under a named scope instead of forking components or global appl
 | `ProjectGallery`          | Manual screenshot selection with pressed state, matching caption, live count and no-JavaScript original-image links               |
 | `ArchitectureDiagram`     | Real diagram image if supplied, otherwise a semantic component flow with stable connector/step hooks                              |
 | `CaseStudyMedia`          | Chooses cover, preview and/or gallery from the canonical record                                                                   |
-| `WorkshopProjectCard`     | Creative-specific media and description composition, retaining status and verification labels                                     |
+| `WorkshopProjectCard`     | Open artifact plate (bare artwork, then the record), retaining status and verification labels                                     |
+| `ArcaneIndex`             | Workshop index; hover/focus selects a decorative preview plate; every entry keeps its own text and canonical link                |
 | `StaticProjectOverview`   | Clearly labeled typographic overview when no approved product capture exists; never a screenshot or invented demo                 |
 
 Missing assets are recorded in `MEDIA_MANIFEST.md`. Do not fill gaps with fabricated product interfaces. No actual approved preview video is supplied in this branch. The runtime and policy tests cover preview behavior; decoding or streaming a real project clip has not been demonstrated by this task. Capture actual working software before adding a clip. Use short, optimized, muted clips; provide captions/transcript when relevant audio is retained.

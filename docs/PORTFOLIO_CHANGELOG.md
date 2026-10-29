@@ -78,3 +78,29 @@ Branch: `portfolio-v2-structural-blueprint`. The owner explicitly requested a lo
 - Rewrote `CLAUDE_VISUAL_HANDOFF.md`; added `MEDIA_MANIFEST.md`; refreshed architecture, inventory, verification and README documentation.
 
 Validation: lint, strict TypeScript, 56 unit/component/content tests, production build (22 routes plus 404/sitemap), and 14 desktop/mobile Chromium tests passed during the structural implementation. The route suite includes 44 route/axe scans, gallery and no-JavaScript checks, education reduced motion, metadata, navigation and overflow checks. Final desktop/390px visual review and staged diff checks are recorded with delivery. Remote CI was not run for this local-only branch.
+
+## Arcane Tech editorial refinement
+
+Branch: `claude/arcane-editorial-refinement`, based on `claude/arcane-tech-visual-v2`. Local commit only; no push, merge or deploy.
+
+- De-boxified the layout system: open sections with single-axis rules, a `--bleed` token for media that reaches the viewport edge, no corner brackets, and frames kept only on controls, real captures, diagram nodes and the education panels.
+- Home: the celestial engine is staged as the centrepiece behind the headline, with the approach notes engraved at its corners and credentials as a ruled ledger; the introduction is an open editorial statement; disciplines and timelines became ledgers; education became an unboxed band; a full-bleed Workshop threshold with a static reactor seal replaced the boxed invitation.
+- Work: an exhibition contents index; ControlGauge as a diagram-led exhibit with legible zoned SVG and no horizontal scroll; AgentHQ with both real DEMO captures layered and annotated; the Local AI workbench as a full-bleed exhibition whose plan lifts and lights on scroll; secondary work as an `EA-xx` editorial index.
+- Workshop: a darker Sanctum palette, retired SOFT/WONK axes, a new layered arcane reactor hero, two individually composed artifact spreads, an artifact index with a preview plate, open artifact plates, and five new concept plates.
+- Diagrams render an ordered node and relationship list for narrow screens and assistive technology.
+
+Validation: see `VISUAL_ACCEPTANCE.md`.
+
+## Portfolio V3: Cybernetic Editorial and the Technomancer Workshop
+
+Branch: `claude/portfolio-v3-cybernetic-editorial`, based on `claude/arcane-editorial-refinement`. Local commit only; no push, merge or deploy.
+
+- Professional scopes moved to a dark Cybernetic Editorial system: graphite surfaces, signal blue and cyan, silver, Manrope display type. Brass, amethyst, Fraunces and runes no longer appear on professional routes.
+- New animated MM monogram (signal variant for professional pages, arcane variant for the Workshop) in the header, footer, hero, case-study watermark and favicon. The insignia was retired.
+- Home: new typography-led professional hero with a signal field from the monogram; current experience and education now follow the hero directly, joined by one career signal rail; expertise; a combined labs/research/milestones section; a small Workshop doorway.
+- The Celestial Engine moved from Home into the Workshop hero, recoloured with a rune engraving and cyan energy core, running inside the SVG reactor, which remains the static fallback.
+- Diagrams gained travelling data packets and a local-first boundary for the AI workbench; planned work stays dashed and still.
+- Retired: `ObservatoryHero`, `OrreryArt`, `ChapterTransition`, `Insignia`.
+
+Validation: see `VISUAL_ACCEPTANCE.md`.
+

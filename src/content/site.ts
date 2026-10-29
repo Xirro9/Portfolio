@@ -222,6 +222,13 @@ export const activities = [
 ];
 export const notes: EngineeringNote[] = [
   {
+    title: "Running coding agents on local hardware",
+    status: "Field notes · October 2026",
+    body: "Three weeks of serving models, wiring Hermes and OpenCode, and learning why a configured context window is not usable capacity. Sanitized, with every claim labelled observed, reported or explored.",
+    projectSlug: "local-ai-workbench",
+    path: "/labs/notes/local-llm-workbench",
+  },
+  {
     title: "Configured context is not measured context",
     status: "Engineering note · October 2026",
     body: "A model server accepting a context configuration does not demonstrate reliable reasoning at that length. My local AI experiments separate configuration, successful requests, and measured workload behavior; benchmark claims require repeatable evidence.",

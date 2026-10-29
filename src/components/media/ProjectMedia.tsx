@@ -2,35 +2,17 @@ import { useState, type CSSProperties } from "react";
 import type { MediaImage, Project } from "../../content/types";
 import { mediaUrl } from "../../media";
 import { ExternalLink } from "../Content";
+import { ProjectArtwork } from "../visual/ProjectArtwork";
 
-/** An editorial fallback, explicitly not a fictional application screenshot. */
-export function StaticProjectOverview({ project }: { project: Project }) {
-  return (
-    <figure
-      className="project-media project-media-fallback"
-      data-media-kind="static-overview"
-    >
-      <div
-        className="project-overview-art"
-        data-motion-slot="project-static-visual"
-      >
-        <p className="eyebrow">
-          {project.home === "workshop"
-            ? "Creative project"
-            : "Engineering overview"}
-        </p>
-        <p className="project-overview-title">{project.title}</p>
-        <ul>
-          {project.tags.slice(0, 3).map((tag) => (
-            <li key={tag}>{tag}</li>
-          ))}
-        </ul>
-      </div>
-      <figcaption>
-        Static project overview · no approved product capture available.
-      </figcaption>
-    </figure>
-  );
+/** An original illustration, explicitly not a fictional application screenshot. */
+export function StaticProjectOverview({
+  project,
+  bare = false,
+}: {
+  project: Project;
+  bare?: boolean;
+}) {
+  return <ProjectArtwork project={project} bare={bare} />;
 }
 
 export function ProjectMedia({

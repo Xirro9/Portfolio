@@ -106,6 +106,39 @@ export interface EngineeringNote {
   status: string;
   body: string;
   projectSlug: string;
+  /** A dedicated field-note page, when the note has one. */
+  path?: string;
+}
+/** How a claim in a field note is supported. */
+export type ClaimBasis = "observed" | "reported" | "explored";
+export interface FieldNoteEntry {
+  title: string;
+  body: string;
+  basis: ClaimBasis;
+  when?: string;
+}
+export interface FieldNoteIncident {
+  symptom: string;
+  cause: string;
+  check: string;
+}
+export interface FieldNote {
+  slug: string;
+  path: string;
+  title: string;
+  dek: string;
+  description: string;
+  period: string;
+  basis: string;
+  question: { before: string; after: string };
+  environments: FieldNoteEntry[];
+  timeline: FieldNoteEntry[];
+  incidents: FieldNoteIncident[];
+  rules: string[];
+  confidence: { established: string[]; unproven: string[]; notEstablished: string[] };
+  experiments: string[];
+  brief: string;
+  related: string[];
 }
 export interface Certification {
   title: string;

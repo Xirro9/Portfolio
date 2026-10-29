@@ -1,4 +1,5 @@
 import { projects } from "../content/projects";
+import { fieldNotes } from "../content/fieldNotes";
 import { href } from "../routes";
 import {
   ContactPanel,
@@ -13,23 +14,31 @@ import {
   MilestoneTimeline,
 } from "../components/Timelines";
 import { EducationSection } from "../components/EducationSection";
-import { ObservatoryHero } from "../components/heroes/ObservatoryHero";
+import { ProfessionalHero } from "../components/heroes/ProfessionalHero";
 import { WorkshopHero } from "../components/heroes/WorkshopHero";
 import { ArchiveHero } from "../components/heroes/ArchiveHero";
-import { FeaturedProjectShowcase } from "../components/FeaturedProjectShowcase";
+import {
+  FeaturedProjectShowcase,
+  WorkbenchExhibit,
+} from "../components/FeaturedProjectShowcase";
+import { CareerPath } from "../components/visual/SignalRail";
+import { Monogram } from "../components/visual/Monogram";
 import {
   CaseStudyIndex,
   EngineeringNotes,
   FeaturedWriting,
-  ProfessionalIntroduction,
+  LabsAndMilestones,
 } from "../components/EngineeringSections";
 export function HomePage() {
   return (
     <>
-      <ObservatoryHero />
-      <ProfessionalIntroduction />
+      <ProfessionalHero />
+      <CareerPath>
+        <ExperienceTimeline currentOnly />
+        <EducationSection />
+      </CareerPath>
       <section data-section="featured-professional-work">
-        <SectionHeading title="Featured professional work">
+        <SectionHeading title="Selected projects">
           Local-first security software and observability, with implementation
           status and supporting sources.
         </SectionHeading>
@@ -44,18 +53,23 @@ export function HomePage() {
               />
             ))}
         </div>
+        <WorkbenchExhibit headingLevel={3} />
       </section>
       <TechnicalSkills />
-      <ExperienceTimeline currentOnly />
-      <EducationSection />
-      <MilestoneTimeline />
+      <LabsAndMilestones />
       <FeaturedWriting />
       <aside className="workshop-invitation">
-        <h2>A different kind of engineering practice</h2>
-        <p>
-          Games, programming adventures, and experiments have their own space.
-        </p>
-        <a href={href("/workshop")}>Visit The Workshop</a>
+        <Monogram variant="arcane" className="invitation-mark" />
+        <div className="invitation-copy">
+          <p className="eyebrow">Off the clock</p>
+          <h2>A different kind of engineering practice</h2>
+          <p>
+            Games, programming adventures, and experiments have their own space.
+          </p>
+          <a href={href("/workshop")}>
+            Visit The Workshop <span aria-hidden="true">→</span>
+          </a>
+        </div>
       </aside>
       <ContactPanel />
     </>
@@ -65,7 +79,7 @@ export function WorkPage() {
   return (
     <>
       <ArchiveHero />
-      <section data-section="featured-engineering">
+      <section id="featured-engineering" data-section="featured-engineering">
         <SectionHeading title="Featured engineering projects">
           Start with the system, then inspect the evidence.
         </SectionHeading>
@@ -81,7 +95,8 @@ export function WorkPage() {
             ))}
         </div>
       </section>
-      <section data-section="project-collection">
+      <WorkbenchExhibit />
+      <section id="project-collection" data-section="project-collection">
         <ProjectExplorer
           title="Categorized project collection"
           projects={projects.filter((project) => project.home === "work")}
@@ -96,7 +111,7 @@ export function WorkPage() {
           projects={projects.filter((project) => project.professionalSpotlight)}
         />
       </section>
-      <section data-section="labs-foundations">
+      <section id="labs-foundations" data-section="labs-foundations">
         <SectionHeading title="Security labs & foundational work">
           Contained validation, security scripting, and earlier systems
           programming.
@@ -110,8 +125,10 @@ export function WorkPage() {
             ].includes(project.slug),
           )}
         />
-        <p>
-          <a href={href("/labs")}>Explore all security labs & notes</a>
+        <p className="section-coda">
+          <a href={href("/labs")}>
+            Explore all security labs & notes <span aria-hidden="true">→</span>
+          </a>
         </p>
       </section>
       <EngineeringNotes />
@@ -131,6 +148,21 @@ export function LabsPage() {
           small observations from ongoing experimentation.
         </p>
       </PageHeading>
+      <section className="labs-feature" aria-labelledby="labs-feature-heading">
+        <p className="eyebrow">Field notes · {fieldNotes[0].period}</p>
+        <h2 id="labs-feature-heading">
+          <a href={href(fieldNotes[0].path)}>{fieldNotes[0].title}</a>
+        </h2>
+        <p className="labs-feature-dek">{fieldNotes[0].dek}</p>
+        <ol className="labs-feature-points">
+          {fieldNotes[0].rules.slice(1, 4).map((rule) => (
+            <li key={rule}>{rule}</li>
+          ))}
+        </ol>
+        <a className="button-link" href={href(fieldNotes[0].path)}>
+          Read the field notes <span aria-hidden="true">→</span>
+        </a>
+      </section>
       <ProjectExplorer
         projects={projects.filter((project) => project.home === "labs")}
       />
@@ -158,7 +190,10 @@ export function WorkshopPage() {
         </p>
       </section>
       <section data-section="featured-creative">
-        <SectionHeading title="Featured creative projects" />
+        <SectionHeading title="Featured creative projects">
+          Two artifacts from the bench, each with its prototype status in plain
+          view.
+        </SectionHeading>
         <div className="featured-project-list">
           {projects
             .filter((project) => project.workshopFeatured)
@@ -174,7 +209,7 @@ export function WorkshopPage() {
       </section>
       <section id="creative-gallery" data-section="creative-gallery">
         <ProjectExplorer
-          title="Project gallery"
+          title="The artifact index"
           creative
           projects={projects.filter((project) => project.home === "workshop")}
         />
@@ -222,8 +257,10 @@ export function ExperiencePage() {
           hands-on engineering.
         </p>
       </PageHeading>
-      <ExperienceTimeline />
-      <EducationSection />
+      <CareerPath>
+        <ExperienceTimeline />
+        <EducationSection />
+      </CareerPath>
       <MilestoneTimeline />
       <Activities />
     </>

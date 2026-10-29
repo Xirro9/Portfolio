@@ -41,7 +41,7 @@ Additional structural modules:
 
 | Module                          | Responsibility                                                                              |
 | ------------------------------- | ------------------------------------------------------------------------------------------- |
-| `heroes/ObservatoryHero.tsx`    | Professional foreground/visual layers and meaningful static celestial-scene fallback        |
+| `heroes/ProfessionalHero.tsx`   | Professional hero: copy, credentials, animated monogram and decorative signal field (no scene)        |
 | `heroes/WorkshopHero.tsx`       | Independent creative hero, workbench-scene slot and return navigation                       |
 | `heroes/ArchiveHero.tsx`        | Professional archive introduction                                                           |
 | `FeaturedProjectShowcase.tsx`   | Media-first/copy-first editorial feature rows, with DOM order matching display order        |
